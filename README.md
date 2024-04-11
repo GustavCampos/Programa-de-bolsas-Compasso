@@ -1,30 +1,73 @@
-# Apresentação
+# Gustavo Henrique Pereira de Campos
+
+**Estudante de Engenharia de Software na Unijuí (3º semestre)** - Ijuí, Rio Grande do Sul, Brasil
+
+<aside>
+👋 Comecei no mundo da tecnologia estudando por conta própria durante o ensino médio, onde me introduzi a conhecimentos básicos de programação e banco de dados. Desde então me vejo apaixonado pelo mundo da tecnologia como um todo e amo aprender mais sobre a cada dia.
+
+</aside>
+
+### **Links Importantes**
+- [📧 Email Pessoal](mailto:gustavop.campos2004@gmail.com)
+
+- [📧 Email Universitário](mailto:gustavo.campos@sou.unijui.edu.br)
+
+- [🔗 Linkedin](https://www.linkedin.com/in/gustavo-campos-a2573722a/)
+
+- [👾 Portifólio Pessoal (Github)](https://github.com/GustavCampos)
+
+- [🏆 Portifólio de Desafios (Beecrowd)](https://judge.beecrowd.com/en/profile/707323)
+
+- [📞 +55 55 99211 - 8180](.)
+
+## Experiências Relevantes Para o Estágio 💼
+
+### Bolsista CNPQ | outubro de 2023 - abril 2024
+
+***UNIJUÍ | Universidade Regional do Noroeste do Estado do Rio Grande do Sul***
+
+🗺️ *Ijuí, Rio Grande do Sul, Brasil*
+
+- Assistente de pesquisa e aplicação de modelos de redes neural para estudos de predições behind the meter de sistemas elétricos;
+- Desenvolvimento utilizando Python e bibliotecas auxiliares.
+
+### Assistente de TI | março de 2022 - outubro de 2022
+
+***3TENTOS | Três Tentos Agroindustrial***
+
+🗺️ *Ijuí, Rio Grande do Sul, Brasil*
+
+- Encarregado de recriar uma aplicação da empresa, utilizando a ferramenta de low-code Mendix. Esta abordagem me trouxe contato com tecnologias como HTML, CSS, JS e conceitos de JAVA. Além de PostgreSQL e alguns frameworks como SASS e React Native;
+- Desenvolvedor auxiliar da PIN, uma plataforma própria de vendas de insumos para o agronegócio;
+- Aprendendizado sobre versionamento de projetos utilizando SVN e frameworks de produtividade como Scrum e Kanban.
+
+## Tecnologias  🔧
+<p>
+  <img src='https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white'>
+
+  <img src='https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white'>
+
+  <img src='https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white'>
+
+  <img src='https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white'>
+
+  <img src='https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white'>
+
+  <img src='https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white'>
+</p>
+
+## Conhecimentos e Hobbies 💯 
+- 🆎 Inglês Intermediário
+- 🏅 Programação Competitiva
+- 🎲 Cubos de Rubik e Puzzles
+- 🎸 Tocar Música
+
+## Github Stats Para os Nerds🐱
+<img align='left' src='https://github-readme-stats.vercel.app/api?username=GustavCampos&show_icons=true&theme=tokyonight&layout=compact#gh-dark-mode-only'>
+<img src='https://github-readme-stats.vercel.app/api/top-langs/?username=GustavCampos&layout=compact&theme=tokyonight'> 
 
 ___
 
 # Sprints
 1. [SPRINT #1 - Markdown, Git e Linux](Sprint%201/README.md)
 ___
-
-
-# Instruções
-
-Neste arquivo você fará a sua apresentação, assim como a organização geral das suas entregas ao longo das Sprints. Esperamos que haja, minimamente:
- 
-- Uma seção de apresentação, com informações como cidade de residência, instituição de ensino, curso e semestre atual, experiências na área de tecnologia (se houver), hobbies e outras informações que você julgar importante para os monitores.
-
-- Uma ou mais seções para descrever o que estiver aprendendo (resumo), de maneira estruturada. Na medida que você avança no programa de bolsas, deverá alimentar para criar um portfólio de seus estudos.
-
-- De forma opcional, sugerimos que você adicione uma foto ao seu perfil do GitHub, pois utilizamos tal informação para facilitar a sua identificação ao longo do processo. Lembre-se que a informação é pública, tal qual você pode testar no exemplo do repositório da [
-The Apache Software Foundation](https://github.com/apache.png?size=250).
-
-
-Para cada Sprint, crie um arquivo README.md na respectiva pasta. Este arquivo será o relato da sua entrega. Considere organizar neste arquivo a entrega do desafio, a apresentação dos códigos desenvolvidos, imagens que evidenciam a execução (se necessário) e as imagens dos certificados dos cursos solicitados.
-
-
-Veja um modelo de estrutura básica a seguir:
-
-# Dicas
-
-- [Mark Down - Basic Syntax](https://www.markdownguide.org/basic-syntax/)
-- [Github - Basic writing and formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
