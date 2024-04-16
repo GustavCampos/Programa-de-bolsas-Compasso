@@ -1,3 +1,7 @@
+# Desafio
+
+1. [Processamento de Vendas](Desafio/README.md)
+
 # Aprendizado
 
 1. [Anotações Linux para Desenvolvedores](Aprendizado/Linux%20para%20desenvolvedores.md)
