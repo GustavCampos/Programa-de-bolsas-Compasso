@@ -62,7 +62,7 @@ tar -tvf zipfilename.tar.gz
 ### Zip files
 ```bash
 #To zip a file or dir
-zip  -r zipfilename.zip file/dir
+zip -r zipfilename.zip file/dir
 
 #Unzip file
 unzip zipfilename.zip -d dir/

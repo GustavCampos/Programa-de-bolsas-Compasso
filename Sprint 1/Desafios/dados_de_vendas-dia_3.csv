@@ -1,0 +1,67 @@
+id,produto,quantidade,preço,data
+1,caderno universitário,3,10.00,01/01/2023
+2,caneta marca texto,10,2.00,02/01/2023
+3,corretivo líquido,4,4.00,03/01/2023
+4,post-it,50,1.50,04/01/2023
+5,clips,20,0.25,05/01/2023
+6,grampeador,15,5.00,06/01/2023
+7,perfurador de papel,8,6.00,07/01/2023
+8,envelope,6,3.50,08/01/2023
+9,pasta suspensa,12,8.00,09/01/2023
+10,agenda executiva,2,15.00,10/01/2023
+11,apontador elétrico,9,12.00,11/01/2023
+12,etiquetas adesivas,15,3.00,12/01/2023
+13,papel para impressora,18,4.00,13/01/2023
+14,tesoura,30,7.00,14/01/2023
+15,fita adesiva dupla face,25,2.50,15/01/2023
+16,grampos para grampeador,10,1.00,16/01/2023
+17,agulhas para grampeador,12,0.50,17/01/2023
+18,álbum de recortes,8,15.00,18/01/2023
+19,caneta permanente,6,3.00,19/01/2023
+20,papel timbrado,4,6.00,20/01/2023
+21,papel quadriculado,5,5.00,21/01/2023
+22,papel pautado,7,4.00,22/01/2023
+23,papel vegetal,6,8.00,23/01/2023
+24,papel kraft,10,7.00,24/01/2023
+25,papel cartão,20,9.00,25/01/2023
+26,caneta hidrográfica,4,2.00,26/01/2023
+27,giz de cera,8,1.00,27/01/2023
+28,carimbo,2,10.00,28/01/2023
+29,marca página,1,0.50,29/01/2023
+30,pincel atômico,3,3.00,30/01/2023
+31,caixa organizadora,2,20.00,31/01/2023
+32,agenda telefônica,5,7.00,01/02/2023
+33,calculadora,4,12.00,02/02/2023
+34,tesoura escolar,6,5.00,03/02/2023
+35,fita corretiva,7,4.00,04/02/2023
+36,pasta com elástico,2,6.00,05/02/2023
+52,grampeador de mesa,3,8.00,20/02/2023
+53,agendas semanais,4,6.00,21/02/2023
+54,organizador de mesa,5,9.00,22/02/2023
+55,caixa de arquivo morto,10,10.00,23/02/2023
+56,grampo para papel,20,0.10,24/02/2023
+57,pasta plástica,6,2.00,25/02/2023
+58,porta canetas,8,3.00,26/02/2023
+59,clips coloridos,7,1.00,27/02/2023
+60,organizador de gaveta,9,5.00,28/02/2023
+61,álbum para fotos,12,7.00,01/03/2023
+62,marcador de página magnético,4,2.50,02/03/2023
+63,caixa para correspondência,5,6.00,03/03/2023
+64,agenda telefônica de mesa,6,9.00,04/03/2023
+65,caneta gel,8,3.00,05/03/2023
+66,refil para caneta esferográfica,2,1.00,06/03/2023
+67,pasta catálogo,4,8.00,07/03/2023
+68,livro de atas,10,12.00,08/03/2023
+70,etiqueta para impressora,4,4.00,10/03/2023
+71,caneta para retroprojetor,5,5.00,11/03/2023
+76,lápis de cor aquarelável,2,7.00,16/03/2023
+77,estojo de desenho,3,20.00,17/03/2023
+78,apagador,4,3.00,18/03/2023
+79,quadro branco,2,25.00,19/03/2023
+80,caneta para quadro branco,3,5.00,20/03/2023
+81,pincel para quadro branco,6,4.00,21/03/2023
+82,microfone de lapela,10,50.00,22/03/2023
+83,kit para organização de cabos,8,15.00,24/03/2023
+85,caneta para retroprojetor,2,8.00,25/03/2023
+86,marcador permanente,3,6.00,27/03/2023
+88,lápis de escrever,2,1.00,31/01/2023

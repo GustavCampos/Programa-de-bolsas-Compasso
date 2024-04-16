@@ -1,0 +1,23 @@
+
+## Caso nao queira copiar a pasta "ecommerce" ##
+#Criar pasta ecommerce
+mkdir ecommerce
+
+#Acessar pasta ecommerce
+cd ecommerce
+
+#Criar arquivos de script
+touch processamento_de_vendas.sh
+touch consolidador_de_processamento_de_vendas.sh
+# *Preencher os dois arquivos com o script correspondente*
+
+## Setup inicial ##
+#Renomear dados_de_vendas-dia_1.csv
+mv dados_de_vendas-dia_1.csv dados_de_vendas.csv
+
+## Dando permissao de execucao para os scripts
+chmod a+x processamento_de_vendas.sh
+chmod a+x consolidador_de_processamento_de_vendas.sh
+
+# Caminho a ser colocado em "path" nos scripts (executar na pasta ecommerce)
+pwd

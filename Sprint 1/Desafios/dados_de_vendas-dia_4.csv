@@ -1,0 +1,67 @@
+id,produto,quantidade,preço,data
+1,óculos de natação,3,15.00,01/01/2023
+2,toalha de praia,10,20.00,02/01/2023
+3,chinelo,4,10.00,03/01/2023
+4,bolsa térmica,50,25.00,04/01/2023
+5,protetor solar,20,30.00,05/01/2023
+6,canga,15,12.00,06/01/2023
+7,guarda-sol,8,40.00,07/01/2023
+8,bola de vôlei,6,30.00,08/01/2023
+9,raquete de beach tennis,12,50.00,09/01/2023
+10,cool bag,2,35.00,10/01/2023
+11,raquete de frescobol,9,20.00,11/01/2023
+12,kit de snorkel,15,45.00,12/01/2023
+13,boia inflável,18,8.00,13/01/2023
+14,prancha de bodyboard,30,60.00,14/01/2023
+15,kit de mergulho,25,100.00,15/01/2023
+16,brinquedo inflável,10,25.00,16/01/2023
+17,bola de futebol de areia,12,15.00,17/01/2023
+18,piscina inflável,8,150.00,18/01/2023
+19,frescobol,6,5.00,19/01/2023
+20,kit de vôlei de praia,4,80.00,20/01/2023
+21,bola de futevôlei,5,20.00,21/01/2023
+22,barraca de praia,7,70.00,22/01/2023
+23,bóia de braço,6,3.00,23/01/2023
+24,macarrão de piscina,10,7.00,24/01/2023
+25,protetor solar labial,20,5.00,25/01/2023
+26,guarda-chuva,4,25.00,26/01/2023
+27,cooler,8,40.00,27/01/2023
+28,kit de piquenique,2,60.00,28/01/2023
+29,lancheira térmica,1,20.00,29/01/2023
+30,cadeira de praia,3,50.00,30/01/2023
+31,boia infantil,2,10.00,31/01/2023
+32,cadeira de camping,5,40.00,01/02/2023
+33,repelente de insetos,4,8.00,02/02/2023
+34,bolsa impermeável,6,15.00,03/02/2023
+35,estojo de primeiros socorros,7,20.00,04/02/2023
+36,pá para areia,2,10.00,05/02/2023
+52,kit de ferramentas para barraca,3,30.00,20/02/2023
+53,kit de limpeza de piscina,4,25.00,21/02/2023
+54,lanterna,5,12.00,22/02/2023
+55,filtro solar para cabelo,10,8.00,23/02/2023
+56,sacola térmica,20,18.00,24/02/2023
+57,porta-copos inflável,6,5.00,25/02/2023
+58,bóia de salva-vidas,8,50.00,26/02/2023
+59,kit de snorkel infantil,7,35.00,27/02/2023
+60,prancha de surf,9,150.00,28/02/2023
+61,boia de flamingo,12,25.00,01/03/2023
+62,kit de mergulho infantil,4,40.00,02/03/2023
+63,cadeado para mala,5,6.00,03/03/2023
+64,chapéu de praia,6,8.00,04/03/2023
+65,bandeira de praia,8,12.00,05/03/2023
+66,máscara de mergulho,2,20.00,06/03/2023
+67,short de banho,4,15.00,07/03/2023
+68,estojo de pesca,10,50.00,08/03/2023
+70,prancha de stand up paddle,4,200.00,10/03/2023
+71,kit de reparo para infláveis,5,10.00,11/03/2023
+76,binóculos,2,30.00,16/03/2023
+77,kit de camping,3,80.00,17/03/2023
+78,barraca para camping,4,100.00,18/03/2023
+79,mesa dobrável,2,70.00,19/03/2023
+80,kit de cozinha para camping,3,50.00,20/03/2023
+81,lanterna de cabeça,6,15.00,21/03/2023
+82,kit de sobrevivência,10,200.00,22/03/2023
+83,kit de higiene pessoal para viagem,8,25.00,24/03/2023
+85,bússola,2,10.00,25/03/2023
+86,canivete multiuso,3,15.00,27/03/2023
+88,cantil,2,8.00,31/01/2023

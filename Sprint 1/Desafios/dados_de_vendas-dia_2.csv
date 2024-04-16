@@ -1,0 +1,67 @@
+id,produto,quantidade,preço,data
+1,caneca,3,7.50,01/01/2023
+2,bandeira,10,15.00,02/01/2023
+3,boné,4,12.00,03/01/2023
+4,adesivo,50,0.50,04/01/2023
+5,chaveiro,20,2.00,05/01/2023
+6,livro de colorir,15,5.00,06/01/2023
+7,agenda,8,10.00,07/01/2023
+8,garrafa térmica,6,20.00,08/01/2023
+9,caderno de receitas,12,8.00,09/01/2023
+10,óculos de sol,2,25.00,10/01/2023
+11,cobertor,9,30.00,11/01/2023
+12,álbum de fotos,15,18.00,12/01/2023
+13,caneta esferográfica,18,1.00,13/01/2023
+14,lápis de cor,30,2.00,14/01/2023
+15,apontador,25,1.50,15/01/2023
+16,borracha escolar,10,1.00,16/01/2023
+17,régua geométrica,12,3.00,17/01/2023
+18,lápis de carpinteiro,8,4.00,18/01/2023
+19,papel de carta,6,6.00,19/01/2023
+20,pasta com elástico,4,4.00,20/01/2023
+21,caderno de desenho,5,7.00,21/01/2023
+22,estojo escolar,7,9.00,22/01/2023
+23,fita adesiva,6,3.00,23/01/2023
+24,livro de poesias,10,12.00,24/01/2023
+25,marcador de página,20,1.50,25/01/2023
+26,agenda telefônica,4,5.00,26/01/2023
+27,almofada,8,15.00,27/01/2023
+28,relógio despertador,2,20.00,28/01/2023
+29,almofada para notebook,1,10.00,29/01/2023
+30,balança de cozinha,3,25.00,30/01/2023
+31,cooler,2,35.00,31/01/2023
+32,estojo de maquiagem,5,18.00,01/02/2023
+33,pincel de maquiagem,4,6.00,02/02/2023
+34,espelho de bolso,6,8.00,03/02/2023
+35,necessaire,7,12.00,04/02/2023
+36,toalha de banho,2,15.00,05/02/2023
+52,escova de dentes,3,3.00,20/02/2023
+53,creme dental,4,2.50,21/02/2023
+54,fio dental,5,1.50,22/02/2023
+55,shampoo,10,8.00,23/02/2023
+56,condicionador,20,10.00,24/02/2023
+57,sabonete,6,1.00,25/02/2023
+58,esponja de banho,8,2.00,26/02/2023
+59,perfume,7,25.00,27/02/2023
+60,desodorante,9,12.00,28/02/2023
+61,repelente,12,15.00,01/03/2023
+62,protetor solar,4,20.00,02/03/2023
+63,kit manicure,5,7.00,03/03/2023
+64,alicate de unha,6,4.00,04/03/2023
+65,lixadeira de unha,8,5.00,05/03/2023
+66,esmalte,2,3.00,06/03/2023
+67,base de unha,4,2.50,07/03/2023
+68,pó compacto,10,10.00,08/03/2023
+70,blush,4,8.00,10/03/2023
+71,batom,5,5.00,11/03/2023
+76,rimel,2,7.00,16/03/2023
+77,lápis de olho,3,4.00,17/03/2023
+78,corretivo,4,6.00,18/03/2023
+79,primer,2,9.00,19/03/2023
+80,sombra,3,7.00,20/03/2023
+81,pincel de sombra,6,3.00,21/03/2023
+82,delineador,10,5.00,22/03/2023
+83,iluminador,8,8.00,24/03/2023
+85,bronzer,2,10.00,25/03/2023
+86,fixador de maquiagem,3,12.00,27/03/2023
+88,paleta de sombras,2,15.00,31/01/2023
