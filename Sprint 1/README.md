@@ -1,6 +1,6 @@
 # Desafio
 
-1. [Processamento de Vendas](Desafio/README.md)
+1. [Processamento de Vendas](Desafios/README.md)
 
 # Aprendizado
 
