@@ -1,0 +1,16 @@
+Relatorio gerado em:             2024/04/16 15:27
+
+Data do primeiro registro:       01/01/2023
+Data do ultimo registro:         27/03/2023
+Total itens diferentes vendidos: 66
+
+id,produto,quantidade,preço,data
+1,caneca,3,7.50,01/01/2023
+2,bandeira,10,15.00,02/01/2023
+3,boné,4,12.00,03/01/2023
+4,adesivo,50,0.50,04/01/2023
+5,chaveiro,20,2.00,05/01/2023
+6,livro de colorir,15,5.00,06/01/2023
+7,agenda,8,10.00,07/01/2023
+8,garrafa térmica,6,20.00,08/01/2023
+9,caderno de receitas,12,8.00,09/01/2023

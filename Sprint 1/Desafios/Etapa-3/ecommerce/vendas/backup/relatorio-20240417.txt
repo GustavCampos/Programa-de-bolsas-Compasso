@@ -1,0 +1,16 @@
+Relatorio gerado em:             2024/04/17 15:27
+
+Data do primeiro registro:       01/01/2023
+Data do ultimo registro:         27/03/2023
+Total itens diferentes vendidos: 65
+
+id,produto,quantidade,preço,data
+1,caderno universitário,3,10.00,01/01/2023
+2,caneta marca texto,10,2.00,02/01/2023
+3,corretivo líquido,4,4.00,03/01/2023
+4,post-it,50,1.50,04/01/2023
+5,clips,20,0.25,05/01/2023
+6,grampeador,15,5.00,06/01/2023
+7,perfurador de papel,8,6.00,07/01/2023
+8,envelope,6,3.50,08/01/2023
+9,pasta suspensa,12,8.00,09/01/2023
