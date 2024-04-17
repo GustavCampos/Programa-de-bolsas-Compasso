@@ -57,10 +57,8 @@ Após todas as execuções automáticas do [processamento_de_ vendas.sh](Etapa-1
 _Execução do Consolidador de Vendas e Estrutura final do projeto_
 ![Consolidador de vendas](../Evidências/consolidador_de_vendas.png)
 
-## 4. Gerar novos relatorios
 
-Para geraçao de novos arquivos com diferentes dados, foi utilizado o Chat GPT.
-
+#joaskdjaosjd
 [Chat com geraçao dos novos csv](https://chat.openai.com/share/95544468-c001-474f-be19-ff94b385cd9b)
 
 
