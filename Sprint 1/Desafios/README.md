@@ -37,24 +37,22 @@ Acesse o arquivo crontab e agende a execucao dos script para 15:27 de seg-sex
 ## 3. Execução
 
 Com todos os passo de setup e agendamento prontos o projeto deve se parecer com isso:
-
-_Estrutura do projeto antes de qualquer execução_
 ![Estrutura inicial](../Evidências/Estrutura_inicial_c_permissao.png)
 
 A única necessidade restante é a alteração do arquivo "ecommerce/dados_de_vendas.csv" após cada execução do script. Arquivos se encontram na pasta [Desafios](.) ([dia 2](dados_de_vendas-dia_2.csv), [dia 3](dados_de_vendas-dia_3.csv)).
 
-_Estrutura  do projeto após primeira execução_
+Estrutura  do projeto após primeira execução
 ![Estrutura apos primeira execucao](../Evidências/Primeira_execucao.png)
 
-_Estrutura  do projeto após segunda execução_
+Estrutura  do projeto após segunda execução
 ![Estrutura apos primeira execucao](../Evidências/Segunda%20_execucao.png)
 
-_Diferença nos relatórios gerados_
+Diferença nos relatórios gerados
 ![Diferenca relatorios gerados](../Evidências/Diferenca_relatorio.png)
 
 Após todas as execuções automáticas do [processamento_de_ vendas.sh](Etapa-1/ecommerce/processamento_de_vendas.sh) podemos finalmente executar o [consolidamento_de_processamento_de_vendas.sh](Etapa-1/ecommerce/consolidador_de_processamento_de_vendas.sh)
 
-_Execução do Consolidador de Vendas e Estrutura final do projeto_
+Execução do Consolidador de Vendas e Estrutura final do projeto
 ![Consolidador de vendas](../Evidências/consolidador_de_vendas.png)
 
 
