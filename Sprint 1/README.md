@@ -61,9 +61,11 @@
 _Primeira execução_
 
 ![Primeira execucao](Evidências/Primeira_execucao.png)
+
 _Segunda execução_
 
 ![Segunda execucao](Evidências/Segunda%20_execucao.png)
+
 _Terceira execução e geração do relatorio final_
 
 ![Ultima execucao](Evidências/consolidador_de_vendas.png)
