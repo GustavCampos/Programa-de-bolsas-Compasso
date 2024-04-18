@@ -19,16 +19,20 @@
 ![Script de Processamento de Vendas](Desafios/ecommerce/processamento_de_vendas.sh)
 
 * Script [consolidor_processamento_de_vendas.sh](Desafios/ecommerce/consolidador_de_processamento_de_vendas.sh) feito para o desafio processamento de vendas
+
 ![Script de Consolidamento de Processamento de Vendas](Desafios/ecommerce/consolidador_de_processamento_de_vendas.sh)
 
 * Para procedimentos em ambiente linux, foi utilizado uma máquina WSL Ubuntu 22.04
+
 ![Maquina WSL](Evidências/WSL_machine.png)
 
 
 * Estrutura de diretorios inicial para o desafio
+
 ![Estrutura inicial](Evidências/Estrutura_inicial.png)
 
 * Execução dos comandos para adicionar permissão de execução aos scripts processamento e consolidador
+
 ![Conceder permissao](Evidências/Concendendo_permissao_scripts.png)
 
 * Estrutura de diretorios inicial para o desafio com permissão de execução nos scripts
