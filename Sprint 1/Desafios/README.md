@@ -38,7 +38,7 @@ Instale o Cron utilizando o gerenciador de pacotes
 
 Acesse o arquivo crontab e agende a execucao dos script para 15:27 de seg-sex
 
-![arquivo agendamento crontab](../Evidências/change_crontab.png)
+![arquivo agendamento crontab](../Evidências/crontab_edit.png)
 
 ## 3. Execução
 
