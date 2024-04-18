@@ -1,9 +1,13 @@
 
 # Etapas
 
-## 1. Setup inicial de arquivos
+* [Etapa 1 - Criar arquivo executável](Etapa-1/comandos.sh)
 
-Comandos a serem utilizados nessa seção se encontram em [comandos.txt](Etapa-1/comandos.txt)
+# Passos Para Reexecução do Código
+
+Todos os comandos a sere executados neste passo a passo se encontram em [comandos.txt](./comandos.txt)
+
+## 1. Setup inicial de arquivos
 
 Dentro de uma pasta de preferência adicione a pasta [ecommerce](Etapa-1/ecommerce/) e seus script dentro ([processamento_de_vendas.sh](Etapa-1/ecommerce/processamento_de_vendas.sh) e [consolidador_de_processamento_de_vendas.sh](Etapa-1/ecommerce/consolidador_de_processamento_de_vendas.sh) )
 
