@@ -71,5 +71,5 @@
 ___
 
 # Sprints
-1. [SPRINT #1 - Markdown, Git e Linux](Sprint%201/README.md)
+1. [SPRINT #1 - Markdown, Git e Linux](Sprint%201/)
 ___
