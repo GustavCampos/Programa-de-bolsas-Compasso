@@ -159,3 +159,54 @@ get a short log of changes in project
 ```bash
 git shortlog
 ```
+
+## Repository Management
+
+Cleaning untracked changes
+```bash
+git clean
+
+#For interactive remove
+git clean -i
+```
+
+repository otimization
+```bash
+#Use git garbage collector
+git gc
+```
+
+checking files integrity
+```bash
+git fsck
+```
+
+Check all steps of a repository
+```bash
+#Get all information from the last 30 days
+git reflog
+```
+
+Zipping a repository
+```bash
+git archive --format zip --ouput <filename>.zip <branch>
+```
+
+## Improving Project Commits
+
+Private branches
+```bash
+#Passing commits of private branch to a working branch
+#interactively
+git rebase <private_branch> <working_branch> -i
+#Inside the document you can change the commits to:
+#pick: use commmit
+#rework: rename commmit
+#squash: discard commit 
+```
+#### Clean commits:
+* Separate **subject** from **message**
+* Max 50 characters per subject
+* Subject initial letter in uppercase
+* Max 72 characters for message body
+* Explain why and how of commmit
