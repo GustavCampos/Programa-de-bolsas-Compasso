@@ -1,4 +1,4 @@
-## Caso nao queira copiar a pasta "ecommerce" ## ~~~~~~~~~~~~~~~~~~~~~~~~~
+#_________________________Setup inicial_____________________________________
 #Criar pasta ecommerce
 mkdir ecommerce
 
@@ -9,9 +9,12 @@ cd ecommerce
 # *Preencher os dois arquivos com o script correspondente*
 touch processamento_de_vendas.sh
 touch consolidador_de_processamento_de_vendas.sh
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#_________________________Setup inicial_____________________________________
+#Criar arquivo csv
+# *Preencher o arquivo com o conteúdo de dados_de_vendas-dia_1*
+touch dados_de_vendas.csv
+
+
 #Renomear dados_de_vendas-dia_1.csv
 mv dados_de_vendas-dia_1.csv dados_de_vendas.csv
 
@@ -19,14 +22,14 @@ mv dados_de_vendas-dia_1.csv dados_de_vendas.csv
 chmod a+x processamento_de_vendas.sh
 chmod a+x consolidador_de_processamento_de_vendas.sh
 
-#Caminho a ser colocado em "path" nos scripts (executar na pasta ecommerce)
+#Encontrar caminho a ser colocado em "path" nos scripts (executar na pasta ecommerce)
 pwd
 
 #________________________Agendamento de script______________________________
 #Instalar cron
 sudo apt install cron
 
-#Abrir arquivo de Agendamento
+#Abrir arquivo de Agendamento no editor de texto
 crontab -e
 
 #Comando para agendar a execucao as 15:27 de seg-qui
@@ -34,3 +37,5 @@ crontab -e
 27 15 * * 1-4 bash <path do script>
 
 #______________________________Execução_____________________________________
+#Executar script consolidador (executar na pasta ecommerce)
+bash consolidador_de_processamento_de_vendas.sh

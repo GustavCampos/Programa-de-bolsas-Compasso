@@ -1,0 +1,14 @@
+#Chat com a geracao de novos relatorios usando ChatGPT
+https://chat.openai.com/share/95544468-c001-474f-be19-ff94b385cd9b
+
+#Criar script consolidador (executar em ecommerce)
+touch consolidador_de_processamento_de_vendas.sh
+
+#Conceder privilegios de execucao ao script
+chmod a+x consolidador_processamento_de_vendas.sh
+
+#Conteúdo do script com descrições detalhadas do código se encontram
+#no arquivo "ecommerce/consolidador_processamento_de_vendas.sh"
+
+#Executar script consolidador (executar na pasta ecommerce)
+bash consolidador_processamento_de_vendas.sh

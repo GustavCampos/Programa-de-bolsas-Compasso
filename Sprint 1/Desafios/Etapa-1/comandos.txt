@@ -5,4 +5,5 @@ touch processamento_de_vendas.sh
 #Conceder permissão de execução
 chmod a+x processamento_vendas.sh
 
-#Conteúdo 
+#Conteúdo do script com descrições detalhadas do código se encontram
+#no arquivo "ecommerce/processamento_de_vendas.sh"

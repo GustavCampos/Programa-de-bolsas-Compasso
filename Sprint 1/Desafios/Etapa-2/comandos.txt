@@ -1,0 +1,13 @@
+#Instalar cron
+sudo apt install cron
+
+#Encontrar caminho do script para colocar no arquivo de agendamento
+#(executar na pasta ecommerce)
+pwd
+
+#Abrir arquivo de Agendamento no editor de texto
+crontab -e
+
+#Comando para agendar a execucao as 15:27 de seg-qui
+#Adicionar ao final do arquivo
+27 15 * * 1-4 bash <path do script>
