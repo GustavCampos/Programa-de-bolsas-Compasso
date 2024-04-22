@@ -117,7 +117,7 @@ echo "Total itens diferentes vendidos: $total_quantity" >> $relatorio_file
 #Adicionando linha em branco ao relatorio
 echo -en '\n' >> $relatorio_file 
 
-#Adicionando as 1 primeiras linhas de backup-dados-<yyyymmdd>.csv 
+#Adicionando as 10 primeiras linhas de backup-dados-<yyyymmdd>.csv 
 #ao relatorio.txt
 head -10 $bk_file >> $relatorio_file
 
