@@ -72,4 +72,6 @@ ___
 
 # Sprints
 1. [SPRINT #1 - Markdown, Git e Linux](Sprint%201/)
-___
+2. [SPRINT #2 - Linguagem SQL, Conceitos Básicos da Área de Dados e Introdução AWS](Sprint%202/)
+3. [SPRINT #3 - Python e Introdução AWS](Sprint%203/)
+4. [SPRINT #4 - Paradigma Funcional (Python), Containers e Introdução AWS](Sprint%204/)
