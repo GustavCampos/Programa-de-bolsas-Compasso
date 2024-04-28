@@ -193,13 +193,34 @@ LEFT JOIN estado e
 
 --Adicionar registros de locacao
 INSERT INTO locacao (
-	id, cliente, carro, kilometragem_entrada,
-	data_retirada,hora_retirada, quantidade_diarias,
-	valor_diaria, data_entrega, hora_entrega, vendedor)
+	id, cliente, carro, kilometragem_entrada, quantidade_diarias, valor_diaria, vendedor, 
+	data_retirada, hora_retirada, data_entrega, hora_entrega)
 SELECT 
-	idLocacao, idCliente, idCarro, kmCarro,
-	dataLocacao,horaLocacao, qtdDiaria, vlrDiaria,
-	dataEntrega,horaEntrega, idVendedor
+	idLocacao, idCliente, idCarro, kmCarro, qtdDiaria, vlrDiaria, idVendedor,
+	--Corrige o formato da data para o sqlite
+	DATE(
+		CONCAT(
+			SUBSTR(dataLocacao, 1, 4), '-', 
+			SUBSTR(dataLocacao, 5, 2), '-', 
+			SUBSTR(dataLocacao, 7)))
+	AS data_retirada,
+	--Corrige o formato da hora para o sqlite
+	CASE 
+		WHEN horaLocacao LIKE '_:__' THEN TIME(CONCAT('0', horaLocacao))
+		ELSE TIME(horaLocacao)
+	END AS hora_retirada,
+	--Corrige o formato da data para o sqlite
+	DATE(
+		CONCAT(
+			SUBSTR(dataEntrega , 1, 4), '-', 
+			SUBSTR(dataEntrega, 5, 2), '-', 
+			SUBSTR(dataEntrega, 7)))
+	AS data_entrega,
+	--Corrige o formato da hora para o sqlite
+	CASE 
+		WHEN horaEntrega LIKE '_:__' THEN TIME(CONCAT('0', horaEntrega))
+		ELSE TIME(horaEntrega)
+	END AS hora_entrega
 FROM tb_locacao tl;
 
 --Validando transferencia de dados_____________________________________
@@ -258,8 +279,39 @@ WITH vendedor_estado AS (
 		ON c4.id = c3.combustivel
 	LEFT JOIN vendedor_estado ve
 		ON ve.id = l.vendedor
+), compare_query AS (
+	SELECT
+		idLocacao, idCliente, nomeCliente, cidadeCliente, estadoCliente,
+		paisCliente, idCarro, kmCarro, classiCarro, marcaCarro, modeloCarro,
+		anoCarro, idcombustivel, tipoCombustivel,
+		--Corrige o formato da data para o sqlite
+		DATE(
+				CONCAT(
+					SUBSTR(dataLocacao, 1, 4), '-', 
+					SUBSTR(dataLocacao, 5, 2), '-', 
+					SUBSTR(dataLocacao, 7)))
+			AS dataLocacao,
+			--Corrige o formato da hora para o sqlite
+		CASE 
+			WHEN horaLocacao LIKE '_:__' THEN TIME(CONCAT('0', horaLocacao))
+			ELSE TIME(horaLocacao)
+		END AS horaLocacao,
+		qtdDiaria, 
+		vlrDiaria,
+		--Corrige o formato da data para o sqlite
+		DATE(
+			CONCAT(
+				SUBSTR(dataEntrega , 1, 4), '-', 
+				SUBSTR(dataEntrega, 5, 2), '-', 
+				SUBSTR(dataEntrega, 7)))
+		AS dataEntrega,
+		--Corrige o formato da hora para o sqlite
+		CASE 
+			WHEN horaEntrega LIKE '_:__' THEN TIME(CONCAT('0', horaEntrega))
+			ELSE TIME(horaEntrega)
+		END AS horaEntrega,
+		idVendedor, nomeVendedor, sexoVendedor, estadoVendedor
+	FROM tb_locacao tl
 )
 SELECT COUNT(*) = 26 AS "Dados tranferidos com sucesso?"
-FROM (SELECT * FROM tb_locacao INTERSECT SELECT * FROM full_query);
-
-SELECT data_retirada  FROM locacao l ORDER BY data_retirada;
+FROM (SELECT * FROM compare_query INTERSECT SELECT * FROM full_query);
