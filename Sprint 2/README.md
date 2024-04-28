@@ -4,8 +4,9 @@
 
 # Aprendizado
 
-1. [Anotações Linux para Desenvolvedores](Aprendizado/Linux%20para%20desenvolvedores.md)
-2. [Anotações Git e Github Básico ao Avançado](Aprendizado/Git%20e%20Github%20basico%20ao%20avançado.md)
+1. [SQL para análise de dados](Aprendizado/SQL%20para%20análise%20de%20dados.md)
+3. [Projeto 1 SQL](Aprendizado/Projeto%201%20SQL.sql)
+4. [Projeto 2 SQL](Aprendizado/Projeto%202%20SQL.sql)
 
 # Exercícios
 
