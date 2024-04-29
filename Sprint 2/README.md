@@ -1,81 +1,54 @@
 # Desafio
 
-1. [Processamento de Vendas](Desafios/)
+1. [Normalização e Modelagem do Banco de Dados](Desafios/)
 
 # Aprendizado
 
 1. [SQL para análise de dados](Aprendizado/SQL%20para%20análise%20de%20dados.md)
-3. [Projeto 1 SQL](Aprendizado/Projeto%201%20SQL.sql)
-4. [Projeto 2 SQL](Aprendizado/Projeto%202%20SQL.sql)
 
 # Exercícios
 
-1. Criação do repositório [Programa de Bolsas Compasso](https://github.com/GustavCampos/Programa-de-bolsas-Compasso)
+1. [Seção 3](Exercícios/Seção%203/)
 
+2. [Seção 4](Exercícios/Seção%204/)
+
+3. [Seção 6](Exercícios/Seção%206/)
 
 # Evidências
 
-* Script [processamento_de_vendas.sh](Desafios/ecommerce/processamento_de_vendas.sh) feito para o desafio processamento de vendas
+* Script [criar_modelo_relacional.sql](Desafios/Etapa-1/criar_modelo_relacional.sql) feito para a [etapa 1](Desafios/Etapa-1/) do desafio, serve para criar um banco dados relacional normalizado a partir do banco de dados entregue pelo desafio 
 
-![Script de Processamento de Vendas](Desafios/ecommerce/processamento_de_vendas.sh)
+![criar_modelo_relacional.sql](Desafios/Etapa-1/criar_modelo_relacional.sql)
 
-* Script [consolidor_processamento_de_vendas.sh](Desafios/ecommerce/consolidador_de_processamento_de_vendas.sh) feito para o desafio processamento de vendas
+* Script [criar_modelo_dimsensional.sql](Desafios/Etapa-2/criar_modelo_dimensional.sql) feito para a [etapa 2](Desafios/Etapa-2/) do desafio, serve para criar views a partir do banco de dados relacional que serve como um banco de dados dimensional para os mesmos dados
 
-![Script de Consolidamento de Processamento de Vendas](Desafios/ecommerce/consolidador_de_processamento_de_vendas.sh)
+![criar_modelo_dimensional.sql](Desafios/Etapa-2/criar_modelo_dimensional.sql)
 
-* Para procedimentos em ambiente linux, foi utilizado uma máquina WSL Ubuntu 22.04
+* Propriedades das colunas de *tb_locacao* no desafio apresentadas pelo dbeaver
 
-![Maquina WSL](Evidências/WSL_machine.png)
+![propriedades_colunas_tb_locacao](Evidências/propriedades_colunas_tb_locacao.png)
 
+* Diagram relacional do banco de dados do desafio na segunda forma normal
 
-* Estrutura de diretorios inicial para o desafio
+![segunda_forma_normal](Evidências/segunda_forma_normal.png)
 
-![Estrutura inicial](Evidências/Estrutura_inicial.png)
+* Diagrama relacional do banco de dados do desafio na terceira forma normal
 
-* Execução dos comandos para adicionar permissão de execução aos scripts processamento e consolidador
+![concessionaria_relacional](Evidências/concessionaria_relacional.png)
 
-![Conceder permissao](Evidências/Concendendo_permissao_scripts.png)
+* Diagrama relacional do modelo dimensional do banco de dados do desafio gerado a partir do import das views criadas na [etapa 2](Desafios/Etapa-2/) em um banco de dados PostgreSQL
 
-* Estrutura de diretorios inicial para o desafio com permissão de execução nos scripts
+![concessionaria_dimensional](Evidências/concessionaria_dimensional.png)
 
-![Estrutura inicial com permissao](Evidências/Estrutura_inicial_c_permissao.png)
+* Diagrama relacional do banco de dados SQLite completo após desafio
 
-* Instalação do pacote Cron na máquina WSL
+![concessionaria.sqlite](Evidências/concessionaria.sqlite.png)
 
-![Instalar Cron](Evidências/Install_cron.png)
+* Print do projeto finalizado no SGBD Dbeaver
 
-* Comando usado para conseguir o "path" a ser colocado nos scripts e arquivo crontab
-
-![Conseguindo path](Evidências/get_path.png)
-
-* Edição do arquivo crontab (crontab -e)
-
-![Edicao crontab](Evidências/crontab_edit.png)
-
-* Alteração da variável "path" no scripts para execução correta
-
-![Path processamento](Evidências/path-processamento_vendas.png)
-![Path consolidador](Evidências/path-consolidador_vendas.png)
-
-* Execuções automáticas do [processamento_de_vendas.sh](Desafios/ecommerce/processamento_de_vendas.sh) e execução do [consolidador_de_processamento_de_vendas.sh](Desafios/ecommerce/consolidador_de_processamento_de_vendas.sh)
-
-_Primeira execução_
-
-![Primeira execucao](Evidências/Primeira_execucao.png)
-
-_Segunda execução_
-
-![Segunda execucao](Evidências/Segunda%20_execucao.png)
-
-_Terceira execução e geração do relatorio final_
-
-![Ultima execucao](Evidências/consolidador_de_vendas.png)
-
-* Diferenças entre o primeiro e o segundo relatorio gerados
-
-![Diferenca relatorios](Evidências/Diferenca_relatorio.png)
+![dbeaver_projeto](Evidências/dbeaver_projeto.png)
 
 # Certificados
 
-- Certificado do Curso Linux para Desenvolvedores
-![Curso Linux para Desenvoldores](Certificados/Linux%20para%20Desenvolvedores.jpg)
+- Certificado do Curso SQL para Análise de Dados: Do básico ao avançado
+![Curso SQL para Análise de Dados: do básico ao avançado](Certificados/SQL%20para%20Análise%20de%20Dados%20Do%20básico%20ao%20avançado.jpg)
