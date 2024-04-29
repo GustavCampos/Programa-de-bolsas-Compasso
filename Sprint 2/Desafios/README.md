@@ -1,64 +1,53 @@
 
 # Etapas
 
-* [Etapa 1 - Normalizar Base de Dados](Etapa-1/comandos.txt)
+* [Etapa 1 - Normalizar Base de Dados](Etapa-1/criar_modelo_relacional.sql)
 
-* [Etapa 2 - Modelo Dimensional baseado no Modelo Relacional](Etapa-2/comandos.txt)
+* [Etapa 2 - Modelo Dimensional baseado no Modelo Relacional](Etapa-2/criar_modelo_dimensional.sql)
 
-# Passos Para Reexecução do Código
+## Modelo Relacional
+![Modelo Relacional](../Evidências/concessionaria_relacional.png)
 
-Todos os comandos a sere executados neste passo a passo se encontram em [comandos.txt](./comandos.txt)
+## Modelo Dimensional
+![Modelo Dimensional](../Evidências/concessionaria_dimensional.png)
 
-## 1. Setup inicial de arquivos
-
-Dentro de uma pasta de preferência crie uma pasta chamada "ecommerce" e adicione os scripts [processamento_de_vendas.sh](ecommerce/processamento_de_vendas.sh) e [consolidador_de_processamento_de_vendas.sh](ecommerce/consolidador_de_processamento_de_vendas.sh).
-
-Também adicione [dados_de_vendas-dia_1.csv](dados_de_vendas-dia_1.csv) a pasta trocando o nome do arquivo para "dados_de_vendas.csv"
-
-![Estrutura Inicial](../Evidências/Estrutura_inicial.png)
-
-Conceda permissão de execução para ambos os scripts
-![Concedendo permissao](../Evidências/Concendendo_permissao_scripts.png)
-
-Dentro de um editor de texto altere a variável "path" em ambos os scripts para o local de execução desejado (pasta ecommerce)
-
-![path para os scripts](../Evidências/get_path.png)
-
-![path processamento_de_vendas.sh](../Evidências/path-processamento_vendas.png)
-
-![path consolidador_de_processamento_de_vendas.sh](../Evidências/path-consolidador_vendas.png)
+## Banco de Dados Final
+![Banco de dados final](../Evidências/concessionaria.sqlite.png)
 
 
-## 2. Agendando execução do script
-Instale o Cron utilizando o gerenciador de pacotes
+# Passo Para Normalização do Banco de Dados
 
-![instalando cron](../Evidências/Install_cron.png)
+## 1. Primeira Forma Normal
 
-Acesse o arquivo crontab e agende a execucao dos script para 15:27 de seg-sex
+Fazendo uma análise rápida das colunas encontradas em *tb_locacao* podemos notar que todos os campos obedecem a regra de atomicidade e não são multivalorados.
 
-![arquivo agendamento crontab](../Evidências/crontab_edit.png)
+![Propriedades das colunas de tb_locacao](../Evidências/propriedades_colunas_tb_locacao.png)
 
-## 3. Execução
+## 2. Segunda Forma Normal
 
-Com todos os passo de setup e agendamento prontos o projeto deve se parecer com isso:
-![Estrutura inicial](../Evidências/Estrutura_inicial_c_permissao.png)
+Com *tb_locacao* já estando na FN1 podemos procurar por colunas que não dependem da chave primaria "*id*" e remove-las criando novas tabelas.
 
-A única necessidade restante é a alteração do arquivo "ecommerce/dados_de_vendas.csv" após cada execução do script. Arquivos se encontram na pasta [Desafios](.) ([dia 2](dados_de_vendas-dia_2.csv), [dia 3](dados_de_vendas-dia_3.csv)).
+* *nomeCliente*, *cidadeCliente*, *estadoCliente* e *paisCliente* dependem de *idCliente* 
+* *classiCarro*, *marcaCarro*, *modeloCarro* e *anoCarro* dependem de *idCarro*
+* *tipoCombustivel* depende de *idCombustivel*
+* *nomeVendedor*, *sexoVendedor* e *estadoVendedor* dependem de *idVendedor*
 
-_Estrutura  do projeto após primeira execução_
+Podemos colocar *idCombustivel* como dependente de *idCarro* por representar o combustivel que aquele veículo utiliza.
 
-![Estrutura apos primeira execucao](../Evidências/Primeira_execucao.png)
+*kmCarro* aparenta depender de *idCarro*, entretanto este campo serve mais como um indicativo da kilometragem do carro no momento de locação, dependendo da própria *tb_locacao*
 
-_Estrutura  do projeto após segunda execução_
+Colocando tudo na segunda forma devemos ter algo como:
 
-![Estrutura apos primeira execucao](../Evidências/Segunda%20_execucao.png)
+![Segunda forma normal](../Evidências/segunda_forma_normal.png)
 
-_Diferença nos relatórios gerados_
+## 3. Terceira Forma Normal
 
-![Diferenca relatorios gerados](../Evidências/Diferenca_relatorio.png)
+Com *tb_locacao* estando na FN2 podemos verificar se todos os atributos de cada tabela são funcionalmente independentes uns dos outros.
 
-Após todas as execuções automáticas do [processamento_de_ vendas.sh](ecommerce/processamento_de_vendas.sh) podemos finalmente executar o [consolidamento_de_processamento_de_vendas.sh](ecommerce/consolidador_de_processamento_de_vendas.sh)
+Neste sentido temos dois casos:
+1. Dentro de ***cliente*** e ***vendedor*** temos a coluna *estado* que indica o nome do estado em que se encontram, podemos assumir que este estado está diretamente ligado a um país. Também podemos fazer este tipo de análise para o campo *cidade* em ***cliente*** onde assumimos que a cidade depende de um estado.
+2. Dentro de ***carro*** temos os campos *marca* e *modelo*, onde, podemos pensar que varios carros podem ter uma marca ou modelo em comum, assim como o modelo de um carro pertence a marca dele.
 
-_Execução do Consolidador de Vendas e Estrutura final do Projeto_
+Colocando tudo na terceira forma devemos ter algo como:
 
-![Consolidador de vendas](../Evidências/consolidador_de_vendas.png)
+![Terceira forma normal](../Evidências/concessionaria_relacional.png)

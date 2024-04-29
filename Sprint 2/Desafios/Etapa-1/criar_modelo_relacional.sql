@@ -1,4 +1,4 @@
---Excluindo tabelas existentes para teste
+--Excluindo tabelas existentes para teste______________________________________
 DROP TABLE IF EXISTS pais;
 DROP TABLE IF EXISTS estado;
 DROP TABLE IF EXISTS cidade;
@@ -10,7 +10,9 @@ DROP TABLE IF EXISTS cliente;
 DROP TABLE IF EXISTS vendedor;
 DROP TABLE IF EXISTS locacao;
 
---Tabelas de endereco
+--Criando tabelas relacionais__________________________________________________
+
+--Criando tabelas de endereco
 CREATE TABLE pais (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	nome VARCHAR(200) NOT NULL
@@ -30,7 +32,7 @@ CREATE TABLE cidade (
 	FOREIGN KEY (estado) REFERENCES estado(id)
 );
 
---Tabelas para os carros
+--Criando tabelas para os carros
 CREATE TABLE combustivel (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	tipo VARCHAR(200) NOT NULL
@@ -58,7 +60,7 @@ CREATE TABLE carro (
 	FOREIGN KEY (modelo) REFERENCES modelo_carro(id)
 );
 
---Cliente
+--Crinado tabela Cliente
 CREATE TABLE cliente (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	nome VARCHAR(200) NOT NULL,
@@ -66,7 +68,7 @@ CREATE TABLE cliente (
 	FOREIGN KEY (cidade) REFERENCES cidade(id)
 );
 
---Vendedor
+--Crinado tabela Vendedor
 CREATE TABLE vendedor (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	nome VARCHAR(200) NOT NULL, 
@@ -75,7 +77,7 @@ CREATE TABLE vendedor (
 	FOREIGN KEY (estado) REFERENCES estado(id)
 );
 
---Nova tabela de locacao
+--Criando Nova tabela de locacao
 CREATE TABLE locacao (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	cliente INT NOT NULL,
@@ -93,7 +95,7 @@ CREATE TABLE locacao (
 	FOREIGN KEY (vendedor) REFERENCES vendedor(id)
 );
 
---Inserindo dados na banco de dados novo________________________________
+--Inserindo dados na modelo relacional_________________________________________
 
 --Adicionar paises
 INSERT INTO pais (nome)
@@ -223,9 +225,10 @@ SELECT
 	END AS hora_entrega
 FROM tb_locacao tl;
 
---Validando transferencia de dados_____________________________________
---Criando table inicial a partir do modelo novo
+--Verificando transferencia de dados_____________________________________
 WITH vendedor_estado AS (
+	--Tabela com informacoes do vendedor 
+	--para evitar conflito nos joins de endereco
 	SELECT 
 		v.id,
 		v.nome,
@@ -235,6 +238,8 @@ WITH vendedor_estado AS (
 	LEFT JOIN estado e
 		ON e.id = v.estado
 ), full_query AS (
+	--Apresentando informacoes do modelo relacional no mesmo
+	--formato da tabela original
 	SELECT 
 		l.id AS idLocacao,
 		c.id AS idCliente,
@@ -280,6 +285,8 @@ WITH vendedor_estado AS (
 	LEFT JOIN vendedor_estado ve
 		ON ve.id = l.vendedor
 ), compare_query AS (
+	--Tabela original apenas com as datas e hora formatadas corretamente
+	--para fazer a verificacao
 	SELECT
 		idLocacao, idCliente, nomeCliente, cidadeCliente, estadoCliente,
 		paisCliente, idCarro, kmCarro, classiCarro, marcaCarro, modeloCarro,
