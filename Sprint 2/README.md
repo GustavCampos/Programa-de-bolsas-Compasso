@@ -52,4 +52,9 @@
 # Certificados
 
 - Certificado do Curso SQL para Análise de Dados: Do básico ao avançado
+
 ![Curso SQL para Análise de Dados: do básico ao avançado](Certificados/SQL%20para%20Análise%20de%20Dados%20Do%20básico%20ao%20avançado.jpg)
+
+- Certificado do Curso AWS Partner Accreditation (Bussiness) - [Versão PDF](Certificados/AWS%20Partner%20Sales%20Accreditation%20(Business).pdf)
+
+![Certificado do Curso AWS Partner Accreditation (Bussiness)](Certificados/AWS%20Partner%20Sales%20Accreditation%20(Business).png)
