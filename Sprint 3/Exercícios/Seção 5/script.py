@@ -9,12 +9,12 @@ def split_line(line: str) -> list:
 
     # Remove o caractere de quebra de linha e depois remove os espaços
     line_strip = line.strip("\n").strip(" ")
-
+    
     # Obtém uma lista onde cada item é uma tupla (regra_1_match, regra_2_match)
     # Apenas um elemento em cada tupla terá conteúdo
     pattern_match = regex.findall(pattern, line_strip)
-    
-    # Retorna uma lista com o elemento da tupla que não é vazio
+
+    # Retorna uma lista com os valores de cada coluna
     return list(map(lambda n: (n[0], n[1])[not n[0]], pattern_match))
     
 # Responsável por converter csv file.readlines() em uma
