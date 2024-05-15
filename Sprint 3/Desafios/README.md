@@ -1,11 +1,9 @@
 
 # Etapas
 
-* [Etapa 1 - Criar arquivo executável](Etapa-1/comandos.txt)
+* [Etapa 1 - Ambiente](Etapa-1/comandos.txt)
 
-* [Etapa 2 - Agendar execução do processamento](Etapa-2/comandos.txt)
-
-* [Etapa 3 - Criar novo relatório](Etapa-3/comandos.txt)
+* [Etapa 2 - Desenvolvimento](Etapa-2/comandos.txt)
 
 # Passos Para Reexecução do Código
 
