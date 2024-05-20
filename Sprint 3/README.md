@@ -1,6 +1,6 @@
 # Desafio
 
-1. [Processamento e Geração de Gráficos de Análise](Desafios/)
+1. [Processamento de Dados e Geração de Gráficos de Análise](Desafios/)
 
 # Aprendizado
 
