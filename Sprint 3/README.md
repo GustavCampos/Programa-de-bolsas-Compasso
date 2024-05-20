@@ -32,7 +32,7 @@
 
 * Output do tratamento de registros duplicados na Etapa 2: Parte 1.
 
-![COLOCAR PRINT]()
+![drop_duplicates.png](Evidências/drop_duplicates.png)
 
 * Gráficos de barra gerados durante a Etapa 2: Parte 2.
 
@@ -50,23 +50,23 @@
 
 * Output do cálculo do App mais caro do dataset da Etapa 2: Parte 4.
 
-![COLOCAR PRINT]()
+![most_expensive_app.png](Evidências/most_expensive_app.png)
 
 * Output do cálculo do número de Apps classificados como "Mature 17+" da Etapa 2: Parte 5.
 
-![COLOCAR PRINT]()
+![mature_counting.png](Evidências/mature_counting.png)
 
 * Output do cálculo dos 10 Apps mais avaliados da Etapa 2: Parte 6.
 
-![COLOCAR PRINT]()
+![most_reviewed_apps.png](Evidências/most_reviewed_apps.png)
 
 * Output do cálculo dos 10 gêneros de aplicativos mais baixados da Etapa 2: Parte 7. 
 
-![COLOCAR PRINT]()
+![Evidências/most_intalled_genres.png](Evidências/most_intalled_genres.png)
 
 * Output do cálculo da classificação de conteúdo mais avaliada da Etapa 2: Parte 7.
 
-![COLOCAR PRINT]()
+![most_reviewed_content_rate.png](Evidências/most_reviewed_content_rate.png)
 
 * Gráfico de disperção gerado durante a Etapa 2: Parte 8.
 
