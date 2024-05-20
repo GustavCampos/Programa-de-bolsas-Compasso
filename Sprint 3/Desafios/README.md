@@ -1,9 +1,11 @@
 
 # Etapas
 
-* [Etapa 1 - Ambiente](Etapa-1/comandos.txt)
+* [Etapa 1 - Ambiente](requirements.txt)
+	Etapa desenvolvida no [jupyter notebook](Desafio.ipynb) e em [requirements.txt](requirements.txt).
 
-* [Etapa 2 - Desenvolvimento](Etapa-2/comandos.txt)
+* [Etapa 2 - Desenvolvimento](Desafio.ipynb)
+	Etapa desenvolvida no [jupyter notebook](Desafio.ipynb).
 
 # Passos Para Reexecução do Código
 
