@@ -22,6 +22,59 @@
 
 ![pacotes_instalados_sem_jupyter](Evidências/pacotes_instalados_sem_jupyter.png)
 
+* Arquivo listando bibliotecas necessárias para desafio.
+
+![requirements.txt](Desafios/requirements.txt)
+
+* Jupyter Notebook com os resultados adquiridos na minha máquina.
+
+![Desafio.ipynb](Desafios/Desafio.ipynb)
+
+* Output do tratamento de registros duplicados na Etapa 2: Parte 1.
+
+![COLOCAR PRINT]()
+
+* Gráficos de barra gerados durante a Etapa 2: Parte 2.
+
+![top_5_built-in_apps.png](Evidências/top_5_built-in_apps.png)
+
+![top_5_apps.png](Evidências/top_5_apps.png)
+
+* Gráfico de pizza gerado durante a Etapa 2: Parte 3.
+
+![category_distribution_pie_new.png](Evidências/category_distribution_pie_new.png)
+
+* Gráfico de barras adicional gerado durante a Etapa 2: Parte 3.
+
+![category_distribution_bar.png](Evidências/category_distribution_bar.png)
+
+* Output do cálculo do App mais caro do dataset da Etapa 2: Parte 4.
+
+![COLOCAR PRINT]()
+
+* Output do cálculo do número de Apps classificados como "Mature 17+" da Etapa 2: Parte 5.
+
+![COLOCAR PRINT]()
+
+* Output do cálculo dos 10 Apps mais avaliados da Etapa 2: Parte 6.
+
+![COLOCAR PRINT]()
+
+* Output do cálculo dos 10 gêneros de aplicativos mais baixados da Etapa 2: Parte 7. 
+
+![COLOCAR PRINT]()
+
+* Output do cálculo da classificação de conteúdo mais avaliada da Etapa 2: Parte 7.
+
+![COLOCAR PRINT]()
+
+* Gráfico de disperção gerado durante a Etapa 2: Parte 8.
+
+![rating_reviews_scatter.png](Evidências/rating_reviews_scatter.png)
+
+* Mapa de calor gerado durante a Etapa 2: Parte 8.
+
+![heatmap.png](Evidências/heatmap.png)
 
 # Certificados
 
