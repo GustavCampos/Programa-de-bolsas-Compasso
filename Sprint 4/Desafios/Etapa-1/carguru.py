@@ -5,4 +5,3 @@ carros = ['Chevrolet Agile','Chevrolet C-10','Chevrolet Camaro','Chevrolet Carav
 random_carros = random.choice(carros)
 
 print('Você deve dirigir um '+ random_carros)
-
