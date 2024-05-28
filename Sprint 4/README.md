@@ -20,23 +20,23 @@
 
 * Arquivo [Dockerfile](Desafios/Etapa-1/Dockerfile) feito para a [etapa 1](Desafios/Etapa-1/) do desafio, serve para criar uma imagem docker com o ambiente necessario para rodar o script descrito acima.
 
-![print_dockerfile_etapa1.png](Evidências/print_dockerfile_etapa1.png)
+```Dockerfile
+FROM python:3.12.3-alpine3.19
 
-* Arquivo [comandos.sh](Desafios/Etapa-1/comandos.sh) feito para a [etapa 1](Desafios/Etapa-1/) do desafio, serve para descrever comandos utilizados no terminal para criar e rodar imagem/container pedidos na etapa.
+WORKDIR /Main
 
-![comandos.sh](Desafios/Etapa-1/comandos.sh)
+COPY carguru.py /Main/carguru.py
 
-* Geração da imagem docker ```imagem_etapa1``` utilizada na [etapa 1](Desafios/Etapa-1/) do desafio.
-
-![gerando_imagem_etapa1.png](Evidências/gerando_imagem_etapa1.png)
-
-* Criação e execução dos containeres criados a partir da imagem docker descrita no item anterior.
-
-![execucao_container_etapa1.png](Evidências/execucao_container_etapa1.png)
+CMD ["python", "carguru.py"]
+```
 
 * Arquivo markdown [Etapa-2.md](Desafios/Etapa-2/Etapa-2.md) criado para a [Etapa 2](Desafios/Etapa-2/) do desafio, serve para responder a questão levantada nesta mesma etapa.
 
-> ![Etapa-2.md](Desafios/Etapa-2/Etapa-2.md)
+> [Etapa-2.md](Desafios/Etapa-2/Etapa-2.md)
+
+* Exemplo de persistencia de container utilizado para a [Etapa-2.md](Desafios/Etapa-2/Etapa-2.md) do desafio.
+
+![exemplo_persistencia.png](Evidências/exemplo_persistencia.png)
 
 * Script [script.py](Desafios/Etapa-3/script.py) utilizado para a [etapa 3](Desafios/Etapa-3/) do desafio, ele recebe argumentos para ser executado e retorna um o conteúdo de cada argumento como um hash SHA-1.
 
@@ -44,20 +44,50 @@
 
 * Arquivo [Dockerfile](Desafios/Etapa-3/Dockerfile) feito para a [etapa 3](Desafios/Etapa-3/) do desafio, serve para criar uma imagem docker com o ambiente necessario para rodar o script descrito acima.
 
-![print_dockerfile_etapa3.png](Evidências/print_dockerfile_etapa3.png)
+```Dockerfile
+FROM python:3.12.3-alpine3.19
 
-* Arquivo [comandos.sh](Desafios/Etapa-3/comandos.sh) feito para a [etapa 3](Desafios/Etapa-3/) do desafio, serve para descrever comandos utilizados no terminal para criar e rodar imagem/container pedidos na etapa.
+WORKDIR /Main
 
-![comandos.sh](Desafios/Etapa-3/comandos.sh)
+COPY script.py /Main/script.py
 
-* Geração da imagem docker ```mascarar-dados``` utilizada na [etapa 3](Desafios/Etapa-3/) do desafio.
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+```
 
-![gerando_mascarar-dados.png](Evidências/gerando_mascarar-dados.png)
+* Arquivo [docker-compose.yaml](./Desafios/docker-compose.yaml), serve para configurar a criação de todos os container utilizados no desafio.
 
-* Criação e execução dos containeres criados a partir da imagem docker descrita no item anterior.
+```yaml
+services:
+  carguru:
+    build: /Etapa-1/
+    image: carguru-image
+    container_name: carguru-container
+  
+  mascarar-dados:
+    build: /Etapa-3/
+    image: mascarar-dados
+    container_name: mascarar-dados-container
+```
 
-![execucao_mascarar-dados.png](Evidências/execucao_mascarar-dados.png)
+* Arquivo [comandos.sh](Desafios/comandos.sh), serve para descrever comandos utilizados no terminal para criar e rodar imagem/container pedidos em cada etapa.
 
+![comandos.sh](Desafios/comandos.sh)
+
+* Contruindo imagens e criando containeres para o desafio com o docker compose.
+
+![docker_compose.png](Evidências/docker_compose.png)
+
+* Imagens e containeres criados pelo docker compose.
+
+![imagens_containeres_criados.png](Evidências/imagens_containeres_criados.png)
+
+* Utilizando os containeres criados para rodar [carguru.py](Desafios/Etapa-1/carguru.py) e [script.py](Desafios/Etapa-3/script.py).
+
+![rodando_containeres.png](Evidências/rodando_containeres.png)
+
+* Encerrando a utilização do docker compose.
+
+![parando_compose.png](Evidências/parando_compose.png)
 
 # Certificados
 
