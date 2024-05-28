@@ -1,0 +1,10 @@
+services:
+  carguru:
+    build: /Etapa-1/
+    image: carguru-image
+    container_name: carguru-container
+  
+  mascarar-dados:
+    build: /Etapa-3/
+    image: mascarar-dados
+    container_name: mascarar-dados-container

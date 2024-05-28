@@ -4,4 +4,4 @@ WORKDIR /Main
 
 COPY script.py /Main/script.py
 
-ENTRYPOINT ["python", "script.py"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]

@@ -2,18 +2,10 @@
 
 > A resposta curta é: **Sim!**
 
-Vamos dar uma olhada nos comandos descritos em [comandos.sh](../Etapa-1/comandos.sh) para a etapa 1 como exemplo:
+Vamos dar uma olhada nas ações realizadas durante o desafio, comandos utilizados podem ser conferidos em [comandos.sh](../comandos.sh).
 
-```bash
-#...
-# Container de execução única (se auto remove após execução)
-docker run --rm imagem_etapa1
+![exemplo_persistencia.png](../../Evidências/exemplo_persistencia.png)
 
-# Container persistente (utilizado apenas na primeira execução)
-docker run --name container_etapa1 imagem_etapa1
+Como mostrado acima, um dos dois containeres criados durante o processo praticamente não fica em execução. Entretanto, ele ainda fica salvo localmente e podemos iniciá-lo novamente caso surja a necessidade.
 
-# Executando container persistente novamente
-docker start -i container_etapa1
-```
-
-Como mostrado, a menos que um container tenha sido criado com a tag de autoremove ```--rm```, o container fica salvo no ambiente docker e pode ser reiniciado com o comando ```start```, bastando saber apenas seu nome ou id, que pode ser conferido usando o comando ```container ls -a```
+A menos que um container tenha sido criado com a tag de autoremove ```--rm``` ou tenha sido diretamente excluído, o container fica salvo no ambiente docker e pode ser reiniciado com o comando ```start```, bastando saber apenas seu nome ou id.
