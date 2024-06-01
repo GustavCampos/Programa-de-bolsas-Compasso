@@ -8,3 +8,4 @@ services:
     build: /Etapa-3/
     image: mascarar-dados
     container_name: mascarar-dados-container
+    
