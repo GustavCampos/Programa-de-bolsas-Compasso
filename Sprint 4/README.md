@@ -91,6 +91,10 @@ services:
 
 # Certificados
 
-- Certificado do Curso AWS Partner Accreditation (Bussiness) - [Versão PDF]()
+- Docker para desenvolvedores - [Versão PDF](Certificados/Docker%20para%20desenvolvedores.pdf)
 
-![Certificado do Curso AWS Partner Accreditation (Bussiness)]()
+![Docker para desenvolvedores](Certificados/Docker%20para%20desenvolvedores.jpg)
+
+- AWS Technical Essentials - [Versão PDF](Certificados/AWS%20Technical%20Essentials.pdf)
+
+![AWS Technical Essentials](Certificados/AWS%20Technical%20Essentials.png)
