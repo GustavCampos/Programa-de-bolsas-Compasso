@@ -98,3 +98,7 @@ services:
 - AWS Technical Essentials - [Versão PDF](Certificados/AWS%20Technical%20Essentials.pdf)
 
 ![AWS Technical Essentials](Certificados/AWS%20Technical%20Essentials.png)
+
+- AWS Partner: Credenciamento Técnico - [Versão PDF](Certificados/AWS%20Partner%20-%20Credenciamento%20técnico.pdf)
+
+![AWS Technical Essentials](Certificados/AWS%20Partner%20-%20Credenciamento%20técnico.png)
