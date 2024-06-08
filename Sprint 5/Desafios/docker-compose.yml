@@ -1,0 +1,29 @@
+services:
+  data-processing:
+    build: data-processing/
+    volumes:
+      - type: bind
+        source: ./canais-de-programacao-de-programadoras-ativos-credenciados.json
+        target: /app/data.json
+      - type: bind
+        source: ./canais-credenciados.csv
+        target: /app/data.csv
+  
+  data-upload:
+    depends_on:
+      data-processing:
+        required: true
+        condition: service_completed_successfully
+        restart: false
+    build: data-upload/
+    volumes:
+      - type: bind
+        source: ./canais-credenciados.csv
+        target: /app/data.csv
+      - type: bind
+        source: ./aws_credentials.env
+        target: /app/aws_credentials.env
+      # TODO: Remover este bind
+      - type: bind
+        source: data-upload/data_upload.py
+        target: /app/script.py
