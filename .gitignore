@@ -1,3 +1,6 @@
 Sprint Template/
 Coisas adicionais/
 .venv/
+*.env
+*.config
+*/credentials
