@@ -21,9 +21,21 @@ services:
         source: ./canais-credenciados.csv
         target: /app/data.csv
       - type: bind
-        source: ./aws_credentials.env
+        source: ./parameters.env
+        target: /app/aws_credentials.env
+
+  data-query:
+    depends_on:
+      data-upload:
+        required: true
+        condition: service_completed_successfully
+        restart: true
+    build: data-query/
+    volumes:
+      - type: bind
+        source: ./parameters.env
         target: /app/aws_credentials.env
       # TODO: Remover este bind
       - type: bind
-        source: data-upload/data_upload.py
+        source: ./data-query/data_query.py
         target: /app/script.py
