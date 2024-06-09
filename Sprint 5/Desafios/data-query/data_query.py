@@ -1,4 +1,5 @@
 import boto3
+import json
 from os.path import join, dirname, realpath
 
 
@@ -14,9 +15,42 @@ def get_credentials(credentials_file: str) -> dict:
 
 def main():
     LOCATION = dirname(realpath(__file__))
-    AWS_CREDENTIALS = get_credentials(join(LOCATION, "aws_credentials.env"))
+    S3_QUERY_PATH = join(LOCATION, 'query.sql')
+    AWS_PARAMETERS = get_credentials(join(LOCATION, "aws_credentials.env"))
     
-    print(AWS_CREDENTIALS)
+    print("Creating S3 client...")
+    s3_client = boto3.client('s3', 
+        aws_access_key_id=      AWS_PARAMETERS["AWS_ACCESS_KEY_ID"],
+        aws_secret_access_key=  AWS_PARAMETERS["AWS_SECRET_ACCESS_KEY"],
+        aws_session_token=      AWS_PARAMETERS["AWS_SESSION_TOKEN"],
+        region_name=            AWS_PARAMETERS["AWS_REGION"],
+    )
+    
+    print("Loading S3 select query...")
+    with open(S3_QUERY_PATH, 'r') as file:
+        S3_SELECT_QUERY = ""
+        for line in file.readlines()[4:]:
+            S3_SELECT_QUERY += f"{line.strip()} "
+
+    print(f"Loaded query: \n{S3_SELECT_QUERY}")
+    
+    print("Querying S3 object...")
+    s3_query_response = s3_client.select_object_content(
+        Bucket=                 AWS_PARAMETERS["AWS_BUCKET"],
+        Key=                    AWS_PARAMETERS["AWS_BUCKET_OBJECT"],
+        Expression=             S3_SELECT_QUERY,
+        ExpressionType=         'SQL',
+        RequestProgress=        {"Enabled": True},
+        InputSerialization=     {'CSV': {'FileHeaderInfo': 'Use'}},
+        OutputSerialization=    {'JSON': {'RecordDelimiter': '\n'}}
+    )
+    
+    for event in s3_query_response['Payload']:        
+        if 'Records' in event:
+            records = json.loads(event['Records']['Payload'].decode('utf-8'))
+
+    for item in records.keys():
+        print(f"{item}: {records[item]}")
 
 if __name__ == '__main__':
     main()

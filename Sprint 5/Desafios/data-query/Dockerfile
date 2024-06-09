@@ -4,7 +4,7 @@ WORKDIR /app
 
 RUN pip install boto3
 
-# TODO: Descomentar
-# COPY ./data_query.py ./script.py
+COPY ./data_query.py ./script.py
+COPY ./s3select_query.sql ./query.sql
 
 CMD [ "python", "script.py"]
