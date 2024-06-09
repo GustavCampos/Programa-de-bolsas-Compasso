@@ -35,7 +35,3 @@ services:
       - type: bind
         source: ./parameters.env
         target: /app/aws_credentials.env
-      # TODO: Remover este bind
-      - type: bind
-        source: ./data-query/data_query.py
-        target: /app/script.py
