@@ -3,11 +3,8 @@ services:
     build: data-processing/
     volumes:
       - type: bind
-        source: ./canais-de-programacao-de-programadoras-ativos-credenciados.json
-        target: /app/data.json
-      - type: bind
-        source: ./canais-credenciados.csv
-        target: /app/data.csv
+        source: ./data/
+        target: /app/data/
   
   data-upload:
     depends_on:
@@ -18,11 +15,8 @@ services:
     build: data-upload/
     volumes:
       - type: bind
-        source: ./canais-credenciados.csv
-        target: /app/data.csv
-      - type: bind
-        source: ./parameters.env
-        target: /app/aws_credentials.env
+        source: ./data/
+        target: /app/data/
 
   data-query:
     depends_on:
@@ -33,5 +27,5 @@ services:
     build: data-query/
     volumes:
       - type: bind
-        source: ./parameters.env
-        target: /app/aws_credentials.env
+        source: ./data/
+        target: /app/data/

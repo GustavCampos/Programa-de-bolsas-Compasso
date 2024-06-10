@@ -4,3 +4,6 @@ Coisas adicionais/
 *.env
 *.config
 */credentials
+
+# Not ignore
+!**/aws_parameters.env

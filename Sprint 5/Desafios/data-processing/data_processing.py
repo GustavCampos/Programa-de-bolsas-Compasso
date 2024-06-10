@@ -28,8 +28,8 @@ def to_capitalize(string: str) -> str | None:
 
 def main():
     LOCATION = dirname(realpath(__file__))
-    JSON_FILE = join(LOCATION, "data.json")
-    CSV_FILE = join(LOCATION, "data.csv")
+    JSON_FILE = join(LOCATION, "data", "canais-de-programacao-de-programadoras-ativos-credenciados.json")
+    CSV_FILE = join(LOCATION, "data", "canais-credenciados.csv")
     
     # JSON attributes:
     CHANNEL_NAME = "CANAL"

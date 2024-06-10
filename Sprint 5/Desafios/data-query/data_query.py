@@ -16,7 +16,8 @@ def get_credentials(credentials_file: str) -> dict:
 def main():
     LOCATION = dirname(realpath(__file__))
     S3_QUERY_PATH = join(LOCATION, 'query.sql')
-    AWS_PARAMETERS = get_credentials(join(LOCATION, "aws_credentials.env"))
+    AWS_PARAMETERS = get_credentials(join(LOCATION, "data", "aws_parameters.env"))
+    RESULT_JSON = join(LOCATION, "data", 'query-result.json')
     
     print("Creating S3 client...")
     s3_client = boto3.client('s3', 
@@ -45,12 +46,17 @@ def main():
         OutputSerialization=    {'JSON': {'RecordDelimiter': '\n'}}
     )
     
+    print("Query complete, processing results...")
     for event in s3_query_response['Payload']:        
         if 'Records' in event:
             records = json.loads(event['Records']['Payload'].decode('utf-8'))
-
-    for item in records.keys():
-        print(f"{item}: {records[item]}")
+            
+    print(f"Saving results to {RESULT_JSON}")
+    with open(RESULT_JSON, 'w') as file:
+        json.dump(records, file, indent=4)
+    
+    print("Results saved, printing JSON...")
+    print(json.dumps(records, indent=4))
 
 if __name__ == '__main__':
     main()

@@ -15,8 +15,8 @@ def get_credentials(credentials_file: str) -> dict:
 
 def main():
     LOCATION = join(dirname(realpath(__file__)))
-    CSV_FILE = join(LOCATION, 'data.csv')
-    AWS_CREDENTIALS = get_credentials(join(LOCATION, 'aws_credentials.env'))
+    CSV_FILE = join(LOCATION, "data", 'canais-credenciados.csv')
+    AWS_CREDENTIALS = get_credentials(join(LOCATION, "data", 'aws_parameters.env'))
     AWS_REGION = AWS_CREDENTIALS["AWS_REGION"]
     BUCKET_NAME = AWS_CREDENTIALS["AWS_BUCKET"]
     OBJ_IN_BUCKET_NAME = AWS_CREDENTIALS["AWS_BUCKET_OBJECT"]
