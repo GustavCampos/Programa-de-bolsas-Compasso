@@ -7,4 +7,3 @@ RUN pip install pandas
 COPY ./data_processing.py /app/script.py
 
 CMD [ "python", "script.py" ]
-
