@@ -2,19 +2,21 @@
 
 ---
 
-## Etapa 1:
+## Processamento dos dados:
 
-* Script python utilizado: [carguru.py](./Etapa-1/carguru.py)
-* Dockerfile criada para executar script: [Dockerfile](./Etapa-1/Dockerfile)
+* Script python utilizado: [data_processing.py](data-processing/data_processing.py)
+* Dockerfile criada para executar script: [Dockerfile](data-processing/Dockerfile)
 
-## Etapa 2:
+## Upload dos dados:
 
-* Markdown respondendo a pergunta apresentada: [Etapa-2.md](./Etapa-2/Etapa-2.md)
+* Script python utilizado: [data_upload.py](data-upload/data_upload.py)
+* Dockerfile criada para executar script: [Dockerfile](data-upload/data_upload.py)
 
-## Etapa 3:
+## Processamento dos dados:
 
-* Script python utilizado: [script.py](./Etapa-3/script.py)
-* Dockerfile criada para executar script: [Dockerfile](./Etapa-3/Dockerfile)
+* Script python utilizado: [data_query.py.py](data-query/data_query.py)
+* Script SQL utilizado: [s3select_query.sql](data-query/s3select_query.sql)
+* Dockerfile criada para executar script: [Dockerfile](data-query/Dockerfile)
 
 ---
 
