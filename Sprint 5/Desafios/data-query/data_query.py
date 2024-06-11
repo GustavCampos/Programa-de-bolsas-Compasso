@@ -53,10 +53,10 @@ def main():
             
     print(f"Saving results to {RESULT_JSON}")
     with open(RESULT_JSON, 'w') as file:
-        json.dump(records, file, indent=4)
+        json.dump(records, file, indent=4, ensure_ascii=False)
     
     print("Results saved, printing JSON...")
-    print(json.dumps(records, indent=4))
+    print(json.dumps(records, indent=4, ensure_ascii=False))
 
 if __name__ == '__main__':
     main()
