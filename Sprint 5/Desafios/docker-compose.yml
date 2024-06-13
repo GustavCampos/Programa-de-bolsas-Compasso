@@ -1,0 +1,31 @@
+services:
+  data-processing:
+    build: data-processing/
+    volumes:
+      - type: bind
+        source: ./data/
+        target: /app/data/
+  
+  data-upload:
+    depends_on:
+      data-processing:
+        required: true
+        condition: service_completed_successfully
+        restart: false
+    build: data-upload/
+    volumes:
+      - type: bind
+        source: ./data/
+        target: /app/data/
+
+  data-query:
+    depends_on:
+      data-upload:
+        required: true
+        condition: service_completed_successfully
+        restart: true
+    build: data-query/
+    volumes:
+      - type: bind
+        source: ./data/
+        target: /app/data/

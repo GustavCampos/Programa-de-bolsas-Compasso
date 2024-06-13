@@ -1,3 +1,9 @@
 Sprint Template/
 Coisas adicionais/
 .venv/
+*.env
+*.config
+*/credentials
+
+# Not ignore
+!**/aws_parameters.env
