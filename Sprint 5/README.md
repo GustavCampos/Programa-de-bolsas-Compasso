@@ -77,3 +77,7 @@ Log com bucket não criado e arquivo não enviado.
 - Badge Cloud Quest: Cloud Practioner
 
 ![Badge Cloud Practioner](Certificados/Badge%20Cloud%20Practitioner.png)
+
+- Certificado AWS Certified Cloud Practioner - [Versão PDF](Certificados/AWS%20Certified%20Cloud%20Practioner.pdf)
+
+![AWS Certified Cloud Practioner](Certificados/AWS%20Certified%20Cloud%20Practioner.png)
