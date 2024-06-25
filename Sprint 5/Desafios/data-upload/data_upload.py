@@ -52,7 +52,7 @@ def main():
                     exit()
                     
             case "403":
-                print(f"Access denied to object {OBJ_IN_BUCKET_NAME} in bucket {BUCKET_NAME}.")
+                print(f"Access denied to bucket {BUCKET_NAME}.")
                 exit()
             case _: 
                 print(f"Error: {error}")

@@ -2,10 +2,11 @@ FROM python:3.12.3-alpine3.19
 
 WORKDIR /app
 
-# Copyng requirements file
-COPY requirements.txt /app/
+# Updating pip
 RUN python -m pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+
+# Installing boto3
+RUN pip install boto3
 
 # Copyng credentials file
 COPY script.py /app/
