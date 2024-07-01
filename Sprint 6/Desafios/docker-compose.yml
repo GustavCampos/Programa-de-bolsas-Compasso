@@ -3,8 +3,5 @@ services:
     build: data-ingestion/
     volumes:
       - type: bind
-        source: data-ingestion/script.py
-        target: /app/script.py
-      - type: bind
         source: ./data/
         target: /app/data/
