@@ -1,0 +1,7 @@
+services:
+  data-ingestion:
+    build: data-ingestion/
+    volumes:
+      - type: bind
+        source: ./data/
+        target: /app/data/

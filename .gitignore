@@ -5,5 +5,8 @@ Coisas adicionais/
 *.config
 */credentials
 
+# Ignore sprint 6 CSVs
+Sprint 6/Desafios/data/*.csv
+
 # Not ignore
 !**/aws_parameters.env
