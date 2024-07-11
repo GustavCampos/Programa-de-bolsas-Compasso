@@ -1,15 +1,13 @@
 {
-    "tokenAPI": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZTNjZjU1YzQ0MWI5NTJhMzhkZmQ4MWRhNWVjNjM0MyIsIm5iZiI6MTcyMDYzNzQ1OC4zOTgyODEsInN1YiI6IjY2OGQ4YzVkODQyZjlhYTkyM2IyZTM0MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.LEqK4XZmzIVD6h_JPXdgL1W2jMo5H1sh7yrca2ymwIU",
-    "pageGroup": 5,
-    "filesPerCall": 10,
+    "pageGroup": 2,
+    "filesPerCall": 2,
+    "progressObjKey": "Temp/progress.json",
     "movie": {
         "url": "https://api.themoviedb.org/3/discover/movie?with_genres=16&include_adult=false&include_video=false&primary_release_date.lte=2024-07-10&vote_count.gte=10&sort_by=primary_realease_date.desc",
-        "maxPage": 329,
-        "currentPage": 1
+        "maxPage": 3
     },
     "tv": {
         "url": "https://api.themoviedb.org/3/discover/tv?with_genres=16&include_adult=false&include_null_first_air_dates=false&vote_count.gte=10&primary_release_date.lte=2024-07-10&sort_by=first_air_date.desc",
-        "maxPage": 159,
-        "currentPage": 1
+        "maxPage": 3
     }
 }
