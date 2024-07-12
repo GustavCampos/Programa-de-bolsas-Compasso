@@ -1,24 +1,23 @@
 import boto3
+import constants
 import json
-import logging
 import os
 import request_functions as rf
 import s3_functions as s3f
 import utils
+from datetime import datetime
 
-# Creating logger obj
-logger = logging.getLogger()
 
 def lambda_handler(event, context) -> dict:
     LOCAL = os.path.dirname(os.path.realpath(__file__))
     JSON_PATH = os.path.join(LOCAL, "config.json")
+    NOW_DATE = datetime.now()
     
     # Checking enviroment variables ___________________________________________
-    logger.info("Checking Environment Variables")
+    print(constants.LOG_ENV_VAR_CHECK)
     if not utils.check_env_vars():
-        error_msg = "Missing Environment Variables"
-        logger.error(error_msg)
-        return {"statusCode": 500, "body": json.dumps(error_msg)}
+        print(constants.LOG_ENV_VAR_MISSING)
+        return {"statusCode": 500, "body": json.dumps(constants.LOG_ENV_VAR_MISSING)}
     
     TMDB_SESSION_TOKEN = os.getenv("TMDB_SESSION_TOKEN")
     S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
@@ -29,14 +28,14 @@ def lambda_handler(event, context) -> dict:
         
     # Checking configuration variables ________________________________________
     try:
-        logger.info("Importing Config JSON File")
+        print(constants.LOG_JSON_CONFIG_IMPORT)
         REQUEST_PARAMETERS = utils.import_json(JSON_PATH)
     except FileNotFoundError:
-        error_msg = "Missing Config JSON File"
-        logger.error(error_msg)
-        return {"statusCode": 500, "body": json.dumps(error_msg)}
+        print(constants.LOG_JSON_CONFIG_MISSING)
+        return {"statusCode": 500, "body": json.dumps(constants.LOG_JSON_CONFIG_MISSING)}
     
     # Creating s3 client ______________________________________________________
+    print(constants.LOG_CREATE_S3_CLIENT)
     s3_client = boto3.client("s3",
         region_name=            S3_BUCKET_REGION,
         aws_access_key_id=      AWS_ACCESS_KEY_ID,
@@ -52,44 +51,81 @@ def lambda_handler(event, context) -> dict:
         bucket_name=    S3_BUCKET_NAME,
         obj_key=        PROGRESS_OBJ_KEY
     )
-        
+            
     if "status" in PROGRESS_JSON.keys():
-        if PROGRESS_JSON["code"] == "NoSuchKey":
-            PROGRESS_JSON = {"movieCurrentPage": 1, "tvCurrentPage": 1}
+        if PROGRESS_JSON["code"] == constants.CREATE_PROGRESS_JSON_ERROR_CODE:
+            print(constants.LOG_JSON_PROGRESS_CREATE)
+            PROGRESS_JSON = {
+                f"{constants.API_MOVIE_MODIFIER}CurrentPage": 1,
+                f"{constants.API_SERIES_MODIFIER}CurrentPage": 1
+            }
         else:
-            logger.error(PROGRESS_JSON)
+            print(PROGRESS_JSON)
             return {"statusCode": 500, "body": json.dumps(PROGRESS_JSON)}
         
-    
     # Creating request header _________________________________________________
+    print(constants.LOG_REQUEST_HEADER_CREATE)
     REQUEST_HEADER = {
         "accept": "application/json",
         "Authorization": f"Bearer {TMDB_SESSION_TOKEN}"
     }
     
     # Check API modifier ______________________________________________________
+    print(constants.LOG_REQUEST_CHECK_PROGRESS)
     api_modifier = rf.get_api_modifier(REQUEST_PARAMETERS, PROGRESS_JSON)
     
     if api_modifier is None:
-        logger.info("No More Data to Request")
+        print(constants.LOG_REQUEST_PROGRESS_COMPLETE)
         return {"statusCode": 200, "body": json.dumps(PROGRESS_JSON)}
     
     # Requesting data for movies/series _______________________________________
     start_page = PROGRESS_JSON[f"{api_modifier}CurrentPage"]
+    
     for _ in range(REQUEST_PARAMETERS["filesPerCall"]):
-        end_page = start_page + REQUEST_PARAMETERS["pageGroup"]
-        file_name = f"movies_{start_page:04d}-{(end_page - 1):04d}.json"
+        # Early return to prevent unnecessary requests ________________________
+        if start_page > REQUEST_PARAMETERS[api_modifier]["maxPage"]: break
         
-        logger.info(f"Generating File: {file_name}")
+        # Calculating end_page ________________________________________________
+        end_page = ((start_page + REQUEST_PARAMETERS["pageGroup"]) - 1)
+        
+        if end_page > REQUEST_PARAMETERS[api_modifier]["maxPage"]:
+            end_page = REQUEST_PARAMETERS[api_modifier]["maxPage"]        
+        
+        # Creating file name __________________________________________________
+        file_name = "{0}_{1:04d}_{2:04d}.json".format(
+            api_modifier.lower(), start_page, end_page)
+        
+        # Generate JSON with requested data ___________________________________
+        print(f"Generating File: {file_name}")
         response = rf.generate_json_files(
             start_page=         start_page,
-            max_page=           REQUEST_PARAMETERS[api_modifier]["maxPage"],
-            pages_per_file=     REQUEST_PARAMETERS["pageGroup"],
+            end_page=           end_page,
             request_url=        REQUEST_PARAMETERS[api_modifier]["url"],
             request_header=     REQUEST_HEADER
         )
         
-        s3f.upload_json_to_bucket()
+        # Checking for errors _________________________________________________
+        if response["status"] == "error":
+            error_msg = f"Error {response['code']}: {response['message']}"
+            print(error_msg)
+            return {"statusCode": 500, "body": json.dumps(error_msg)}
+        
+        # Uploading generated JSON to S3 ______________________________________
+        json_key = "Raw/TMDB/JSON/{0}/{1}/{2}".format(
+            api_modifier.capitalize(),
+            NOW_DATE.strftime("%Y/%m/%d"),
+            file_name
+        )
+                
+        s3f.upload_json_to_bucket(
+            s3_client=      s3_client,
+            bucket_name=    S3_BUCKET_NAME,
+            obj_key=        json_key,
+            json_dict=      response["json"]
+        )
+        
+        # Updating start_page for next iteration ______________________________
+        start_page = response["newCurrentPage"]
         
     PROGRESS_JSON[f"{api_modifier}CurrentPage"] = response["newCurrentPage"]
         
@@ -101,9 +137,8 @@ def lambda_handler(event, context) -> dict:
         json_dict=      PROGRESS_JSON
     )
     if not json_updated:
-        error_msg = "Error Updating Progress JSON File"
-        logger.error(error_msg)
-        return {"statusCode": 500, "body": json.dumps(error_msg)}
+        print(constants.LOG_JSON_PROGRESS_UPDATE_ERROR)
+        return {"statusCode": 500, "body": json.dumps(constants.LOG_JSON_PROGRESS_UPDATE_ERROR)}
         
-    logger.info("Config JSON File Updated")
+    print(constants.LOG_JSON_PROGRESS_UPDATE_SUCCESS)
     return {"statusCode": 200, "body": json.dumps(PROGRESS_JSON)}
