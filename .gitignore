@@ -8,5 +8,8 @@ Coisas adicionais/
 # Ignore sprint 6 CSVs
 Sprint 6/Desafios/data/*.csv
 
+# Ignore sprint 7 CSVs
+Sprint 7\Exercícios\Ex2\nomes.csv
+
 # Not ignore
 !**/aws_parameters.env
