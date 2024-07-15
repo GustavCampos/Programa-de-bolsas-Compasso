@@ -20,41 +20,70 @@
 
 # Passos para reexecução do desafio
 
-Como primeiro passo devemos baixar os arquivos CSV que serão enviados para o Bucket e deixá-los na pasta [Data](data/) dentro de desafios.
+## Criando Função Lambda
 
-![desafio_folder.png](../Evidências/desafio_folder.png)
+Dentro do console da AWS devemos fazer os seguintes passos:
 
-Em sequência, devemos garantir que estamos acessando a pasta de Desafio desta sprint.
+* Acesse página de funções do AWS Lambda;
+* Selecione criar função:
+    * Escolha a opção **"author from scratch"**;
+    * Coloque o nome da função como **getDataFromTMDB**;
+    * Escolha **Python 3.11** como runtime;
+    * Vá ao final da página e selecione criar função.
+* Após a criação da função você devera ser redirecionado para a página da mesma, caso contrário acesse a função criada;
+* Desça até a seção de código fonte (**code source**);
+* Envie os arquivos de [lambda.zip](lambda.zip) na opção da parte superior direita (**Upload From**);
+* Ao final você deverá ter um ambiente dev parecido com o seguinte:
+![lambda_dev_env](../Evidências/lambda_dev_env.png)
 
-```bash
-cd "<path_repositorio>/Sprint 6/Desafios/"
-```
+## Configurando Variáveis, Permissões e Camadas
 
-Na pasta [data](data/) é necessário inserir os dados necessários para o acesso a AWS no arquivo [aws_parameters.json](data/aws_parameters.json)
+### Configurando acesso ao S3
+* Na aba de configuração da função Lambda, acesse a aba de permissões;
+* Acesse o link descrito em **"Role name"**;
+* Na página do cargo criado para o função Lambda, desça até a sessão de permissões.
+* Selecione **"Attach Policies"** no drop-down de adicionar permissões;
+* Selecione a permissão **AmazonS3FullAccess**;
+* Desça ao final da página e adicione a permissão;
+* Ao final a página de visão geral do cargo criado devera parecer com isso:
+![lambda_permissions](../Evidências/lambda_permissions.png) 
 
-```json
-"AWSAccessKeyId":  # Chave de acesso AWS,
-"AWSSecretAccessKey": # Chave de acesso secreta,
-"AWSSessionToken": # Token da sessão utilizada,
-"AWSRegion": # Região utilizada,
-"AWSBucketName": # Nome do bucket que será acessado
-```
-Basta agora apenas utilizar o docker compose para gerar as imagens e containeres que serão utilizadas neste desafio.
+### Configurando variáveis
+* Na aba de configuração da função Lambda, acesse a aba de variáveis de ambiente;
+* No canto direito superior selecione para editar;
+* Adicione as seguintes variáveis:
+    * **S3_BUCKET_NAME**: Nome do bucket que deseja utilizar como data lake.
+    * **S3_BUCKET_REGION**: Região do bucket utilizado, geralmente *"us-east-1"*.
+    * **TMDB_SESSION_TOKEN**: Token de leitura da API do TMDB.
+* Salve as alterações;
+* Ao final você deverá ter algo do tipo:
+![lambda_env_vars](../Evidências/lambda_env_vars.png)
 
-```bash
-docker compose up
-```
+### Adicionando Camada de Requests
+* Acesse a página de **Layers** do AWS Lambda;
+* No canto direito superior selecione criar layer:
+    * Coloque o nome da layer como **pythonRequestLayer**;
+    * Selecione a opção de enviar arquivo **.zip**;
+    * Faça upload do arquivo [requests_layer.zip](requests_layer.zip);
+    * Marque a caixa **x86_64** em arquiteturas compatíveis;
+    * Escolha **Python 3.11** como runtime;
+    * Selecione criar a layer.
+* Na página da função Lambda criada, desça até o final da aba de código na sessão de camadas;
+* No canto superior direito, selecione adicionar camada:
+    * Selecione a opção de **Custom Layer**;
+    * Selecione a layer **pythonRequestsLayer** criada.
+    * No final da página, selecione adicionar layer.
+* Ao final, a sessão de camadas devera se parecer com isso:
+![lambda_code_properties](../Evidências/lambda_code_properties.png) 
 
-Devemos ter o seguinte output ao listar as imagens e containeres criados:
-
-1. Irá aparecer o log de criação dos containeres
-![image_build.png](../Evidências/image_build.png)
-
-
-3. Será criado uma sessão com o s3 da amazon e será verificado a existencia/acesso dos bucket e objeto descritos em [aws_parameters.json](data/aws_parameters.json)
-![no_bucket_compose.png](../Evidências/no_bucket_compose.png)
-
-Podemos excluir os containeres criados após a execução completa deles com o comando:
-```bash
-docker compose down
-```
+## Agendando Execução da Função
+* Na parte de visão geral da função, selecione adicionar **Trigger**;
+* Selecione o serviço **Event Bridge** como fonte;
+* Na parte de **"Rule"**, selecione criar nova regra;
+* Coloque o nome da regra como **triggerGetDataFromTMDB**;
+* Selecione o tipo da regra como **"Schedule Expression"**;
+* Coloque "***rate(10 minutes)***" como expressão;
+* No final da página selecione adicionar;
+* Ao final, na aba de configuração, parte de **"Triggers"** deve ter algo parecido com:
+![lambda_trigger](../Evidências/lambda_trigger.png)
+* Não esqueça de desabilitar o Trigger criado após todo o progresso de ingestão de dados estar completo;
