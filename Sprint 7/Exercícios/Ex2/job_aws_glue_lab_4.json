@@ -1,0 +1,53 @@
+{
+	"jobConfig": {
+		"name": "job_aws_glue_lab_4",
+		"description": "",
+		"role": "arn:aws:iam::590183682232:role/AWSGlueServiceRole-Lab4",
+		"command": "glueetl",
+		"version": "4.0",
+		"runtime": null,
+		"workerType": "G.1X",
+		"numberOfWorkers": 2,
+		"maxCapacity": 2,
+		"maxRetries": 0,
+		"timeout": 5,
+		"maxConcurrentRuns": 1,
+		"security": "none",
+		"scriptName": "job_aws_glue_lab_4.py",
+		"scriptLocation": "s3://aws-glue-assets-590183682232-us-east-1/scripts/",
+		"language": "python-3",
+		"spark": false,
+		"sparkConfiguration": "standard",
+		"jobParameters": [
+			{
+				"key": "--S3_INPUT_PATH",
+				"value": "s3://gustavcampos-sprint7-glue-bucket/lab-glue/input/nomes.csv",
+				"existing": false
+			},
+			{
+				"key": "--S3_TARGET_PATH",
+				"value": "s3://gustavcampos-sprint7-glue-bucket/lab-glue/frequencia_registro_nomes_eua/",
+				"existing": false
+			}
+		],
+		"tags": [],
+		"jobMode": "DEVELOPER_MODE",
+		"createdOn": "2024-07-14T21:42:03.423Z",
+		"developerMode": true,
+		"connectionsList": [],
+		"temporaryDirectory": "s3://aws-glue-assets-590183682232-us-east-1/temporary/",
+		"logging": true,
+		"glueHiveMetastore": true,
+		"etlAutoTuning": false,
+		"metrics": true,
+		"observabilityMetrics": true,
+		"bookmark": "job-bookmark-disable",
+		"sparkPath": "s3://aws-glue-assets-590183682232-us-east-1/sparkHistoryLogs/",
+		"flexExecution": false,
+		"minFlexWorkers": null,
+		"maintenanceWindow": null
+	},
+	"hasBeenSaved": false,
+	"usageProfileName": null,
+	"script": "import sys\nfrom awsglue.transforms import *\nfrom awsglue.utils import getResolvedOptions\nfrom pyspark.context import SparkContext\nfrom awsglue.context import GlueContext\nfrom awsglue.job import Job\n\n# Custom Imports\nfrom pyspark.sql import functions as dff\nfrom awsglue.dynamicframe import DynamicFrame\n\n\n## @params: [JOB_NAME]\nargs = getResolvedOptions(sys.argv, ['JOB_NAME', 'S3_INPUT_PATH', 'S3_TARGET_PATH'])\n\nsc = SparkContext()\nglueContext = GlueContext(sc)\nspark = glueContext.spark_session\njob = Job(glueContext)\njob.init(args['JOB_NAME'], args)\n# Custom code start ===========================================================\n# Reading env variables __________________________________________________\nNOMES_CSV_PATH = args['S3_INPUT_PATH']\nTARGET_FOLDER_PATH = args['S3_TARGET_PATH']\n\n# CSV columns ____________________________________________________________\nCOL_NAME = \"nome\"\nCOL_SEX = \"sexo\"\nCOL_TOTAL = \"total\"\nCOL_YEAR = \"ano\"\nCOL_COUNT = \"quantidade\"\n\n# Importing csv file as dynamic df _______________________________________\nprint(\"Import CSV file.\")\nnomes_csv_dynamic_frame = glueContext.create_dynamic_frame.from_options(\n    connection_type=        \"s3\",\n    connection_options=     {\"paths\": [NOMES_CSV_PATH]},\n    format=                 \"csv\",\n    format_options=         {\"withHeader\": True, \"separator\": \",\"}\n)\n\n# Printing df schema _____________________________________________________\nprint(\"Printing DynamicFrame Schema.\")\nnomes_csv_dynamic_frame.printSchema()\n\n# Map fields and create a Spark Dataframe ________________________________\nprint(\"Mapping DynamicFrame fields and converting to DataFrame.\")\nnomes_csv_df = nomes_csv_dynamic_frame.apply_mapping([\n    (COL_NAME, \"String\", COL_NAME, \"String\"),\n    (COL_SEX, \"String\", COL_SEX, \"String\"),\n    (COL_YEAR, \"String\", COL_YEAR, \"Integer\"),\n    (COL_TOTAL, \"String\", COL_TOTAL, \"Integer\")\n]).toDF()\n\n# Mapping \"nome\" values to upper case ____________________________________\nprint(f\"Mapping {COL_NAME} values to upper case.\")\nupper_nomes_csv_df = nomes_csv_df.select(\n    dff.upper(COL_NAME).alias(COL_NAME),\n    COL_SEX,\n    COL_YEAR,\n    COL_TOTAL\n)\n\n# Printing df record quantity ____________________________________________\nprint(f\"DF from {NOMES_CSV_PATH} has {upper_nomes_csv_df.count()} records.\")\n\n# Printing name count by year and sex ____________________________________\ngroup_ano_sexo_spark_df = upper_nomes_csv_df\\\n    .groupBy(COL_YEAR, COL_SEX).count()\\\n    .withColumnRenamed(\"count\", COL_COUNT)\\\n    .sort(COL_YEAR, COL_SEX)\n\nprint(\"Printing name count by year and sex.\")\ngroup_ano_sexo_spark_df.show()\n\n# Most used female name __________________________________________________\nmost_used_female_record = upper_nomes_csv_df\\\n    .select(\"*\")\\\n    .where(dff.col(COL_SEX) == \"F\")\\\n    .sort(COL_TOTAL, ascending=False)\\\n    .take(1)[0]\n\nprint(f\"Most used female name: {most_used_female_record}\")\n\n# Most used male name ____________________________________________________\nmost_used_male_record = upper_nomes_csv_df\\\n    .select(\"*\")\\\n    .where(dff.col(COL_SEX) == \"M\")\\\n    .sort(COL_TOTAL, ascending=False)\\\n    .take(1)[0]\n\nprint(f\"Most used male name: {most_used_male_record}\")\n\n# Total for each year ____________________________________________________\ntotal_for_each_year = upper_nomes_csv_df\\\n    .groupBy(COL_YEAR)\\\n    .agg({COL_TOTAL: \"sum\"})\\\n    .withColumnRenamed(f\"sum({COL_TOTAL})\", COL_TOTAL)\\\n    .sort(COL_YEAR)\n\nprint(\"Total for each year.\")\ntotal_for_each_year.show(10)\n\n# Writing data on bucket _________________________________________________\nprint(f\"Writing DataFrame data on {TARGET_FOLDER_PATH} as JSON\")\nupper_nomes_csv_df.write.mode(\"overwrite\").partitionBy(COL_SEX, COL_YEAR).json(TARGET_FOLDER_PATH)\n\n# Custom code end =============================================================\njob.commit()"
+}

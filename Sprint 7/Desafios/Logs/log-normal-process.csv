@@ -1,0 +1,101 @@
+timestamp,message
+1720812012855,"INIT_START Runtime Version: python:3.11.v37	Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:7922becca3524b6503b11e59f33405b21aca377582c11bd54243092ba71b57d5
+"
+1720812013337,"START RequestId: 6b6b599c-60f0-479c-ae8a-569b52f40373 Version: $LATEST
+"
+1720812013337,"Checking Environment Variables...
+"
+1720812013337,"Checking TMDB_SESSION_TOKEN variable...
+"
+1720812013337,"Checking S3_BUCKET_NAME variable...
+"
+1720812013337,"Checking S3_BUCKET_REGION variable...
+"
+1720812013337,"Checking AWS_ACCESS_KEY_ID variable...
+"
+1720812013337,"Checking AWS_SECRET_ACCESS_KEY variable...
+"
+1720812013337,"Checking AWS_SESSION_TOKEN variable...
+"
+1720812013337,"Importing Config JSON File...
+"
+1720812013337,"Creating s3 Client...
+"
+1720812015322,"Retrieving object Temp/progress.json from bucket gustavcampos-pb-data-lake...
+"
+1720812015624,"Temp/progress.json retrieved successfully!
+"
+1720812015624,"Creating Request Header...
+"
+1720812015624,"Checking Data Retrieve Progress...
+"
+1720812015624,"Generating File: series_0001_0005.json
+"
+1720812016002,"Trying to upload Raw/TMDB/JSON/Series/2024/07/12/series_0001_0005.json to bucket gustavcampos-pb-data-lake...
+"
+1720812016194,"Request Z1M9YEGAJP1RGMMW: Raw/TMDB/JSON/Series/2024/07/12/series_0001_0005.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812016194,"Generating File: series_0006_0010.json
+"
+1720812016683,"Trying to upload Raw/TMDB/JSON/Series/2024/07/12/series_0006_0010.json to bucket gustavcampos-pb-data-lake...
+"
+1720812016787,"Request Z1ME9XGC8HHY4RNM: Raw/TMDB/JSON/Series/2024/07/12/series_0006_0010.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812016787,"Generating File: series_0011_0015.json
+"
+1720812017138,"Trying to upload Raw/TMDB/JSON/Series/2024/07/12/series_0011_0015.json to bucket gustavcampos-pb-data-lake...
+"
+1720812017241,"Request ZR9G0RWNEM8311YF: Raw/TMDB/JSON/Series/2024/07/12/series_0011_0015.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812017241,"Generating File: series_0016_0020.json
+"
+1720812017589,"Trying to upload Raw/TMDB/JSON/Series/2024/07/12/series_0016_0020.json to bucket gustavcampos-pb-data-lake...
+"
+1720812017760,"Request ZR9K0F33DAEPVAGD: Raw/TMDB/JSON/Series/2024/07/12/series_0016_0020.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812017760,"Generating File: series_0021_0025.json
+"
+1720812018100,"Trying to upload Raw/TMDB/JSON/Series/2024/07/12/series_0021_0025.json to bucket gustavcampos-pb-data-lake...
+"
+1720812018264,"Request KZXWCMK2PT0RFMDJ: Raw/TMDB/JSON/Series/2024/07/12/series_0021_0025.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812018264,"Generating File: series_0026_0030.json
+"
+1720812018590,"Trying to upload Raw/TMDB/JSON/Series/2024/07/12/series_0026_0030.json to bucket gustavcampos-pb-data-lake...
+"
+1720812018686,"Request KZXV4WDEWN60RYVT: Raw/TMDB/JSON/Series/2024/07/12/series_0026_0030.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812018686,"Generating File: series_0031_0035.json
+"
+1720812019086,"Trying to upload Raw/TMDB/JSON/Series/2024/07/12/series_0031_0035.json to bucket gustavcampos-pb-data-lake...
+"
+1720812019227,"Request HK06RPFZ251MGEJC: Raw/TMDB/JSON/Series/2024/07/12/series_0031_0035.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812019227,"Generating File: series_0036_0040.json
+"
+1720812019560,"Trying to upload Raw/TMDB/JSON/Series/2024/07/12/series_0036_0040.json to bucket gustavcampos-pb-data-lake...
+"
+1720812019663,"Request HK05NTG5GBZTTCQ0: Raw/TMDB/JSON/Series/2024/07/12/series_0036_0040.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812019663,"Generating File: series_0041_0045.json
+"
+1720812020020,"Trying to upload Raw/TMDB/JSON/Series/2024/07/12/series_0041_0045.json to bucket gustavcampos-pb-data-lake...
+"
+1720812020187,"Request 5CYAV87CNYJ111E7: Raw/TMDB/JSON/Series/2024/07/12/series_0041_0045.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812020187,"Generating File: series_0046_0050.json
+"
+1720812020529,"Trying to upload Raw/TMDB/JSON/Series/2024/07/12/series_0046_0050.json to bucket gustavcampos-pb-data-lake...
+"
+1720812020639,"Request 5CY360BFNC2PW5YD: Raw/TMDB/JSON/Series/2024/07/12/series_0046_0050.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812020639,"Trying to upload Temp/progress.json to bucket gustavcampos-pb-data-lake...
+"
+1720812020661,"Request 5CY94RRE0T4JAA31: Temp/progress.json Uploaded to bucket gustavcampos-pb-data-lake!
+"
+1720812020661,"Progress JSON File Updated.
+"
+1720812020683,"END RequestId: 6b6b599c-60f0-479c-ae8a-569b52f40373
+"
+1720812020683,"REPORT RequestId: 6b6b599c-60f0-479c-ae8a-569b52f40373	Duration: 7346.01 ms	Billed Duration: 7347 ms	Memory Size: 128 MB	Max Memory Used: 89 MB	Init Duration: 480.60 ms	
+"
