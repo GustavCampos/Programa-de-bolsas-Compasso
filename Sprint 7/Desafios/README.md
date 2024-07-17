@@ -86,4 +86,4 @@ Dentro do console da AWS devemos fazer os seguintes passos:
 * No final da página selecione adicionar;
 * Ao final, na aba de configuração, parte de **"Triggers"** deve ter algo parecido com:
 ![lambda_trigger](../Evidências/lambda_trigger.png)
-* Não esqueça de desabilitar o Trigger criado após todo o progresso de ingestão de dados estar completo;
+* Não esqueça de **desabilitar** o Trigger criado após todo o progresso de ingestão de dados estar completo!
