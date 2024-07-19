@@ -1,3 +1,4 @@
+
 # Python Standard Libs
 import sys
 import json
@@ -112,7 +113,7 @@ def main():
     ]
 
     ## @params: [JOB_NAME, S3_MOVIE_INPUT_PATH, S3_SERIES_INPUT_PATH, S3_TARGET_PATH]
-    args = load_args(ARGS_LIST, "createTrustedDataLocal_parameters.json")
+    args = load_args(ARGS_LIST, "createTrustedDataTMDB_parameters.json")
     
     # Creating Job Context ____________________________________________________
     print("Creating Job Context...")
@@ -138,80 +139,28 @@ def main():
         glue_context=   glueContext,
         s3_client=      s3_client,
         s3_path=        S3_MOVIE_INPUT_PATH,
-        file_format=    "csv",
-        format_options= {"withHeader": True, "separator": "|"}
+        file_format=    "json",
+        format_options= {"jsonPath": "$.results"}
     )
     print("Movie Data Import Complete!")
     movies_df.printSchema()
+
+    print("Movie Data: Dropping Irrelevant Columns...")
+    columns_to_remove = ["adult", "backdrop_path", "poster_path"]
+    dropped_movies_df = movies_df.drop(*columns_to_remove)
     
     print(f"Movie Data: Mapping {movies_df.count()} Rows...")
     mapped_movies_df = map_columns_df(movies_df, [
-        ("id", "id", "STRING"),
-        ("tituloPincipal", "title", "STRING"),
-        ("tituloOriginal", "original_title", "STRING"),
-        ("anoLancamento", "release_year", "INT"), 
-        ("tempoMinutos", "minute_duration", "INT"),
-        ("genero", "genre", "STRING"),
-        ("notaMedia", "vote_average", "FLOAT"),
-        ("numeroVotos", "vote_count", "INT"),
-        ("personagem", "character", "STRING"),
-        ("nomeArtista", "artist_name", "STRING"),
-        ("generoArtista", "artist_genre", "STRING"),
-        ("anoNascimento", "birth_year", "INT"),
-        ("anoFalecimento", "death_year", "INT"),
-        ("profissao", "occupation", "STRING"),
-        ("titulosMaisConhecidos", "most_known_titles", "STRING"),
-        ("IngestionDate", "ingestion_date", "DATE")
+        # TODO: Map columns
     ])
     
     print("Movie Data Mapped!")
     mapped_movies_df.printSchema()
     
     print(f"Writing Movie Data On {S3_TARGET_PATH}")
-    s3_path = f"{S3_TARGET_PATH}Local/Movies/"
+    s3_path = f"{S3_TARGET_PATH}TMDB/Movies/"
     mapped_movies_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
     print(f"Movie Data Write Complete!")
-    
-    # Series Data Treatment ___________________________________________________
-    print("Importing Series Data...")
-    series_df = generate_unified_df(
-        s3_client=      s3_client,
-        glue_context=   glueContext,
-        s3_path=        S3_SERIES_INPUT_PATH,
-        file_format=    "csv",
-        format_options= {"withHeader": True, "separator": "|"}
-    )
-    print("Series Data Import Complete!")
-    series_df.printSchema()
-    
-    print(f"Series Data: Mapping {series_df.count()} Rows...")
-    mapped_series_df = map_columns_df(series_df, [
-        ("id", "id", "INT"),
-        ("tituloPincipal", "title", "STRING"),
-        ("tituloOriginal", "original_title", "STRING"),
-        ("anoLancamento", "release_year", "INT"),
-        ("anoTermino", "end_year", "STRING"),
-        ("tempoMinutos", "minute_duration", "INT"),
-        ("genero", "genre", "STRING"),
-        ("notaMedia", "vote_average", "FLOAT"),
-        ("numeroVotos", "vote_count", "INT"),
-        ("generoArtista", "artist_genre", "STRING"),
-        ("personagem", "character", "STRING"),
-        ("nomeArtista", "artist_name", "STRING"),
-        ("anoNascimento", "birth_year", "INT"),
-        ("anoFalecimento", "death_year", "INT"),
-        ("profissao", "occupation", "STRING"),
-        ("titulosMaisConhecidos", "most_known_titles", "STRING"),
-        ("IngestionDate", "ingestion_date", "DATE")
-    ])
-    
-    print("Series Data Mapped!")
-    mapped_movies_df.printSchema()
-    
-    print(f"Writing Series Data On {S3_TARGET_PATH}")
-    s3_path = f"{S3_TARGET_PATH}Local/Series/"
-    mapped_series_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
-    print(f"Series Data Write Complete!")
     
     # Custom Code End =============================================================================
     job.commit()

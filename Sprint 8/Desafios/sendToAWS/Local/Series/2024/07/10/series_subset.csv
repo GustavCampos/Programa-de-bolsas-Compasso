@@ -1,0 +1,101 @@
+id|tituloPincipal|tituloOriginal|anoLancamento|anoTermino|tempoMinutos|genero|notaMedia|numeroVotos|generoArtista|personagem|nomeArtista|anoNascimento|anoFalecimento|profissao|titulosMaisConhecidos
+tt0025509|Les Misérables|Les misérables|1934|1934|279|Drama|8.4|1820|actor|Marius Pontmercy|Jean Servais|1910|1976|actor,writer|tt0045034,tt0048021,tt0056197,tt0025509
+tt0025509|Les Misérables|Les misérables|1934|1934|279|Drama|8.4|1820|actor|ChampmathieuJean Valjean|Harry Baur|1880|1943|actor|tt0025191,tt0024700,tt0025509,tt0029706
+tt0025509|Les Misérables|Les misérables|1934|1934|279|Drama|8.4|1820|actor|Inspecteur Javert|Charles Vanel|1892|1989|actor,director,writer|tt0048728,tt0046268,tt0050390,tt0046911
+tt0025509|Les Misérables|Les misérables|1934|1934|279|Drama|8.4|1820|actor|Grantaire|Paul Azaïs|1903|1974|actor,soundtrack|tt0025115,tt0025509,tt0141083,tt0165229
+tt0025509|Les Misérables|Les misérables|1934|1934|279|Drama|8.4|1820|actor|M. Gillenormand|Max Dearly|1874|1943|actor|tt0027173,tt0025043,tt0171183,tt0025442
+tt0025509|Les Misérables|Les misérables|1934|1934|279|Drama|8.4|1820|actor|Thénardier|Charles Dullin|1885|1949|actor,producer|tt0019127,tt0192125,tt0015141,tt0033229
+tt0025509|Les Misérables|Les misérables|1934|1934|279|Drama|8.4|1820|actor|Gavroche|Émile Genevois|1918|1962|actor|tt0048021,tt0025471,tt0025509,tt0046798
+tt0025509|Les Misérables|Les misérables|1934|1934|279|Drama|8.4|1820|actor|Monseigneur Myriel|Henry Krauss|1866|1935|actor,director,writer|tt0194471,tt1829708,tt0001790,tt0205952
+tt0025509|Les Misérables|Les misérables|1934|1934|279|Drama|8.4|1820|actor|Le président des Assises|Georges Mauloy|1875|1942|actor|tt0192691,tt0158376,tt0170202,tt0025509
+tt0025509|Les Misérables|Les misérables|1934|1934|279|Drama|8.4|1820|actor|Montparnasse|Lucien Nat|1895|1972|actor|tt0047484,tt0036665,tt0025509,tt0197716
+tt0035803|The German Weekly Review|Die Deutsche Wochenschau|1940|1945|12|Documentary,News|8.1|55|actor|Narrator|Harry Giese|1903|1991|actor|tt0047080,tt0050418,tt0220485,tt0288537
+tt0035803|The German Weekly Review|Die Deutsche Wochenschau|1940|1945|12|Documentary,News|8.1|55|actor|\N|Adolf Hitler|1889|1945|writer,miscellaneous|tt0036629,tt0025913,tt0183997,tt5360212
+tt0035803|The German Weekly Review|Die Deutsche Wochenschau|1940|1945|12|Documentary,News|8.1|55|actor|\N|Rudolf Hess|1894|1987|writer|tt20781954,tt0233875,tt0025913,tt0426688
+tt0035803|The German Weekly Review|Die Deutsche Wochenschau|1940|1945|12|Documentary,News|8.1|55|actor|\N|Hermann Göring|1893|1946|actor,miscellaneous|tt0247283,tt0193631,tt0156078,tt0897254
+tt0035803|The German Weekly Review|Die Deutsche Wochenschau|1940|1945|12|Documentary,News|8.1|55|actor|\N|Joseph Goebbels|1897|1945|writer,producer|tt0037867,tt0247283,tt0025913,tt0233765
+tt0039120|Americana|Americana|1947|1949|30|Family,Game-Show|3.3|14|actor|Announcer|Hugh James|1915|2001|miscellaneous,actor|tt0041069,tt1147441,tt1144460,tt0046589
+tt0039120|Americana|Americana|1947|1949|30|Family,Game-Show|3.3|14|actress|Co-hostSelf|Vivian Ferrer|\N|\N|actress|tt0039120,tt0039123
+tt0039120|Americana|Americana|1947|1949|30|Family,Game-Show|3.3|14|actor|Announcer|Dick Dudley|1915|2000|actor|tt0039120,tt9815534,tt0044279,tt0198220
+tt0039123|Kraft Theatre|Kraft Television Theatre|1947|1958|60|Drama|8.2|193|actor|3rd Class PassengerBillMan in Office|Dan Morgan|1906|1975|actor,soundtrack|tt0062794,tt0042123,tt0041037,tt0059978
+tt0039123|Kraft Theatre|Kraft Television Theatre|1947|1958|60|Drama|8.2|193|actor|HardcastleThe Beadle|Mercer McLeod|1906|1993|actor|tt0051070,tt0041037,tt0190120,tt0044284
+tt0039123|Kraft Theatre|Kraft Television Theatre|1947|1958|60|Drama|8.2|193|actor|BillBob CratchitDromio of Syracuse|Harry Townes|1914|2001|actor|tt0254632,tt0052520,tt0060028,tt0077031
+tt0039123|Kraft Theatre|Kraft Television Theatre|1947|1958|60|Drama|8.2|193|actor|Colonel HodgesCommodore CrochetMacbeth|E.G. Marshall|1914|1998|actor,producer|tt0066473,tt0097958,tt0083767,tt0050083
+tt0039123|Kraft Theatre|Kraft Television Theatre|1947|1958|60|Drama|8.2|193|actor|Fred StaplesArtabanFrederick Banting|Richard Kiley|1922|1999|actor,soundtrack,camera_department|tt0071762,tt0107290,tt0046187,tt0129290
+tt0039123|Kraft Theatre|Kraft Television Theatre|1947|1958|60|Drama|8.2|193|actress|Mrs. RyersonEmily LandauerMarge Gage|Valerie Cossart|1907|1994|actress|tt0191690,tt0039123,tt0040049,tt0040051
+tt0039123|Kraft Theatre|Kraft Television Theatre|1947|1958|60|Drama|8.2|193|actor|Mr. MergenthwirkerJonathan RockwoodRev.erend Obadiah Harkness|Vaughn Taylor|1911|1983|actor|tt0052520,tt0051459,tt0074597,tt0054215
+tt0039123|Kraft Theatre|Kraft Television Theatre|1947|1958|60|Drama|8.2|193|actor|Don Birnham|Joe Maross|1923|2009|actor|tt0077000,tt0060036,tt0039123,tt0067774
+tt0039123|Kraft Theatre|Kraft Television Theatre|1947|1958|60|Drama|8.2|193|actor|AnnouncerSelf - Announcer|Ed Herlihy|1909|1999|actor,writer,producer|tt0096438,tt0089822,tt0089791,tt0085794
+tt0039123|Kraft Theatre|Kraft Television Theatre|1947|1958|60|Drama|8.2|193|actor|Loomis|John Stephen|1911|1974|actor|tt0048872,tt0040049,tt0044245,tt0039123
+tt0039125|Public Prosecutor|Public Prosecutor|1947|1951|20|Crime,Drama,Mystery|5.6|22|actor|Police Lt. John Haver|Donald MacBride|1889|1957|actor,soundtrack|tt0048605,tt0030696,tt0038669,tt0033717
+tt0039125|Public Prosecutor|Public Prosecutor|1947|1951|20|Crime,Drama,Mystery|5.6|22|actor|EggarsGoofy Madden|Pat Gleason|1904|1993|actor|tt0037638,tt0021599,tt0040278,tt0033646
+tt0039125|Public Prosecutor|Public Prosecutor|1947|1951|20|Crime,Drama,Mystery|5.6|22|actor|Charlie FaberYoyo Berwick|John Harmon|1905|1985|actor,production_manager|tt0035467,tt0031536,tt0051947,tt0060028
+tt0039125|Public Prosecutor|Public Prosecutor|1947|1951|20|Crime,Drama,Mystery|5.6|22|actress|Hazel RollinsHilda|Bernadene Hayes|1903|1987|actress,soundtrack|tt0035339,tt0039284,tt0031473,tt0031421
+tt0039125|Public Prosecutor|Public Prosecutor|1947|1951|20|Crime,Drama,Mystery|5.6|22|actor|Lt. Evans|Walter Sande|1906|1971|actor,soundtrack|tt0050567,tt0047849,tt0051249,tt0037382
+tt0039125|Public Prosecutor|Public Prosecutor|1947|1951|20|Crime,Drama,Mystery|5.6|22|actress|Patricia Kelly|Anne Gwynne|1918|2003|actress,soundtrack|tt0037302,tt0033397,tt0036931,tt0039320
+tt0039125|Public Prosecutor|Public Prosecutor|1947|1951|20|Crime,Drama,Mystery|5.6|22|actor|Stephen Allen|John Howard|1913|1995|actor|tt0032904,tt0028667,tt0029952,tt0029162
+tt0039125|Public Prosecutor|Public Prosecutor|1947|1951|20|Crime,Drama,Mystery|5.6|22|actress|Helen Ferris|Mary Beth Hughes|1919|1995|actress,soundtrack|tt0037749,tt0040472,tt0037858,tt0042568
+tt0040021|Actor's Studio|Actor's Studio|1948|1950|30|Drama|7.2|79|actress|\N|Jocelyn Brando|1919|2005|actress|tt0045395,tt0082766,tt0045555,tt0060232
+tt0040021|Actor's Studio|Actor's Studio|1948|1950|30|Drama|7.2|79|actress|\N|Nancy Franklin|\N|2020|writer,actress|tt0044265,tt0098844,tt0083397,tt0056752
+tt0040021|Actor's Studio|Actor's Studio|1948|1950|30|Drama|7.2|79|actor|\N|Elliott Sullivan|1907|1974|actor,miscellaneous|tt0969783,tt0066701,tt0029836,tt0072354
+tt0040021|Actor's Studio|Actor's Studio|1948|1950|30|Drama|7.2|79|actor|Dismas|John Sylvester|1903|1995|actor|tt0042137,tt0040021,tt0451557,tt0014157
+tt0040021|Actor's Studio|Actor's Studio|1948|1950|30|Drama|7.2|79|actor|\N|Steven Hill|1922|2016|actor|tt0098844,tt0101453,tt0091828,tt0106918
+tt0040021|Actor's Studio|Actor's Studio|1948|1950|30|Drama|7.2|79|actor|\N|Tom Ewell|1909|1994|actor,soundtrack|tt0049263,tt0072471,tt0041090,tt0048605
+tt0040021|Actor's Studio|Actor's Studio|1948|1950|30|Drama|7.2|79|actor|Prince Albert|George Keane|1917|1995|actor|tt0040049,tt0040021,tt0042158,tt0195473
+tt0040021|Actor's Studio|Actor's Studio|1948|1950|30|Drama|7.2|79|actress|\N|Cloris Leachman|1926|2021|actress,soundtrack|tt0371246,tt0072431,tt0481499,tt0067328
+tt0040021|Actor's Studio|Actor's Studio|1948|1950|30|Drama|7.2|79|actor|The Elevator Boy|Don Hanmer|1919|2003|actor|tt0097521,tt0043238,tt0068093,tt0070511
+tt0040036|The Chevrolet Tele-Theatre|The Chevrolet Tele-Theatre|1948|1950|30|Drama|8.5|41|actor|Lawyer|Dennis King|1897|1971|actor,soundtrack|tt0446859,tt0021511,tt0023943,tt0036641
+tt0040036|The Chevrolet Tele-Theatre|The Chevrolet Tele-Theatre|1948|1950|30|Drama|8.5|41|actor|\N|John Carradine|1906|1988|actor,soundtrack|tt0032551,tt0049833,tt0031971,tt0068555
+tt0040036|The Chevrolet Tele-Theatre|The Chevrolet Tele-Theatre|1948|1950|30|Drama|8.5|41|actor|Ed|Guy Kibbee|1882|1956|actor,soundtrack|tt0026174,tt0027421,tt0031679,tt0023369
+tt0040036|The Chevrolet Tele-Theatre|The Chevrolet Tele-Theatre|1948|1950|30|Drama|8.5|41|actress|Wife|Faye Emerson|1917|1983|actress,soundtrack|tt0037632,tt0036641,tt0037055,tt0034959
+tt0040036|The Chevrolet Tele-Theatre|The Chevrolet Tele-Theatre|1948|1950|30|Drama|8.5|41|actor|Hugh|John Conte|1915|2006|actor,soundtrack|tt0048347,tt0370179,tt0036432,tt0037027
+tt0040036|The Chevrolet Tele-Theatre|The Chevrolet Tele-Theatre|1948|1950|30|Drama|8.5|41|actress|Mrs. Johnson|Vicki Cummings|1914|1969|actress|tt0040049,tt0191690,tt0043238,tt0044243
+tt0040036|The Chevrolet Tele-Theatre|The Chevrolet Tele-Theatre|1948|1950|30|Drama|8.5|41|actor|Doctor Steven Johnson|Boris Karloff|1887|1969|actor,soundtrack|tt0026138,tt0023245,tt0023194,tt0024894
+tt0040036|The Chevrolet Tele-Theatre|The Chevrolet Tele-Theatre|1948|1950|30|Drama|8.5|41|actor|Joe Golden|Barry Nelson|1917|2007|actor,soundtrack|tt0035959,tt0081505,tt0065377,tt0034172
+tt0040036|The Chevrolet Tele-Theatre|The Chevrolet Tele-Theatre|1948|1950|30|Drama|8.5|41|actor|Tom|Dean Harens|1920|1996|actor|tt0074074,tt0056777,tt0042141,tt0036711
+tt0040036|The Chevrolet Tele-Theatre|The Chevrolet Tele-Theatre|1948|1950|30|Drama|8.5|41|actor|Eddie|John McQuade|1912|1979|actor|tt0046637,tt0040049,tt0070666,tt0042137
+tt0040041|The Milton Berle Show|Texaco Star Theatre Starring Milton Berle|1948|1956|60|Comedy,Family|7.7|144|actress|MaxSelf - as MaxSelf - Max|Ruth Gilbert|1912|1993|actress|tt0793358,tt0021599,tt0043228,tt0104835
+tt0040042|The Morey Amsterdam Show|The Morey Amsterdam Show|1948|1950|30|Comedy,Family,Music|7.9|39|actor|Newton the WaiterCharlie the DoormanSelf|Art Carney|1918|2003|actor,soundtrack,producer|tt0087262,tt0079219,tt0107362,tt0071598
+tt0040042|The Morey Amsterdam Show|The Morey Amsterdam Show|1948|1950|30|Comedy,Family,Music|7.9|39|actress|Lola the Cigarette GirlLola the Hatcheck GirlLola the Hatcheck girl|Jacqueline Susann|1918|1974|actress,writer|tt0073190,tt0061277,tt0041061,tt0062430
+tt0040042|The Morey Amsterdam Show|The Morey Amsterdam Show|1948|1950|30|Comedy,Family,Music|7.9|39|actor|PerformerSelf - Host|Morey Amsterdam|1908|1996|actor,producer,soundtrack|tt0058384,tt0056860,tt0485947,tt0054533
+tt0040049|The Philco Television Playhouse|The Philco Television Playhouse|1948|1956|60|Drama|7.9|116|actor|Mr. Arcularis|Nelson Olmsted|1914|1992|actor,writer|tt0064115,tt0061669,tt0057999,tt0053539
+tt0040049|The Philco Television Playhouse|The Philco Television Playhouse|1948|1956|60|Drama|7.9|116|actor|H.L. PotterMr. DevereauxTed Nichols|Vinton Hayworth|1906|1970|actor|tt0059968,tt0028715,tt0050079,tt0054545
+tt0040049|The Philco Television Playhouse|The Philco Television Playhouse|1948|1956|60|Drama|7.9|116|actor|AnnouncerSelf - AnnouncerPhilco announcer (1)|Jay Jackson|1918|2005|actor|tt0048860,tt0146398,tt0043204,tt0059379
+tt0040049|The Philco Television Playhouse|The Philco Television Playhouse|1948|1956|60|Drama|7.9|116|actor|The Cantor|Joseph Buloff|1899|1985|actor,soundtrack|tt0049778,tt0050972,tt0040552,tt0082979
+tt0040049|The Philco Television Playhouse|The Philco Television Playhouse|1948|1956|60|Drama|7.9|116|actor|Colonel BrandonFitzwilliam DarcyHarry Madden|John Baragrey|1918|1975|actor|tt0048893,tt0039123,tt0040552,tt0040049
+tt0040049|The Philco Television Playhouse|The Philco Television Playhouse|1948|1956|60|Drama|7.9|116|actor|Alfred StubbsClement MooreMr. Mergenthwirker|Vaughn Taylor|1911|1983|actor|tt0052520,tt0051459,tt0074597,tt0054215
+tt0040049|The Philco Television Playhouse|The Philco Television Playhouse|1948|1956|60|Drama|7.9|116|actor|Alf RylettBarnwell RhettDennis Leighton|E.G. Marshall|1914|1998|actor,producer|tt0066473,tt0097958,tt0083767,tt0050083
+tt0040049|The Philco Television Playhouse|The Philco Television Playhouse|1948|1956|60|Drama|7.9|116|actor|\N|Edgar Stehli|1884|1973|actor|tt0054642,tt0052530,tt0051435,tt0046963
+tt0040051|Studio One|Studio One|1948|1958|60|Drama|7.7|289|actor|Jonathan MarchAnniusBen Gunn|Richard Purdy|1909|1967|actor|tt0040051,tt0043238,tt0043228,tt0039123
+tt0040051|Studio One|Studio One|1948|1958|60|Drama|7.7|289|actor|A cartoonistBill TannerDeering|James Daly|1918|1978|actor,soundtrack|tt0064087,tt0210015,tt0063442,tt0051214
+tt0040051|Studio One|Studio One|1948|1958|60|Drama|7.7|289|actor|Chris JacksonDr. ClaybornDr. Roger Waring|Leslie Nielsen|1926|2010|actor,producer,soundtrack|tt0095705,tt0080339,tt0120901,tt0102510
+tt0040051|Studio One|Studio One|1948|1958|60|Drama|7.7|289|actress|Anna PerlowskiCecilFrancesca Bellamy|Maria Riva|1924|\N|actress,producer,soundtrack|tt0096061,tt0025746,tt0051319,tt0041061
+tt0040051|Studio One|Studio One|1948|1958|60|Drama|7.7|289|actress|Anne MarkumCatherine Earnshaw LintonHester Prynne|Mary Sinclair|1922|2000|actress|tt0041037,tt0052442,tt0043238,tt0040051
+tt0040051|Studio One|Studio One|1948|1958|60|Drama|7.7|289|actor|Col.Commander SchneiderDermot Francis O'Flingsley|Charlton Heston|1923|2008|actor,director,writer|tt0049833,tt0067525,tt0070723,tt0052618
+tt0040051|Studio One|Studio One|1948|1958|60|Drama|7.7|289|actor|AnnouncerSelf - Announcer|Paul Branson|\N|\N|actor|tt0040051
+tt0040051|Studio One|Studio One|1948|1958|60|Drama|7.7|289|actor|James De LanceyCraigDr. Parant|Murray Matheson|1912|1985|actor|tt0086491,tt0076984,tt0068044,tt0052442
+tt0040053|The Ed Sullivan Show|Toast of the Town|1948|1971|60|Music,Talk-Show|7.9|1439|actor|ComedianSelf - ComedianSelf|Frank Shuster|1916|2002|actor,writer,producer|tt0062599,tt0054547,tt0341777,tt5253598
+tt0040053|The Ed Sullivan Show|Toast of the Town|1948|1971|60|Music,Talk-Show|7.9|1439|actor|ComedianSelf - ComedianSelf|Johnny Wayne|1918|1990|actor,writer,soundtrack|tt0341777,tt1291580,tt5253598,tt0062599
+tt0040993|The Admiral Broadway Revue|The Admiral Broadway Revue|1949|\N|60|Comedy,Music|7.7|21|actor|DancerSelf - Singer|Tom Avera|1921|1998|actor|tt0041061,tt0041037,tt0042083,tt0046623
+tt0040996|The Aldrich Family|The Aldrich Family|1949|1953|30|Comedy,Family|8.0|37|actress|Mary Aldrich|Mary Malone|1924|2002|actress|tt0040996,tt0041054,tt0042112,tt0191690
+tt0040996|The Aldrich Family|The Aldrich Family|1949|1953|30|Comedy,Family|8.0|37|actor|Henry Aldrich|Richard Tyler|1932|\N|actor,sound_department|tt0037536,tt0040996,tt0037823,tt0052587
+tt0040996|The Aldrich Family|The Aldrich Family|1949|1953|30|Comedy,Family|8.0|37|actress|Mrs. Alice Aldrich|Lois Wilson|1894|1988|actress,director,writer|tt0023938,tt0012828,tt0019307,tt0012465
+tt0040996|The Aldrich Family|The Aldrich Family|1949|1953|30|Comedy,Family|8.0|37|actor|Sam Aldrich|House Jameson|1902|1971|actor|tt0042141,tt0056752,tt0040636,tt0040996
+tt0040996|The Aldrich Family|The Aldrich Family|1949|1953|30|Comedy,Family|8.0|37|actress|Alice Aldrich|Barbara Robbins|1915|1993|actress|tt0209021,tt0040996,tt0210131,tt0025222
+tt0040996|The Aldrich Family|The Aldrich Family|1949|1953|30|Comedy,Family|8.0|37|actor|Homer Brown|Jackie Kelk|1923|2002|actor|tt0050814,tt0439158,tt0024906,tt0040996
+tt0040996|The Aldrich Family|The Aldrich Family|1949|1953|30|Comedy,Family|8.0|37|actress|Mrs. Alice Aldrich|Nancy Carroll|1903|1965|actress,soundtrack|tt0030856,tt0023028,tt0019375,tt0024222
+tt0040996|The Aldrich Family|The Aldrich Family|1949|1953|30|Comedy,Family|8.0|37|actor|Henry AldrichHenry Aldrich #1 (1949-1950)|Robert Casey|1927|\N|actor|tt0044243,tt0258312,tt0040996,tt0280218
+tt0040996|The Aldrich Family|The Aldrich Family|1949|1953|30|Comedy,Family|8.0|37|actress|Mary AldrichMary Aldrich #1 (1949-1950)|Charita Bauer|1922|1985|actress|tt0085376,tt0044265,tt0040996,tt0042101
+tt0041005|Believe It or Not|Believe It or Not|1949|1950|30|Drama,History|7.1|34|actor|US Army Lieutenant|John Stephen|1911|1974|actor|tt0048872,tt0040049,tt0044245,tt0039123
+tt0041005|Believe It or Not|Believe It or Not|1949|1950|30|Drama,History|7.1|34|actress|\N|Anne Francis|1930|2011|actress,soundtrack|tt0059678,tt0049223,tt0058814,tt0047849
+tt0041005|Believe It or Not|Believe It or Not|1949|1950|30|Drama,History|7.1|34|actress|\N|Grace Kelly|1929|1982|actress,soundtrack,producer|tt0046874,tt0046912,tt0047396,tt0048728
+tt0041005|Believe It or Not|Believe It or Not|1949|1950|30|Drama,History|7.1|34|actress|\N|Jean Gillespie|1923|2016|actress|tt0058801,tt0042142,tt0042141,tt0041061
+tt0041005|Believe It or Not|Believe It or Not|1949|1950|30|Drama,History|7.1|34|actress|\N|Rita Gam|1927|2016|actress,producer|tt0055047,tt0067309,tt0056282,tt0045230
+tt0041005|Believe It or Not|Believe It or Not|1949|1950|30|Drama,History|7.1|34|actor|\N|John Marley|1907|1984|actor|tt0066011,tt0068646,tt0062952,tt0075809
+tt0041005|Believe It or Not|Believe It or Not|1949|1950|30|Drama,History|7.1|34|actor|\N|Gene Barry|1919|2009|actor,soundtrack,writer|tt0056745,tt0407304,tt0046534,tt0050085
+tt0041005|Believe It or Not|Believe It or Not|1949|1950|30|Drama,History|7.1|34|actor|\N|George Reeves|1914|1959|actor,director,soundtrack|tt0031381,tt0041096,tt0044091,tt0044231
+tt0041005|Believe It or Not|Believe It or Not|1949|1950|30|Drama,History|7.1|34|actor|\N|Jason Evers|1922|2005|actor,soundtrack|tt0075857,tt0063035,tt0052646,tt0067065
+tt0041005|Believe It or Not|Believe It or Not|1949|1950|30|Drama,History|7.1|34|actor|\N|Dan Morgan|1906|1975|actor,soundtrack|tt0062794,tt0042123,tt0041037,tt0059978
+tt0041007|The Big Story|The Big Story|1949|1959|30|Drama|7.5|47|actor|Alfred E. ClarkB.F. SylvesterBill Miller|Nelson Olmsted|1914|1992|actor,writer|tt0064115,tt0061669,tt0057999,tt0053539
+tt0041007|The Big Story|The Big Story|1949|1959|30|Drama|7.5|47|actor|NarratorSelf - Narrator|Norman Rose|1917|2004|actor|tt0074554,tt0066767,tt0041037,tt0093818
+tt0041007|The Big Story|The Big Story|1949|1959|30|Drama|7.5|47|actor|Frank HarperHank MessickWalter Bedford|John McLiam|1918|1994|actor,writer,soundtrack|tt0083944,tt0061809,tt0070707,tt0061512
