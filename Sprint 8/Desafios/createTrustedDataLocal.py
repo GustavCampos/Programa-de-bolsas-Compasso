@@ -160,12 +160,17 @@ def main():
         ("anoNascimento", "birth_year", "INT"),
         ("anoFalecimento", "death_year", "INT"),
         ("profissao", "occupation", "STRING"),
-        ("titulosMaisConhecidos", "most_known_titles", "STRING")
-        ("InsgestionDate", "insgestion_date", "DATE")
+        ("titulosMaisConhecidos", "most_known_titles", "STRING"),
+        ("IngestionDate", "ingestion_date", "DATE")
     ])
     
     print("Movie Data Mapped!")
     mapped_movies_df.printSchema()
+    
+    print(f"Writing Movie Data On {S3_TARGET_PATH}")
+    s3_path = f"{S3_TARGET_PATH}Local/Movies/"
+    mapped_movies_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
+    print(f"Movie Data Write Complete!")
     
     # Series Data Treatment ___________________________________________________
     print("Importing Series Data...")
@@ -197,11 +202,16 @@ def main():
         ("anoFalecimento", "death_year", "INT"),
         ("profissao", "occupation", "STRING"),
         ("titulosMaisConhecidos", "most_known_titles", "STRING"),
-        ("InsgestionDate", "insgestion_date", "DATE")
+        ("IngestionDate", "ingestion_date", "DATE")
     ])
     
-    print("Movie Data Mapped!")
+    print("Series Data Mapped!")
     mapped_movies_df.printSchema()
+    
+    print(f"Writing Series Data On {S3_TARGET_PATH}")
+    s3_path = f"{S3_TARGET_PATH}Local/Series/"
+    mapped_series_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
+    print(f"Series Data Write Complete!")
     
     # Custom Code End =============================================================================
     job.commit()
