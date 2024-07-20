@@ -6,7 +6,6 @@ from re import search as re_search
 
 # Boto3
 import boto3
-from botocore.exceptions import ClientError
 
 # AWS Glue Libs
 from awsglue.transforms import *
@@ -16,7 +15,6 @@ from awsglue.job import Job
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as spk_func
-
 
 # Custom Functions ================================================================================
 # S3 key manipulation functions _______________________________________________
@@ -35,16 +33,27 @@ def s3_key_to_date(obj_key: str) -> str:
     return '-'.join(date.split("/")[:-1])
 
 # Spark Functions _____________________________________________________________
-def map_columns_df(spark_df: DataFrame, mapping: list) -> DataFrame:
+def map_columns_df(spark_df: DataFrame, mapping: list, null_symbol: str="None") -> DataFrame:        
+    # Return StringType() value
+    evaluate_null = spk_func.udf(
+        lambda string: ((string, None)[string == null_symbol])
+    )
+    
     return_df = spark_df
     for name, new_name, col_type in mapping:
-        return_df = return_df.withColumn(new_name,
-            spk_func.when(spk_func.col(name) == "\\N", None)
-                .otherwise(spk_func.col(name))
-                .cast(col_type)
-        )
+        cast_to_array = col_type.upper().startswith("ARRAY")
         
-        return_df = return_df.drop(name)
+        create_column_df = return_df.withColumn(new_name, evaluate_null(spk_func.col(name)))
+        
+        if cast_to_array:
+            create_column_df = create_column_df.withColumn(
+                colName=new_name, 
+                col=spk_func.split(spk_func.col(new_name), ",")
+            )
+
+        cast_df = create_column_df.withColumn(new_name, spk_func.col(new_name).cast(col_type))
+        
+        return_df = cast_df.drop(name)
         
     return return_df
 
@@ -89,7 +98,7 @@ def generate_unified_df(glue_context: GlueContext, s3_client: boto3.client, s3_p
         )
 
         obj_df = obj_dyf.toDF()
-        with_date_df = obj_df.withColumn("IngestionDate", spk_func.lit(obj_date).cast("date"))
+        with_date_df = obj_df.withColumn("IngestionDate", spk_func.lit(obj_date))
         
         if unified_df is None:
             unified_df = with_date_df
@@ -124,9 +133,17 @@ def main():
     
     # # Custom Code ===============================================================================
     # Setting Constants _______________________________________________________ 
+    # S3 Paths
     S3_MOVIE_INPUT_PATH = args[ARGS_LIST[1]]
     S3_SERIES_INPUT_PATH = args[ARGS_LIST[2]]
     S3_TARGET_PATH = args[ARGS_LIST[3]]
+    
+    # Glue Dynamic Frame Import
+    FORMAT_FILE = "csv"
+    FORMAT_OPTIONS = {"withHeader": True, "separator": "|"}
+    
+    # Data Processing
+    NULL_SYMBOL = f"\\N"
     
     # Creating S3 Client ______________________________________________________
     print('Creating S3 Client...')
@@ -138,35 +155,38 @@ def main():
         glue_context=   glueContext,
         s3_client=      s3_client,
         s3_path=        S3_MOVIE_INPUT_PATH,
-        file_format=    "csv",
-        format_options= {"withHeader": True, "separator": "|"}
+        file_format=    FORMAT_FILE,
+        format_options= FORMAT_OPTIONS
     )
     print("Movie Data Import Complete!")
     movies_df.printSchema()
     
     print(f"Movie Data: Mapping {movies_df.count()} Rows...")
-    mapped_movies_df = map_columns_df(movies_df, [
-        ("id", "id", "STRING"),
-        ("tituloPincipal", "title", "STRING"),
-        ("tituloOriginal", "original_title", "STRING"),
-        ("anoLancamento", "release_year", "INT"), 
-        ("tempoMinutos", "minute_duration", "INT"),
-        ("genero", "genre", "STRING"),
-        ("notaMedia", "vote_average", "FLOAT"),
-        ("numeroVotos", "vote_count", "INT"),
-        ("personagem", "character", "STRING"),
-        ("nomeArtista", "artist_name", "STRING"),
-        ("generoArtista", "artist_genre", "STRING"),
-        ("anoNascimento", "birth_year", "INT"),
-        ("anoFalecimento", "death_year", "INT"),
-        ("profissao", "occupation", "STRING"),
-        ("titulosMaisConhecidos", "most_known_titles", "STRING"),
-        ("IngestionDate", "ingestion_date", "DATE")
-    ])
+    mapped_movies_df = map_columns_df(movies_df, 
+        null_symbol=NULL_SYMBOL,
+        mapping=[
+            ("id",                      "id",                   "STRING"),
+            ("tituloPincipal",          "title",                "STRING"),
+            ("tituloOriginal",          "original_title",       "STRING"),
+            ("anoLancamento",           "release_year",         "INT"), 
+            ("tempoMinutos",            "minute_duration",      "INT"),
+            ("genero",                  "genre",                "ARRAY<STRING>"),
+            ("notaMedia",               "vote_average",         "FLOAT"),
+            ("numeroVotos",             "vote_count",           "INT"),
+            ("personagem",              "character",            "STRING"),
+            ("nomeArtista",             "artist_name",          "STRING"),
+            ("generoArtista",           "artist_genre",         "STRING"),
+            ("anoNascimento",           "birth_year",           "INT"),
+            ("anoFalecimento",          "death_year",           "INT"),
+            ("profissao",               "occupation",           "ARRAY<STRING>"),
+            ("titulosMaisConhecidos",   "most_known_titles",    "ARRAY<STRING>"),
+            ("IngestionDate",           "ingestion_date",       "DATE")
+        ]
+    )
     
     print("Movie Data Mapped!")
     mapped_movies_df.printSchema()
-    
+        
     print(f"Writing Movie Data On {S3_TARGET_PATH}")
     s3_path = f"{S3_TARGET_PATH}Local/Movies/"
     mapped_movies_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
@@ -178,35 +198,38 @@ def main():
         s3_client=      s3_client,
         glue_context=   glueContext,
         s3_path=        S3_SERIES_INPUT_PATH,
-        file_format=    "csv",
-        format_options= {"withHeader": True, "separator": "|"}
+        file_format=    FORMAT_FILE,
+        format_options= FORMAT_OPTIONS
     )
     print("Series Data Import Complete!")
     series_df.printSchema()
     
     print(f"Series Data: Mapping {series_df.count()} Rows...")
-    mapped_series_df = map_columns_df(series_df, [
-        ("id", "id", "INT"),
-        ("tituloPincipal", "title", "STRING"),
-        ("tituloOriginal", "original_title", "STRING"),
-        ("anoLancamento", "release_year", "INT"),
-        ("anoTermino", "end_year", "STRING"),
-        ("tempoMinutos", "minute_duration", "INT"),
-        ("genero", "genre", "STRING"),
-        ("notaMedia", "vote_average", "FLOAT"),
-        ("numeroVotos", "vote_count", "INT"),
-        ("generoArtista", "artist_genre", "STRING"),
-        ("personagem", "character", "STRING"),
-        ("nomeArtista", "artist_name", "STRING"),
-        ("anoNascimento", "birth_year", "INT"),
-        ("anoFalecimento", "death_year", "INT"),
-        ("profissao", "occupation", "STRING"),
-        ("titulosMaisConhecidos", "most_known_titles", "STRING"),
-        ("IngestionDate", "ingestion_date", "DATE")
-    ])
+    mapped_series_df = map_columns_df(series_df,
+        null_symbol=NULL_SYMBOL,                     
+        mapping=[
+            ("id",                      "id",                   "STRING"),
+            ("tituloPincipal",          "title",                "STRING"),
+            ("tituloOriginal",          "original_title",       "STRING"),
+            ("anoLancamento",           "release_year",         "INT"),
+            ("anoTermino",              "end_year",             "INT"),
+            ("tempoMinutos",            "minute_duration",      "INT"),
+            ("genero",                  "genre",                "ARRAY<STRING>"),
+            ("notaMedia",               "vote_average",         "FLOAT"),
+            ("numeroVotos",             "vote_count",           "INT"),
+            ("personagem",              "character",            "STRING"),
+            ("nomeArtista",             "artist_name",          "STRING"),
+            ("generoArtista",           "artist_genre",         "STRING"),
+            ("anoNascimento",           "birth_year",           "INT"),
+            ("anoFalecimento",          "death_year",           "INT"),
+            ("profissao",               "occupation",           "ARRAY<STRING>"),
+            ("titulosMaisConhecidos",   "most_known_titles",    "ARRAY<STRING>"),
+            ("IngestionDate",           "ingestion_date",       "DATE")
+        ]
+    )
     
     print("Series Data Mapped!")
-    mapped_movies_df.printSchema()
+    mapped_series_df.printSchema()
     
     print(f"Writing Series Data On {S3_TARGET_PATH}")
     s3_path = f"{S3_TARGET_PATH}Local/Series/"

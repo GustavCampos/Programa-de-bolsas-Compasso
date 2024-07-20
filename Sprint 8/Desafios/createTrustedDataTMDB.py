@@ -2,12 +2,12 @@
 # Python Standard Libs
 import sys
 import json
+import requests
 from os.path import dirname, realpath, join as path_join
 from re import search as re_search
 
 # Boto3
 import boto3
-from botocore.exceptions import ClientError
 
 # AWS Glue Libs
 from awsglue.transforms import *
@@ -17,6 +17,7 @@ from awsglue.job import Job
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as spk_func
+from pyspark.sql.types import StringType, ArrayType
 
 
 # Custom Functions ================================================================================
@@ -35,21 +36,26 @@ def s3_key_to_date(obj_key: str) -> str:
     date = re_search(rule, obj_key).group()
     return '-'.join(date.split("/")[:-1])
 
+# Request Functions __________________________________________________________
+def get_genre_map(url: str, header: dict) -> dict:
+    response = requests.get(url=url, headers=header)
+    genres_list =response.json().get("genres")
+    return {genre["id"]: genre["name"] for genre in genres_list}
+
 # Spark Functions _____________________________________________________________
-def map_columns_df(spark_df: DataFrame, mapping: list) -> DataFrame:
+def map_array_elements(array: list|None, mapping_dict: dict) -> list | None:
+    if array is None: return None
+    return [mapping_dict.get(element) for element in array]
+
+def rename_columns(spark_df: DataFrame, mapping: list) -> DataFrame:
     return_df = spark_df
-    for name, new_name, col_type in mapping:
-        return_df = return_df.withColumn(new_name,
-            spk_func.when(spk_func.col(name) == "\\N", None)
-                .otherwise(spk_func.col(name))
-                .cast(col_type)
-        )
-        
-        return_df = return_df.drop(name)
-        
+    
+    for old_name, new_name in mapping:
+        return_df = return_df.withColumnRenamed(old_name, new_name)
+    
     return return_df
 
-# Glue Job Functions __________________________________________________________
+# Glue Job Functions _________________________________________________________
 def load_args(arg_list: list=None, file_path: str=None) -> dict:
     try:
         return getResolvedOptions(sys.argv, arg_list)
@@ -109,10 +115,11 @@ def main():
         "JOB_NAME",
         "S3_MOVIE_INPUT_PATH", 
         "S3_SERIES_INPUT_PATH", 
-        "S3_TARGET_PATH"
+        "S3_TARGET_PATH",
+        "TMDB_TOKEN"
     ]
 
-    ## @params: [JOB_NAME, S3_MOVIE_INPUT_PATH, S3_SERIES_INPUT_PATH, S3_TARGET_PATH]
+    ## @params: [JOB_NAME, S3_MOVIE_INPUT_PATH, S3_SERIES_INPUT_PATH, S3_TARGET_PATH, TMDB_TOKEN]
     args = load_args(ARGS_LIST, "createTrustedDataTMDB_parameters.json")
     
     # Creating Job Context ____________________________________________________
@@ -123,11 +130,31 @@ def main():
     job = Job(glueContext)
     job.init(args[ARGS_LIST[0]], args)
     
-    # # Custom Code ===============================================================================
-    # Setting Constants _______________________________________________________ 
+    # Custom Code ===============================================================================
+    # Setting Constants _______________________________________________________
+    # S3 Paths
     S3_MOVIE_INPUT_PATH = args[ARGS_LIST[1]]
     S3_SERIES_INPUT_PATH = args[ARGS_LIST[2]]
     S3_TARGET_PATH = args[ARGS_LIST[3]]
+    
+    # Glue Dynamic Frame Options
+    FILE_FORMAT = "json"
+    FORMAT_OPTIONS = {"jsonPath": "$.results.*"}
+    
+    # TMDB Requests
+    TMDB_TOKEN = args[ARGS_LIST[4]]
+    TMDB_HEADER = {
+        "accept": "application/json",
+        "Authorization": f"Bearer {TMDB_TOKEN}"
+    }
+    
+    TMDB_GENRE_URL = "https://api.themoviedb.org/3/genre/<type>/list"
+    MOVIE_GENRE_URL = TMDB_GENRE_URL.replace("<type>", "movie")
+    SERIES_GENRE_URL = TMDB_GENRE_URL.replace("<type>", "tv")
+    
+    print("Requesting TMDB Genre Maps...")
+    MOVIE_GENRES = get_genre_map(MOVIE_GENRE_URL, TMDB_HEADER)    
+    SERIES_GENRES = get_genre_map(SERIES_GENRE_URL, TMDB_HEADER)
     
     # Creating S3 Client ______________________________________________________
     print('Creating S3 Client...')
@@ -139,29 +166,81 @@ def main():
         glue_context=   glueContext,
         s3_client=      s3_client,
         s3_path=        S3_MOVIE_INPUT_PATH,
-        file_format=    "json",
-        format_options= {"jsonPath": "$.results"}
+        file_format=    FILE_FORMAT,
+        format_options= FORMAT_OPTIONS
     )
     print("Movie Data Import Complete!")
     movies_df.printSchema()
 
     print("Movie Data: Dropping Irrelevant Columns...")
-    columns_to_remove = ["adult", "backdrop_path", "poster_path"]
+    columns_to_remove = ["adult", "backdrop_path", "poster_path", "video"]
     dropped_movies_df = movies_df.drop(*columns_to_remove)
     
-    print(f"Movie Data: Mapping {movies_df.count()} Rows...")
-    mapped_movies_df = map_columns_df(movies_df, [
-        # TODO: Map columns
-    ])
+    print(f"Movie Data: Mapping {dropped_movies_df.count()} Rows...")
+    map_movie_genres_udf = spk_func.udf(
+        lambda id_list:
+            [MOVIE_GENRES.get(g_id) for g_id in id_list], 
+        ArrayType(StringType())
+    )
+    mapped_genres_movies_df = dropped_movies_df.withColumn(
+        colName="genre_ids", 
+        col=map_movie_genres_udf(spk_func.col("genre_ids"))
+    )
+    
+    renamed_movies_df = rename_columns(
+        mapped_genres_movies_df, 
+        [("genre_ids", "genres"), ("IngestionDate", "ingestion_date")]
+    )
     
     print("Movie Data Mapped!")
-    mapped_movies_df.printSchema()
+    renamed_movies_df.printSchema()
     
     print(f"Writing Movie Data On {S3_TARGET_PATH}")
     s3_path = f"{S3_TARGET_PATH}TMDB/Movies/"
-    mapped_movies_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
+    renamed_movies_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
     print(f"Movie Data Write Complete!")
     
+    # Series Data Treatment ____________________________________________________
+    print("Importing Series Data...")
+    series_df = generate_unified_df(
+        glue_context=   glueContext,
+        s3_client=      s3_client,
+        s3_path=        S3_SERIES_INPUT_PATH,
+        file_format=    FILE_FORMAT,
+        format_options= FORMAT_OPTIONS
+    )
+    print("Series Data Import Complete!")
+    series_df.printSchema()
+    
+    print("Series Data: Dropping Irrelevant Columns...")
+    columns_to_remove = ["adult", "backdrop_path", "poster_path"]
+    dropped_series_df = series_df.drop(*columns_to_remove)
+    
+    print(f"Series Data: Mapping {dropped_series_df.count()} Rows...")
+    map_series_genres_udf = spk_func.udf(
+        lambda id_list:
+            [SERIES_GENRES.get(g_id) for g_id in id_list], 
+        ArrayType(StringType())
+    )
+    mapped_genres_series_df = dropped_series_df.withColumn(
+        colName="genre_ids", 
+        col=map_series_genres_udf(spk_func.col("genre_ids"))
+    )
+    
+    renamed_series_df = rename_columns(mapped_genres_series_df, [
+        ("name",            "title"),
+        ("original_name",   "original_title"),
+        ("genre_ids",       "genres"),
+        ("IngestionDate",   "ingestion_date"),
+    ])
+    
+    print("Series Data Mapped!")
+    renamed_series_df.printSchema()
+    
+    print(f"Writing Series Data On {S3_TARGET_PATH}")
+    s3_path = f"{S3_TARGET_PATH}TMDB/Series/"
+    renamed_series_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
+    print(f"Series Data Write Complete!")
     # Custom Code End =============================================================================
     job.commit()
         

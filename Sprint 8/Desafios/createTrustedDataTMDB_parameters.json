@@ -2,5 +2,6 @@
     "JOB_NAME": "LocalJob",
     "S3_MOVIE_INPUT_PATH": "s3://gustavcampos-pb-data-lake/Temp/TestSubsets/TMDB/Movies/", 
     "S3_SERIES_INPUT_PATH": "s3://gustavcampos-pb-data-lake/Temp/TestSubsets/TMDB/Series/", 
-    "S3_TARGET_PATH": "s3://gustavcampos-pb-data-lake/Temp/TestResults/"
+    "S3_TARGET_PATH": "s3://gustavcampos-pb-data-lake/Temp/TestResults/",
+    "TMDB_TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZTNjZjU1YzQ0MWI5NTJhMzhkZmQ4MWRhNWVjNjM0MyIsIm5iZiI6MTcyMTA3ODM1NC42Mjc4NDcsInN1YiI6IjY2OGQ4YzVkODQyZjlhYTkyM2IyZTM0MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WB0fpTGiX9qSs7hys1-_Rgurfg9-5nGrwabWXvG6lbA"
 }
