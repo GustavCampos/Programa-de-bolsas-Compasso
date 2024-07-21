@@ -17,10 +17,6 @@ from pyspark.sql import DataFrame
 from pyspark.sql import functions as spk_func
 
 # Custom Classes That Serve as Constants ==========================================================
-# class OLD_COLUMNS:
-    
-
-# Wanted column names for the movie data
 class COLUMNS:
     ARTIST_GENRE = "artist_genre"
     ARTIST_NAME = "artist_name"

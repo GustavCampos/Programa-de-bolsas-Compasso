@@ -1,6 +1,0 @@
-{
-    "JOB_NAME": "LocalJob",
-    "S3_MOVIE_INPUT_PATH": "s3://gustavcampos-pb-data-lake/Temp/TestSubsets/Local/Movies/", 
-    "S3_SERIES_INPUT_PATH": "s3://gustavcampos-pb-data-lake/Temp/TestSubsets/Local/Series/", 
-    "S3_TARGET_PATH": "s3://gustavcampos-pb-data-lake/Temp/TestResults/"
-}
