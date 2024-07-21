@@ -11,13 +11,39 @@ import boto3
 
 # AWS Glue Libs
 from awsglue.transforms import *
-from awsglue.utils import getResolvedOptions, GlueArgumentError
+from awsglue.utils import getResolvedOptions
 from awsglue.context import GlueContext
 from awsglue.job import Job
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as spk_func
 from pyspark.sql.types import StringType, ArrayType
+
+
+# Custom Classes That Serve as Constants ==========================================================
+class COLUMNS:
+    FIRST_AIR_DATE = "first_air_date"
+    GENRE = "genres"
+    ID = "id"
+    INGESTION_DATE = "ingestion_date"
+    ORIGINAL_LANG = "original_language"
+    ORIGINAL_TITLE = "original_title"
+    ORIGIN_COUNTRY = "origin_country"
+    OVERVIEW = "overview"
+    POPULARITY = "popularity"
+    RELEASE_DATE = "release_date"
+    TITLE = "title"
+    VOTE_AVERAGE = "vote_average"
+    VOTE_COUNT = "vote_count"
+    
+    class OLD:
+        ADULT = "adult"
+        BACKDROP_PATH = "backdrop_path"
+        GENRE = "genre_ids"
+        ORIGINAL_TITLE = "original_name"
+        POSTER_PATH = "poster_path"
+        TITLE = "name"
+        VIDEO = "video"
 
 
 # Custom Functions ================================================================================
@@ -58,11 +84,11 @@ def rename_columns(spark_df: DataFrame, mapping: list) -> DataFrame:
 # Glue Job Functions _________________________________________________________
 def load_args(arg_list: list=None, file_path: str=None) -> dict:
     try:
-        return getResolvedOptions(sys.argv, arg_list)
-    except GlueArgumentError:
         local = dirname(realpath(__file__))
         with open(path_join(local, file_path)) as file:
             return json.load(file)
+    except FileNotFoundError:
+        return getResolvedOptions(sys.argv, arg_list)
 
 def generate_unified_df(glue_context: GlueContext, s3_client: boto3.client, s3_path: str,  
                         file_format: str, format_options: dict) -> DataFrame:
@@ -96,7 +122,7 @@ def generate_unified_df(glue_context: GlueContext, s3_client: boto3.client, s3_p
         )
 
         obj_df = obj_dyf.toDF()
-        with_date_df = obj_df.withColumn("IngestionDate", spk_func.lit(obj_date).cast("date"))
+        with_date_df = obj_df.withColumn(COLUMNS.INGESTION_DATE, spk_func.lit(obj_date).cast("date"))
         
         if unified_df is None:
             unified_df = with_date_df
@@ -156,6 +182,29 @@ def main():
     MOVIE_GENRES = get_genre_map(MOVIE_GENRE_URL, TMDB_HEADER)    
     SERIES_GENRES = get_genre_map(SERIES_GENRE_URL, TMDB_HEADER)
     
+    # Data Mapping
+    COLUMNS_TO_REMOVE_SERIES = [
+        COLUMNS.OLD.ADULT, 
+        COLUMNS.OLD.BACKDROP_PATH, 
+        COLUMNS.OLD.POSTER_PATH
+    ]
+    
+    COLUMNS_TO_REMOVE_MOVIE = [*COLUMNS_TO_REMOVE_SERIES, COLUMNS.OLD.VIDEO]
+    
+    # UDF Functions
+    class MAP_GENRES:
+        MOVIE = spk_func.udf(
+            lambda id_list: 
+                [MOVIE_GENRES.get(g_id) for g_id in id_list], 
+            ArrayType(StringType())
+        )
+        
+        SERIES = spk_func.udf(
+            lambda id_list: 
+                [SERIES_GENRES.get(g_id) for g_id in id_list],
+            ArrayType(StringType())
+        )
+        
     # Creating S3 Client ______________________________________________________
     print('Creating S3 Client...')
     s3_client = boto3.client("s3")
@@ -173,31 +222,22 @@ def main():
     movies_df.printSchema()
 
     print("Movie Data: Dropping Irrelevant Columns...")
-    columns_to_remove = ["adult", "backdrop_path", "poster_path", "video"]
-    dropped_movies_df = movies_df.drop(*columns_to_remove)
+    dropped_movies_df = movies_df.drop(*COLUMNS_TO_REMOVE_MOVIE)
     
     print(f"Movie Data: Mapping {dropped_movies_df.count()} Rows...")
-    map_movie_genres_udf = spk_func.udf(
-        lambda id_list:
-            [MOVIE_GENRES.get(g_id) for g_id in id_list], 
-        ArrayType(StringType())
-    )
-    mapped_genres_movies_df = dropped_movies_df.withColumn(
-        colName="genre_ids", 
-        col=map_movie_genres_udf(spk_func.col("genre_ids"))
-    )
+    renamed_movies_df = dropped_movies_df.withColumnRenamed(COLUMNS.OLD.GENRE, COLUMNS.GENRE)
     
-    renamed_movies_df = rename_columns(
-        mapped_genres_movies_df, 
-        [("genre_ids", "genres"), ("IngestionDate", "ingestion_date")]
+    mapped_movies_df = renamed_movies_df.withColumn(
+        COLUMNS.GENRE, 
+        MAP_GENRES.MOVIE(spk_func.col(COLUMNS.GENRE))
     )
     
     print("Movie Data Mapped!")
-    renamed_movies_df.printSchema()
+    mapped_movies_df.printSchema()
     
     print(f"Writing Movie Data On {S3_TARGET_PATH}")
     s3_path = f"{S3_TARGET_PATH}TMDB/Movies/"
-    renamed_movies_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
+    mapped_movies_df.write.mode("overwrite").partitionBy(COLUMNS.INGESTION_DATE).parquet(s3_path)
     print(f"Movie Data Write Complete!")
     
     # Series Data Treatment ____________________________________________________
@@ -213,33 +253,26 @@ def main():
     series_df.printSchema()
     
     print("Series Data: Dropping Irrelevant Columns...")
-    columns_to_remove = ["adult", "backdrop_path", "poster_path"]
-    dropped_series_df = series_df.drop(*columns_to_remove)
+    dropped_series_df = series_df.drop(*COLUMNS_TO_REMOVE_SERIES)
     
     print(f"Series Data: Mapping {dropped_series_df.count()} Rows...")
-    map_series_genres_udf = spk_func.udf(
-        lambda id_list:
-            [SERIES_GENRES.get(g_id) for g_id in id_list], 
-        ArrayType(StringType())
-    )
-    mapped_genres_series_df = dropped_series_df.withColumn(
-        colName="genre_ids", 
-        col=map_series_genres_udf(spk_func.col("genre_ids"))
-    )
-    
-    renamed_series_df = rename_columns(mapped_genres_series_df, [
-        ("name",            "title"),
-        ("original_name",   "original_title"),
-        ("genre_ids",       "genres"),
-        ("IngestionDate",   "ingestion_date"),
+    renamed_series_df = rename_columns(dropped_series_df, [
+        (COLUMNS.OLD.TITLE,             COLUMNS.TITLE),
+        (COLUMNS.OLD.ORIGINAL_TITLE,    COLUMNS.ORIGINAL_TITLE),
+        (COLUMNS.OLD.GENRE,             COLUMNS.GENRE)
     ])
     
+    mapped_series_df = renamed_series_df.withColumn(
+        COLUMNS.GENRE, 
+        MAP_GENRES.SERIES(spk_func.col(COLUMNS.GENRE))
+    )
+    
     print("Series Data Mapped!")
-    renamed_series_df.printSchema()
+    mapped_series_df.printSchema()
     
     print(f"Writing Series Data On {S3_TARGET_PATH}")
     s3_path = f"{S3_TARGET_PATH}TMDB/Series/"
-    renamed_series_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
+    mapped_series_df.write.mode("overwrite").partitionBy(COLUMNS.INGESTION_DATE).parquet(s3_path)
     print(f"Series Data Write Complete!")
     # Custom Code End =============================================================================
     job.commit()

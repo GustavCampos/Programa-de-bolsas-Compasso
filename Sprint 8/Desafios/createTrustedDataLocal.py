@@ -9,12 +9,53 @@ import boto3
 
 # AWS Glue Libs
 from awsglue.transforms import *
-from awsglue.utils import getResolvedOptions, GlueArgumentError
+from awsglue.utils import getResolvedOptions
 from awsglue.context import GlueContext
 from awsglue.job import Job
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as spk_func
+
+# Custom Classes That Serve as Constants ==========================================================
+# class OLD_COLUMNS:
+    
+
+# Wanted column names for the movie data
+class COLUMNS:
+    ARTIST_GENRE = "artist_genre"
+    ARTIST_NAME = "artist_name"
+    BIRTH_YEAR = "birth_year"
+    CHARACTER = "character"
+    DEATH_YEAR = "death_year"
+    END_YEAR = "end_year"
+    GENRE = "genre"
+    ID = "id"
+    INGESTION_DATE = "ingestion_date"
+    MINUTE_DURATION = "minute_duration"
+    MOST_KNOWN_TITLES = "most_known_titles"
+    OCCUPATION = "occupation"
+    ORIGINAL_TITLE = "original_title"
+    RELEASE_YEAR = "release_year"
+    TITLE = "title"
+    VOTE_AVERAGE = "vote_average"
+    VOTE_COUNT = "vote_count"
+
+    class OLD:
+        ARTIST_GENRE = "generoArtista"
+        ARTIST_NAME = "nomeArtista"
+        BIRTH_YEAR = "anoNascimento"
+        CHARACTER = "personagem"
+        DEATH_YEAR = "anoFalecimento"
+        END_YEAR = "anoTermino"
+        GENRE = "genero"
+        MINUTE_DURATION = "tempoMinutos"
+        MOST_KNOWN_TITLES = "titulosMaisConhecidos"
+        OCCUPATION = "profissao"
+        ORIGINAL_TITLE = "tituloOriginal"
+        RELEASE_YEAR = "anoLancamento"
+        TITLE = "tituloPincipal"
+        VOTE_AVERAGE = "notaMedia"
+        VOTE_COUNT = "numeroVotos"
 
 # Custom Functions ================================================================================
 # S3 key manipulation functions _______________________________________________
@@ -60,11 +101,11 @@ def map_columns_df(spark_df: DataFrame, mapping: list, null_symbol: str="None") 
 # Glue Job Functions __________________________________________________________
 def load_args(arg_list: list=None, file_path: str=None) -> dict:
     try:
-        return getResolvedOptions(sys.argv, arg_list)
-    except GlueArgumentError:
         local = dirname(realpath(__file__))
         with open(path_join(local, file_path)) as file:
             return json.load(file)
+    except FileNotFoundError:
+        return getResolvedOptions(sys.argv, arg_list)
 
 def generate_unified_df(glue_context: GlueContext, s3_client: boto3.client, s3_path: str,  
                         file_format: str, format_options: dict) -> DataFrame:
@@ -98,7 +139,7 @@ def generate_unified_df(glue_context: GlueContext, s3_client: boto3.client, s3_p
         )
 
         obj_df = obj_dyf.toDF()
-        with_date_df = obj_df.withColumn("IngestionDate", spk_func.lit(obj_date))
+        with_date_df = obj_df.withColumn(COLUMNS.INGESTION_DATE, spk_func.lit(obj_date))
         
         if unified_df is None:
             unified_df = with_date_df
@@ -145,6 +186,33 @@ def main():
     # Data Processing
     NULL_SYMBOL = f"\\N"
     
+    # Data Mapping
+    MOVIE_MAPPING = [
+        (COLUMNS.OLD.TITLE,             COLUMNS.TITLE,              "STRING"),
+        (COLUMNS.OLD.ORIGINAL_TITLE,    COLUMNS.ORIGINAL_TITLE,     "STRING"),
+        (COLUMNS.OLD.RELEASE_YEAR,      COLUMNS.RELEASE_YEAR,       "INT"), 
+        (COLUMNS.OLD.MINUTE_DURATION,   COLUMNS.MINUTE_DURATION,    "INT"),
+        (COLUMNS.OLD.GENRE,             COLUMNS.GENRE,              "ARRAY<STRING>"),
+        (COLUMNS.OLD.VOTE_AVERAGE,      COLUMNS.VOTE_AVERAGE,       "FLOAT"),
+        (COLUMNS.OLD.VOTE_COUNT,        COLUMNS.VOTE_COUNT,         "INT"),
+        (COLUMNS.OLD.CHARACTER,         COLUMNS.CHARACTER,          "STRING"),
+        (COLUMNS.OLD.ARTIST_NAME,       COLUMNS.ARTIST_NAME,        "STRING"),
+        (COLUMNS.OLD.ARTIST_GENRE,      COLUMNS.ARTIST_GENRE,       "STRING"),
+        (COLUMNS.OLD.DEATH_YEAR,        COLUMNS.DEATH_YEAR,         "INT"),
+        (COLUMNS.OLD.BIRTH_YEAR,        COLUMNS.BIRTH_YEAR,         "INT"),
+        (COLUMNS.OLD.OCCUPATION,        COLUMNS.OCCUPATION,         "ARRAY<STRING>"),
+        (COLUMNS.OLD.MOST_KNOWN_TITLES, COLUMNS.MOST_KNOWN_TITLES,  "ARRAY<STRING>"),
+    ]
+    
+    SERIES_MAPPING = [
+        *MOVIE_MAPPING,
+        (COLUMNS.OLD.END_YEAR, COLUMNS.END_YEAR, "INT")
+    ]
+    
+    UDF_MAP_ARTIST_GENRE = spk_func.udf(
+        lambda genre: {"actor": "M", "actress": "F"}.get(genre, None) 
+    )
+    
     # Creating S3 Client ______________________________________________________
     print('Creating S3 Client...')
     s3_client = boto3.client("s3")
@@ -162,34 +230,18 @@ def main():
     movies_df.printSchema()
     
     print(f"Movie Data: Mapping {movies_df.count()} Rows...")
-    mapped_movies_df = map_columns_df(movies_df, 
-        null_symbol=NULL_SYMBOL,
-        mapping=[
-            ("id",                      "id",                   "STRING"),
-            ("tituloPincipal",          "title",                "STRING"),
-            ("tituloOriginal",          "original_title",       "STRING"),
-            ("anoLancamento",           "release_year",         "INT"), 
-            ("tempoMinutos",            "minute_duration",      "INT"),
-            ("genero",                  "genre",                "ARRAY<STRING>"),
-            ("notaMedia",               "vote_average",         "FLOAT"),
-            ("numeroVotos",             "vote_count",           "INT"),
-            ("personagem",              "character",            "STRING"),
-            ("nomeArtista",             "artist_name",          "STRING"),
-            ("generoArtista",           "artist_genre",         "STRING"),
-            ("anoNascimento",           "birth_year",           "INT"),
-            ("anoFalecimento",          "death_year",           "INT"),
-            ("profissao",               "occupation",           "ARRAY<STRING>"),
-            ("titulosMaisConhecidos",   "most_known_titles",    "ARRAY<STRING>"),
-            ("IngestionDate",           "ingestion_date",       "DATE")
-        ]
+    map_artist_genre_df = movies_df.withColumn(COLUMNS.OLD.ARTIST_GENRE,
+        UDF_MAP_ARTIST_GENRE(spk_func.col(COLUMNS.OLD.ARTIST_GENRE))
     )
+    
+    mapped_movies_df = map_columns_df(map_artist_genre_df, MOVIE_MAPPING, NULL_SYMBOL)
     
     print("Movie Data Mapped!")
     mapped_movies_df.printSchema()
         
     print(f"Writing Movie Data On {S3_TARGET_PATH}")
     s3_path = f"{S3_TARGET_PATH}Local/Movies/"
-    mapped_movies_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
+    mapped_movies_df.write.mode("overwrite").partitionBy(COLUMNS.INGESTION_DATE).parquet(s3_path)
     print(f"Movie Data Write Complete!")
     
     # Series Data Treatment ___________________________________________________
@@ -205,35 +257,18 @@ def main():
     series_df.printSchema()
     
     print(f"Series Data: Mapping {series_df.count()} Rows...")
-    mapped_series_df = map_columns_df(series_df,
-        null_symbol=NULL_SYMBOL,                     
-        mapping=[
-            ("id",                      "id",                   "STRING"),
-            ("tituloPincipal",          "title",                "STRING"),
-            ("tituloOriginal",          "original_title",       "STRING"),
-            ("anoLancamento",           "release_year",         "INT"),
-            ("anoTermino",              "end_year",             "INT"),
-            ("tempoMinutos",            "minute_duration",      "INT"),
-            ("genero",                  "genre",                "ARRAY<STRING>"),
-            ("notaMedia",               "vote_average",         "FLOAT"),
-            ("numeroVotos",             "vote_count",           "INT"),
-            ("personagem",              "character",            "STRING"),
-            ("nomeArtista",             "artist_name",          "STRING"),
-            ("generoArtista",           "artist_genre",         "STRING"),
-            ("anoNascimento",           "birth_year",           "INT"),
-            ("anoFalecimento",          "death_year",           "INT"),
-            ("profissao",               "occupation",           "ARRAY<STRING>"),
-            ("titulosMaisConhecidos",   "most_known_titles",    "ARRAY<STRING>"),
-            ("IngestionDate",           "ingestion_date",       "DATE")
-        ]
+    map_artist_genre_df = series_df.withColumn(COLUMNS.OLD.ARTIST_GENRE,
+        UDF_MAP_ARTIST_GENRE(spk_func.col(COLUMNS.OLD.ARTIST_GENRE))
     )
+    
+    mapped_series_df = map_columns_df(map_artist_genre_df, SERIES_MAPPING, NULL_SYMBOL)
     
     print("Series Data Mapped!")
     mapped_series_df.printSchema()
     
     print(f"Writing Series Data On {S3_TARGET_PATH}")
     s3_path = f"{S3_TARGET_PATH}Local/Series/"
-    mapped_series_df.write.mode("overwrite").partitionBy("ingestion_date").parquet(s3_path)
+    mapped_series_df.write.mode("overwrite").partitionBy(COLUMNS.INGESTION_DATE).parquet(s3_path)
     print(f"Series Data Write Complete!")
     
     # Custom Code End =============================================================================
