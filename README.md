@@ -1,6 +1,6 @@
 # Gustavo Henrique Pereira de Campos
 
-**Estudante de Engenharia de Software na Unijuí (3º semestre)** - Ijuí, Rio Grande do Sul, Brasil
+**Estudante de Engenharia de Software na Unijuí (6º semestre)** - Ijuí, Rio Grande do Sul, Brasil
 
 <aside>
 👋 Comecei no mundo da tecnologia estudando por conta própria durante o ensino médio, onde me introduzi a conhecimentos básicos de programação e banco de dados. Desde então me vejo apaixonado pelo mundo da tecnologia como um todo e amo aprender mais sobre a cada dia.
