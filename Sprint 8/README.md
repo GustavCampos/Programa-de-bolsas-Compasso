@@ -1,5 +1,5 @@
 ### Diagramas de Entidade Relacionamento pra banco de dados
-::: mermaid
+``` mermaid
 erDiagram
     CAR ||--o{ NAMED-DRIVER : allows
     CAR {
@@ -21,10 +21,10 @@ erDiagram
         string driverLicence PK, FK
     }
     MANUFACTURER only one to zero or more CAR : makes
-:::
+```
 
 ### Podemos mostrar linhas de desenvolvimento
-::: mermaid
+``` mermaid
 gitGraph:
     commit "Ashish"
     branch newbranch
@@ -38,10 +38,10 @@ gitGraph:
     commit
     branch b2
     commit
-:::
+```
 
 ### Diagramas de arquitetura
-::: mermaid
+``` mermaid
 graph LR
     subgraph Client
         C[User]
@@ -58,4 +58,4 @@ graph LR
     LB --> WS
     WS --> AS
     AS --> DB
-:::
+```
