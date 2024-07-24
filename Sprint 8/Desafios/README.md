@@ -39,11 +39,16 @@ def map_columns_df(spark_df: DataFrame, mapping: list,  null_symbol: str="None")
 
 ```mermaid
 flowchart TD
-    flow_start((Início))
-    i_evaluate_null[Inicializa UDF evaluate_null]
-    i_return_df[Inicializa return_df como spark_df]
-    return[Return return_df]
-    flow_end((Fim)) 
+    subgraph Start
+        direction LR
+
+        start((Início))
+        i_evaluate_null[Inicializa UDF evaluate_null]
+        i_return_df[Inicializa return_df como spark_df]
+
+        start --> i_evaluate_null
+        i_evaluate_null --> i_return_df
+    end
 
     subgraph Loop
         column_loop{{Para cada coluna mapeada}}
@@ -64,13 +69,43 @@ flowchart TD
         update_return --> column_loop
     end
 
-    flow_start --> i_evaluate_null
-    i_evaluate_null --> i_return_df
-    i_return_df --> Loop
-    Loop --> return
-    return --> flow_end
+    subgraph Retorno
+        direction LR
+
+        return[Retorna return_df]
+        flow_end((Fim))
+
+        return --> flow_end
+    end
+
+    Start --> Loop
+    Loop --> Retorno
 ```
 
+### Funções Para o Glue Job
+```python
+def load_args(arg_list: list=None, file_path: str=None) -> dict:
+```
+```mermaid
+flowchart LR
+    script_local["Inicializa variável 'local'"]
+
+    subgraph Catch
+        error[FileNotFoundError] --> call[Chama getResolvedOptions]
+    end
+
+    open_file[Tenta abrir arquivo de parâmetros]
+    file_exists{Arquivo local existe?}
+    read_json[Lê o conteudo do arquivo]
+
+    open_file --> file_exists
+    file_exists -- Sim --> read_json
+    file_exists -- Não --> Catch
+
+    script_local --> open_file
+    read_json --> return_dict[Retorna dados em Dict]
+    Catch --> return_dict
+```
 
 
 ## Fluxo Glue Job createTrustedDataLocal
