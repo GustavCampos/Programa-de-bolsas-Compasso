@@ -265,7 +265,7 @@ def main():
     print(f"Writing Series Data On {S3_TARGET_PATH}")
     s3_path = f"{S3_TARGET_PATH}Local/Series/"
     mapped_series_df.write.mode("overwrite").partitionBy(COLUMNS.INGESTION_DATE).parquet(s3_path)
-    print(f"Series Data Write Complete!")
+    print("Series Data Write Complete!")
     
     # Custom Code End =============================================================================
     job.commit()

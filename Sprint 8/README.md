@@ -1,61 +1,16 @@
-### Diagramas de Entidade Relacionamento pra banco de dados
-::: mermaid
-erDiagram
-    CAR ||--o{ NAMED-DRIVER : allows
-    CAR {
-        string registrationNumber PK
-        string make
-        string model
-        string[] parts
-    }
-    PERSON ||--o{ NAMED-DRIVER : is
-    PERSON {
-        string driversLicense PK "The license #"
-        string(99) firstName "Only 99 characters are allowed"
-        string lastName
-        string phone UK
-        int age
-    }
-    NAMED-DRIVER {
-        string carRegistrationNumber PK, FK
-        string driverLicence PK, FK
-    }
-    MANUFACTURER only one to zero or more CAR : makes
-:::
+# Desafio
 
-### Podemos mostrar linhas de desenvolvimento
-::: mermaid
-gitGraph:
-    commit "Ashish"
-    branch newbranch
-    checkout newbranch
-    commit id:"1111"
-    commit tag:"test"
-    checkout main
-    commit type: HIGHLIGHT
-    commit
-    merge newbranch
-    commit
-    branch b2
-    commit
-:::
+1. [Processamento para Camada Trusted](Desafios/)
 
-### Diagramas de arquitetura
-::: mermaid
-graph LR
-    subgraph Client
-        C[User]
-    end
+# Exercícios
 
-    subgraph Infrastructure
-        LB[Load Balancer]
-        WS[Web Server]
-        AS[Application Server]
-        DB[(Database)]
-    end
+1. [Geração e Massa de Dados](Exercícios/Ex1/Ex1.ipynb)
+2. [Apache Spark](Exercícios/Ex2/Ex2.ipynb)
+1. [Consumo API TMDB](Exercícios/Ex3/tmdb_test.py)
 
-    C --> LB
-    LB --> WS
-    WS --> AS
-    AS --> DB
-:::
+# Evidências
+
+* Execução do Script [tmdb_test.py](Exercícios/Ex3/tmdb_test.py) criado para o exercício 3.
+
+![local_env_vars](Evidências/ex3_execution.png)
+

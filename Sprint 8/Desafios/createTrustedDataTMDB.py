@@ -180,29 +180,28 @@ def main():
     print("Requesting TMDB Genre Maps...")
     MOVIE_GENRES = get_genre_map(MOVIE_GENRE_URL, TMDB_HEADER)    
     SERIES_GENRES = get_genre_map(SERIES_GENRE_URL, TMDB_HEADER)
-    
+        
     # Data Mapping
     COLUMNS_TO_REMOVE_SERIES = [
         COLUMNS.OLD.ADULT, 
-        COLUMNS.OLD.BACKDROP_PATH, 
-        COLUMNS.OLD.POSTER_PATH
+        COLUMNS.OLD.BACKDROP_PATH,
+        COLUMNS.OLD.POSTER_PATH,
     ]
     
     COLUMNS_TO_REMOVE_MOVIE = [*COLUMNS_TO_REMOVE_SERIES, COLUMNS.OLD.VIDEO]
     
     # UDF Functions
-    class MAP_GENRES:
-        MOVIE = spk_func.udf(
-            lambda id_list: 
-                [MOVIE_GENRES.get(g_id) for g_id in id_list], 
-            ArrayType(StringType())
-        )
-        
-        SERIES = spk_func.udf(
-            lambda id_list: 
-                [SERIES_GENRES.get(g_id) for g_id in id_list],
-            ArrayType(StringType())
-        )
+    map_genres_movie = spk_func.udf(
+        lambda id_list: 
+            [MOVIE_GENRES.get(g_id) for g_id in id_list], 
+        ArrayType(StringType())
+    )
+    
+    map_genres_series = spk_func.udf(
+        lambda id_list: 
+            [SERIES_GENRES.get(g_id) for g_id in id_list],
+        ArrayType(StringType())
+    )
         
     # Creating S3 Client ______________________________________________________
     print('Creating S3 Client...')
@@ -228,7 +227,7 @@ def main():
     
     mapped_movies_df = renamed_movies_df.withColumn(
         COLUMNS.GENRE, 
-        MAP_GENRES.MOVIE(spk_func.col(COLUMNS.GENRE))
+        map_genres_movie(spk_func.col(COLUMNS.GENRE))
     )
     
     print("Movie Data Mapped!")
@@ -263,7 +262,7 @@ def main():
     
     mapped_series_df = renamed_series_df.withColumn(
         COLUMNS.GENRE, 
-        MAP_GENRES.SERIES(spk_func.col(COLUMNS.GENRE))
+        map_genres_series(spk_func.col(COLUMNS.GENRE))
     )
     
     print("Series Data Mapped!")
