@@ -68,10 +68,6 @@ def get_genre_map(url: str, header: dict) -> dict:
     return {genre["id"]: genre["name"] for genre in genres_list}
 
 # Spark Functions _____________________________________________________________
-def map_array_elements(array: list|None, mapping_dict: dict) -> list | None:
-    if array is None: return None
-    return [mapping_dict.get(element) for element in array]
-
 def rename_columns(spark_df: DataFrame, mapping: list) -> DataFrame:
     return_df = spark_df
     
