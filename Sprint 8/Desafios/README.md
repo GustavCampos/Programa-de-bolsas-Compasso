@@ -26,20 +26,119 @@ def uri_to_s3_key(uri: str) -> str:
     # s3://gustavcampos/2024/07/01/movies.csv -> 2024/07/01/movies.csv
 
 def s3_key_to_uri(obj_key: str, bucket_name: str) -> str:
-    # gustavcampos, 2024/07/01/movies.csv -> s3://gustavcampos/2024/07/01/movies.csv
+    # 2024/07/01/movies.csv, gustavcampos -> s3://gustavcampos/2024/07/01/movies.csv
 
 def s3_key_to_date(obj_key: str) -> str:
     # s3://gustavcampos/2024/07/01/movies.csv -> 2024-07-01
 ```
 
 ### Funções Usando PySpark
+
+### Funções Para o Glue Job
+
+#### *load_args*
+
+```python
+def load_args(arg_list: list=None, file_path: str=None) -> dict:
+```
+
+Função criada para verificar onde o Job está sendo rodado (AWS ou Local) e adquirir os parâmetros necessários de acordo com o ambiente. 
+- **Parâmetros**
+	- *arg_list*: ***list[str]*** onde cada valor indica um parâmetro definido para o Job.
+	- *file_path*: ***str*** que indica o caminho relativo ao script para um arquivo JSON com os parâmetros definidos para o Job.
+- **Retorno**: ***dict*** com chave:valor dos parâmetros lidos.
+
+```mermaid
+flowchart LR
+    script_local["Encontra caminho absoluto do script"]
+    open_file[Tenta abrir arquivo de parâmetros]
+    file_exists{Arquivo local existe?}
+    read_json[Lê o conteudo do arquivo]
+
+
+    subgraph Catch
+        error[FileNotFoundError] --> call[Chama getResolvedOptions]
+    end
+    
+    script_local --> open_file
+    open_file --> file_exists
+    file_exists -- Sim --> read_json
+    file_exists -- Não --> Catch
+    
+    read_json --> return_dict[Retorna dados em Dict]
+    Catch --> return_dict
+```
+
+#### *generate_unified_df*
+
+```python
+def generate_unified_df(glue_context: GlueContext, s3_client: boto3.client, s3_path: str,  
+                        file_format: str, format_options: dict) -> DataFrame:
+```
+
+Gera um DataFrame a partir de múltiplos arquivos dentro de uma pasta especificada no S3.
+- **Parâmetros**
+	- *glue_context*: ***GlueContext*** criado para Job.
+	- *s3_client*: Um ***boto3.client*** conectado ao s3.
+	- *s3_path*: URI do bucket/pasta que deseja procurar os arquivos.
+	- *file_format*: Parâmetro ***format*** de ***GlueContext.create_dynamic_frame.from_options***.
+	- *format_options*: Parâmetro ***format_options*** de ***GlueContext.create_dynamic_frame.from_options***.
+- **Retorno**: ***pyspark.sql.DataFrame*** com valores de todos os objetos encontrados.
+
+```mermaid
+flowchart TD
+    start((Início))
+    list_obj[Obtem caminho de todos os objetos em 's3_path']
+    filter_obj[\Extensão do objeto == 'format'/]
+    i_unified_df[Inicializa 'unified_df' como None]
+    obj_loop{{Para cada 'Key' dos objetos filtrados}}
+    key_to_date[["s3_key_to_date()"]]
+    import_dyf[Importa objeto como Dynamic Frame]
+    convert_dyf[Converte DynamicFrame para DataFrame]
+    add_date[Cria novo DataFrame com data encontrada numa coluna adicional]
+    is_none{'unified_df' é None?}
+    attr[Atribui novo DataFrame a 'unified_df']
+    unify[Unifica novo Dataframe com 'unified_df']
+    return[Retorna 'unified_df']
+    flow_end((Fim))
+
+
+    start --> list_obj
+    list_obj --> filter_obj
+    filter_obj --> i_unified_df
+    i_unified_df --> obj_loop
+    obj_loop --> import_dyf
+    import_dyf --> convert_dyf
+    convert_dyf --> key_to_date
+    key_to_date --> add_date
+    add_date --> is_none
+    is_none -->|Sim| attr
+    is_none -->|Não| unify
+    attr --> obj_loop
+    unify --> obj_loop
+
+    obj_loop --> return
+    return --> flow_end
+```
+
+## Fluxo Glue Job createTrustedDataLocal
+
+#### *map_columns_df*
+
 ```python
 def map_columns_df(spark_df: DataFrame, mapping: list,  null_symbol: str="None") -> DataFrame:
 ```
 
+Mapeia multiplas colunas de um DataFrame a partir de uma lista de mapeamento
+- **Parâmetros**
+	- *spark_df*: ***pyspark.sql.DataFrame*** a ser mapeado.
+	- *mapping*: ***list*** onde cada item é uma tupla ***(<nome coluna>, <nome coluna desejado>, <tipo desejado>)***.
+	- *null_symbol*: ***str*** valor a ser reconhecido como nulo.
+- **Retorno**: novo ***pyspark.sql.DataFrame*** com colunas e valores mapeados. 
+
 ```mermaid
 flowchart TD
-    subgraph Start
+    subgraph Inicialização
         direction LR
 
         start((Início))
@@ -82,37 +181,12 @@ flowchart TD
     Loop --> Retorno
 ```
 
-### Funções Para o Glue Job
-```python
-def load_args(arg_list: list=None, file_path: str=None) -> dict:
-```
-```mermaid
-flowchart LR
-    script_local["Inicializa variável 'local'"]
-
-    subgraph Catch
-        error[FileNotFoundError] --> call[Chama getResolvedOptions]
-    end
-
-    open_file[Tenta abrir arquivo de parâmetros]
-    file_exists{Arquivo local existe?}
-    read_json[Lê o conteudo do arquivo]
-
-    open_file --> file_exists
-    file_exists -- Sim --> read_json
-    file_exists -- Não --> Catch
-
-    script_local --> open_file
-    read_json --> return_dict[Retorna dados em Dict]
-    Catch --> return_dict
-```
-
-
-## Fluxo Glue Job createTrustedDataLocal
+### Fluxo Principal
+Fluxo que ocorre na função ***main()***.
 
 ```mermaid
-
 ```
+
 
 ## Fluxo Glue Job createTrustedDataTMDB
 
