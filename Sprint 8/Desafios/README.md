@@ -57,7 +57,7 @@ flowchart LR
 
 
     subgraph Catch
-        error[FileNotFoundError] --> call[Chama getResolvedOptions]
+        error[FileNotFoundError] --> call[["getResolvedOptions()"]]
     end
     
     script_local --> open_file
@@ -91,33 +91,37 @@ flowchart TD
     list_obj[Obtem caminho de todos os objetos em 's3_path']
     filter_obj[\Extensão do objeto == 'format'/]
     i_unified_df[Inicializa 'unified_df' como None]
-    obj_loop{{Para cada 'Key' dos objetos filtrados}}
-    key_to_date[["s3_key_to_date()"]]
-    import_dyf[Importa objeto como Dynamic Frame]
-    convert_dyf[Converte DynamicFrame para DataFrame]
-    add_date[Cria novo DataFrame com data encontrada numa coluna adicional]
-    is_none{'unified_df' é None?}
-    attr[Atribui novo DataFrame a 'unified_df']
-    unify[Unifica novo Dataframe com 'unified_df']
-    return[Retorna 'unified_df']
-    flow_end((Fim))
-
 
     start --> list_obj
     list_obj --> filter_obj
     filter_obj --> i_unified_df
-    i_unified_df --> obj_loop
-    obj_loop --> import_dyf
-    import_dyf --> convert_dyf
-    convert_dyf --> key_to_date
-    key_to_date --> add_date
-    add_date --> is_none
-    is_none -->|Sim| attr
-    is_none -->|Não| unify
-    attr --> obj_loop
-    unify --> obj_loop
 
-    obj_loop --> return
+    subgraph Loop
+        obj_loop{{Para cada 'Key' dos objetos filtrados}}
+        key_to_date[["s3_key_to_date()"]]
+        import_dyf[Importa objeto como Dynamic Frame]
+        convert_dyf[Converte DynamicFrame para DataFrame]
+        add_date[Cria novo DataFrame com data encontrada numa coluna adicional]
+        is_none{'unified_df' é None?}
+        attr[Atribui novo DataFrame a 'unified_df']
+        unify[Unifica novo Dataframe com 'unified_df']
+
+        obj_loop --> import_dyf
+        import_dyf --> convert_dyf
+        convert_dyf --> key_to_date
+        key_to_date --> add_date
+        add_date --> is_none
+        is_none -->|Sim| attr
+        is_none -->|Não| unify
+        attr --> obj_loop
+        unify --> obj_loop
+    end
+
+    return[/unified_df/]
+    flow_end((Fim))
+
+    i_unified_df --> Loop
+    Loop --> return
     return --> flow_end
 ```
 
@@ -138,18 +142,17 @@ Mapeia multiplas colunas de um DataFrame a partir de uma lista de mapeamento
 
 ```mermaid
 flowchart TD
-    subgraph Inicialização
-        direction LR
+    start((Início))
 
-        start((Início))
-        i_evaluate_null[Inicializa UDF evaluate_null]
-        i_return_df[Inicializa return_df como spark_df]
+    i_evaluate_null[Inicializa UDF 'evaluate_null']
+    i_return_df[Inicializa 'return_df' como 'spark_df']
 
-        start --> i_evaluate_null
-        i_evaluate_null --> i_return_df
-    end
+    start --> i_evaluate_null
+    i_evaluate_null --> i_return_df
+    i_return_df --> sb_column
 
-    subgraph Loop
+
+    subgraph sb_column[" "]
         column_loop{{Para cada coluna mapeada}}
         col_is_array{col_type é ArrayType?}
         evaluate_null[Cria nova coluna com evaluate_null]
@@ -168,23 +171,45 @@ flowchart TD
         update_return --> column_loop
     end
 
-    subgraph Retorno
-        direction LR
+    return[/Retorna return_df/]
+    flow_end((Fim))
 
-        return[Retorna return_df]
-        flow_end((Fim))
-
-        return --> flow_end
-    end
-
-    Start --> Loop
-    Loop --> Retorno
+    sb_column --> return
+    return --> flow_end
 ```
 
 ### Fluxo Principal
-Fluxo que ocorre na função ***main()***.
+Fluxo que ocorre na função ***main()***:
 
 ```mermaid
+flowchart TB
+    start((Início))
+    flow_end((Fim))
+    load_params[["load_args()"]]
+    ctx[Obtem contexto Glue e sessão Spark]
+    job_init[Inicia Glue Job]
+    s3_client[Obtem cliente S3]
+
+    start --> load_params
+    load_params --> ctx
+    ctx --> job_init
+    job_init --> s3_client
+
+    subgraph movie["Fluxo executado para os Filmes e depois para as Séries"]
+        direction TB
+
+        get_df[["generate_unified_df()"]]
+        map_genre[Cria novo DataFrame com valores de 'generoArtista' mapeados]
+        map[["map_columns_df()"]]
+        save["Salva novo DataFrame em Parquet particionado por 'ingestion_date'"]
+
+        get_df --> map_genre
+        map_genre --> map
+        map --> save
+    end
+
+    s3_client --> movie
+    movie --> flow_end
 ```
 
 

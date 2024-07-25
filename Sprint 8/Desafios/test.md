@@ -1,24 +1,20 @@
-### Funções Para o Glue Job
-```python
-def load_args(arg_list: list=None, file_path: str=None) -> dict:
-```
-```mermaid
-flowchart TD
-    script_local["Inicializa variável 'local'"]
+::: mermaid
+flowchart TB
+    start((Início))
+    flow_end((Fim))
+    load_params[["load_args()"]]
+    ctx[Obtem contexto Glue e sessão Spark]
+    job_init[Inicia Glue Job]
+    s3_client[Obtem cliente S3]
 
-    subgraph Catch
-        error[FileNotFoundError] --> call[Chama getResolvedOptions]
+    start --> load_params
+    load_params --> ctx
+    ctx --> job_init
+    job_init --> s3_client
+
+    subgraph movie["Filmes"]
+        get_df[["generate_unified_df()"]]
     end
 
-    open_file[Tenta abrir arquivo de parâmetros]
-    file_exists{Arquivo local existe?}
-    read_json[Lê o conteudo do arquivo]
-
-    open_file --> file_exists
-    file_exists -- Sim --> read_json
-    file_exists -- Não --> Catch
-
-    script_local --> open_file
-    read_json --> return_dict[Retorna dados em Dict]
-    Catch --> return_dict
-```
+    subgraph series["Series"]
+    end
