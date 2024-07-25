@@ -32,7 +32,126 @@ def s3_key_to_date(obj_key: str) -> str:
     # s3://gustavcampos/2024/07/01/movies.csv -> 2024-07-01
 ```
 
+### Funções de Requisição
+
+#### *get_genre_map*
+
+```python
+def get_genre_map(url: str, header: dict) -> dict:
+```
+
+Função encarregada de criar um mapeamento dos nomes dos gêneros registrados na API do TMDB.
+- **Parâmetros**
+	- *url*: ***str*** informando a url da requisição.
+	- *header*: ***dict*** contendo as informações do cabeçalho da requisição.
+- **Retorno**: ***dict*** no modelo ```id: nome``` dos gêneros disponibilizados pela API.
+
+```mermaid
+flowchart LR
+    start((Início))
+    request["Requisita dados para URL"]
+    json["Converte conteúdo da resposta para JSON"]
+    dict["Cria dicionário (id: nome)"]
+    return[/Dicionário criado /]
+    flow_end((Fim))
+
+    start --> request
+    request --> json
+    json --> dict
+    dict --> return
+    return --> flow_end
+```
+
 ### Funções Usando PySpark
+
+#### *map_columns_df*
+
+```python
+def map_columns_df(spark_df: DataFrame, mapping: list,  null_symbol: str="None") -> DataFrame:
+```
+
+Mapeia multiplas colunas de um DataFrame a partir de uma lista de mapeamento
+- **Parâmetros**
+	- *spark_df*: ***pyspark.sql.DataFrame*** a ser mapeado.
+	- *mapping*: ***list*** onde cada item é uma tupla ```(<nome coluna>, <nome coluna desejado>, <tipo desejado>)```.
+	- *null_symbol*: ***str*** valor a ser reconhecido como nulo.
+- **Retorno**: novo ***pyspark.sql.DataFrame*** com colunas e valores mapeados. 
+
+```mermaid
+flowchart LR
+    start((Início))
+
+    i_evaluate_null[Inicializa UDF 'evaluate_null']
+    i_return_df[Inicializa 'return_df' como 'spark_df']
+
+    start --> i_evaluate_null
+    i_evaluate_null --> i_return_df
+    i_return_df --> sb_column
+
+
+    subgraph sb_column[" "]
+        column_loop{{Para cada coluna mapeada}}
+        col_is_array{col_type é ArrayType?}
+        evaluate_null[Cria nova coluna com evaluate_null]
+        explode_values[Divide valores da nova coluna]
+        cast_type[Converte nova coluna para col_type]
+        drop_col[Remove coluna original]
+        update_return[Atualiza return_df]
+
+        column_loop --> evaluate_null
+        evaluate_null --> col_is_array
+        col_is_array -->|Sim| explode_values
+        col_is_array -->|Não| cast_type
+        explode_values --> cast_type
+        cast_type --> drop_col
+        drop_col --> update_return
+        update_return --> column_loop
+    end
+
+    return[/Retorna return_df/]
+    flow_end((Fim))
+
+    sb_column --> return
+    return --> flow_end
+```
+
+#### *rename_columns*
+```python
+def rename_columns(spark_df: DataFrame, mapping: list) -> DataFrame:
+```
+
+Renomeia multiplas colunas de um DataFrame a partir de uma lista de mapeamento.
+- **Parâmetros**
+	- *spark_df*: ***pyspark.sql.DataFrame*** a ser mapeado.
+	- *mapping*: ***list*** onde cada item é uma tupla ```(<nome coluna>, <nome coluna desejado>)```.
+- **Retorno**: novo ***pyspark.sql.DataFrame*** com colunas mapeadas.
+
+```mermaid
+flowchart LR
+    start((Início))
+    i_return_df[Inicializa 'return_df' como 'spark_df']
+    return[/return_df/]
+    flow_end((Fim))
+
+    subgraph loop[" "]
+        direction TB
+
+        column_loop{{Para cada coluna mapeada}}
+        renamed[Cria novo DataFrame com a coluna renomeada]
+        attr[Atribui novo DataFrame a 'return_df']
+
+        column_loop --> renamed
+        renamed --> attr
+        attr --> column_loop
+    end
+
+    start --> i_return_df
+    i_return_df --> loop
+    
+
+    loop --> return
+    return --> flow_end
+```
 
 ### Funções Para o Glue Job
 
@@ -50,23 +169,27 @@ Função criada para verificar onde o Job está sendo rodado (AWS ou Local) e ad
 
 ```mermaid
 flowchart LR
+    start((Início))
     script_local["Encontra caminho absoluto do script"]
     open_file[Tenta abrir arquivo de parâmetros]
     file_exists{Arquivo local existe?}
     read_json[Lê o conteudo do arquivo]
+    fim((Fim))
 
 
     subgraph Catch
         error[FileNotFoundError] --> call[["getResolvedOptions()"]]
     end
     
+    start --> script_local
     script_local --> open_file
     open_file --> file_exists
     file_exists -- Sim --> read_json
     file_exists -- Não --> Catch
     
-    read_json --> return_dict[Retorna dados em Dict]
+    read_json --> return_dict[/Retorna dados em Dict/]
     Catch --> return_dict
+    return_dict --> fim
 ```
 
 #### *generate_unified_df*
@@ -86,7 +209,7 @@ Gera um DataFrame a partir de múltiplos arquivos dentro de uma pasta especifica
 - **Retorno**: ***pyspark.sql.DataFrame*** com valores de todos os objetos encontrados.
 
 ```mermaid
-flowchart TD
+flowchart LR
     start((Início))
     list_obj[Obtem caminho de todos os objetos em 's3_path']
     filter_obj[\Extensão do objeto == 'format'/]
@@ -126,63 +249,10 @@ flowchart TD
 ```
 
 ## Fluxo Glue Job createTrustedDataLocal
-
-#### *map_columns_df*
-
-```python
-def map_columns_df(spark_df: DataFrame, mapping: list,  null_symbol: str="None") -> DataFrame:
-```
-
-Mapeia multiplas colunas de um DataFrame a partir de uma lista de mapeamento
-- **Parâmetros**
-	- *spark_df*: ***pyspark.sql.DataFrame*** a ser mapeado.
-	- *mapping*: ***list*** onde cada item é uma tupla ***(<nome coluna>, <nome coluna desejado>, <tipo desejado>)***.
-	- *null_symbol*: ***str*** valor a ser reconhecido como nulo.
-- **Retorno**: novo ***pyspark.sql.DataFrame*** com colunas e valores mapeados. 
-
-```mermaid
-flowchart TD
-    start((Início))
-
-    i_evaluate_null[Inicializa UDF 'evaluate_null']
-    i_return_df[Inicializa 'return_df' como 'spark_df']
-
-    start --> i_evaluate_null
-    i_evaluate_null --> i_return_df
-    i_return_df --> sb_column
-
-
-    subgraph sb_column[" "]
-        column_loop{{Para cada coluna mapeada}}
-        col_is_array{col_type é ArrayType?}
-        evaluate_null[Cria nova coluna com evaluate_null]
-        explode_values[Divide valores da nova coluna]
-        cast_type[Converte nova coluna para col_type]
-        drop_col[Remove coluna original]
-        update_return[Atualiza return_df]
-
-        column_loop --> evaluate_null
-        evaluate_null --> col_is_array
-        col_is_array -->|Sim| explode_values
-        col_is_array -->|Não| cast_type
-        explode_values --> cast_type
-        cast_type --> drop_col
-        drop_col --> update_return
-        update_return --> column_loop
-    end
-
-    return[/Retorna return_df/]
-    flow_end((Fim))
-
-    sb_column --> return
-    return --> flow_end
-```
-
-### Fluxo Principal
 Fluxo que ocorre na função ***main()***:
 
 ```mermaid
-flowchart TB
+flowchart LR
     start((Início))
     flow_end((Fim))
     load_params[["load_args()"]]
@@ -214,6 +284,57 @@ flowchart TB
 
 
 ## Fluxo Glue Job createTrustedDataTMDB
+
+Fluxo que ocorre na função ***main()***:
+
+```mermaid
+flowchart LR
+    start((Início))
+    flow_end((Fim))
+    load_params[["load_args()"]]
+    ctx[Obtem contexto Glue e sessão Spark]
+    job_init[Inicia Glue Job]
+    s3_client[Obtem cliente S3]
+
+    start --> load_params
+    load_params --> ctx
+    ctx --> job_init
+    job_init --> s3_client
+
+    subgraph movie["Filmes"]
+        direction TB
+
+        get_df[["generate_unified_df()"]]
+        drop_col[Cria novo DataFrame removendo colunas desnecessárias]
+        rename_g[Cria novo DataFrame renomeando coluna 'genre_ids' para 'genres']
+        map[Cria novo DataFrame com valores da coluna 'genres' mapeados]
+        save["Salva novo DataFrame em Parquet particionado por 'ingestion_date'"]
+
+        get_df --> drop_col
+        drop_col --> rename_g
+        rename_g --> map
+        map --> save
+    end
+
+    subgraph series["Séries"]
+        direction TB
+
+        s_get_df[["generate_unified_df()"]]
+        s_drop_col[Cria novo DataFrame removendo colunas desnecessárias]
+        s_rename_g[["rename_columns()"]]
+        s_map[Cria novo DataFrame com valores da coluna 'genres' mapeados]
+        s_save["Salva novo DataFrame em Parquet particionado por 'ingestion_date'"]
+
+        s_get_df --> s_drop_col
+        s_drop_col --> s_rename_g
+        s_rename_g --> s_map
+        s_map --> s_save
+    end
+
+    s3_client --> movie
+    movie --> series
+    series --> flow_end
+```
 
 ---
 
