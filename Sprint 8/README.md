@@ -31,3 +31,16 @@
 * Logs de execução do AWS Glue Crawler ```createTrustedTMDBDataCrawler```:
 
 ![crawler_tmdb_log](Evidências/crawler_tmdb_log.png)
+
+* Estrutura de diretórios do S3 para os arquivos temporários de teste durante desenvolvimento dos Jobs do Glue.
+
+![temp_tree](Evidências/temp_tree.png)
+
+* Estrutura de diretórios do S3 para os arquivos da camada ***Raw***.
+
+![raw_tree](Evidências/raw_tree.png)
+
+* Estrutura de diretórios do S3 para os arquivos criados para a camada ***Trusted*** pelos Jobs do Glue.
+
+![trusted_tree](Evidências/trusted_tree.png)
+
