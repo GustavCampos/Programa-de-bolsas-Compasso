@@ -301,12 +301,12 @@ flowchart LR
     ctx --> job_init
     job_init --> s3_client
 
-    subgraph movie["Filmes"]
+    subgraph movie["Fluxo executado para os Filmes e depois para as Séries"]
         direction TB
 
         get_df[["generate_unified_df()"]]
         drop_col[Cria novo DataFrame removendo colunas desnecessárias]
-        rename_g[Cria novo DataFrame renomeando coluna 'genre_ids' para 'genres']
+        rename_g[["rename_columns()"]]
         map[Cria novo DataFrame com valores da coluna 'genres' mapeados]
         save["Salva novo DataFrame em Parquet particionado por 'ingestion_date'"]
 
@@ -316,33 +316,17 @@ flowchart LR
         map --> save
     end
 
-    subgraph series["Séries"]
-        direction TB
-
-        s_get_df[["generate_unified_df()"]]
-        s_drop_col[Cria novo DataFrame removendo colunas desnecessárias]
-        s_rename_g[["rename_columns()"]]
-        s_map[Cria novo DataFrame com valores da coluna 'genres' mapeados]
-        s_save["Salva novo DataFrame em Parquet particionado por 'ingestion_date'"]
-
-        s_get_df --> s_drop_col
-        s_drop_col --> s_rename_g
-        s_rename_g --> s_map
-        s_map --> s_save
-    end
-
     s3_client --> movie
-    movie --> series
-    series --> flow_end
+    movie --> flow_end
 ```
 
 ---
 
 # Passos para reexecução do desafio
 
-## Criando Função Lambda
+## Setup de Permissões
 
-Dentro do console da AWS devemos fazer os seguintes passos:
+Antes de qualquer coisa, :
 
 * Acesse página de funções do AWS Lambda;
 * Selecione criar função:
