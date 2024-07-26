@@ -165,7 +165,7 @@ Função criada para verificar onde o Job está sendo rodado (AWS ou Local) e ad
 - **Parâmetros**
 	- *arg_list*: ***list[str]*** onde cada valor indica um parâmetro definido para o Job.
 	- *file_path*: ***str*** que indica o caminho relativo ao script para um arquivo JSON com os parâmetros definidos para o Job.
-- **Retorno**: ***dict*** com chave:valor dos parâmetros lidos.
+- **Retorno**: ***dict*** com ```nome: valor``` dos parâmetros lidos.
 
 ```mermaid
 flowchart LR
@@ -211,13 +211,15 @@ Gera um DataFrame a partir de múltiplos arquivos dentro de uma pasta especifica
 ```mermaid
 flowchart LR
     start((Início))
-    list_obj[Obtem caminho de todos os objetos em 's3_path']
-    filter_obj[\Extensão do objeto == 'format'/]
-    i_unified_df[Inicializa 'unified_df' como None]
 
-    start --> list_obj
-    list_obj --> filter_obj
-    filter_obj --> i_unified_df
+    subgraph a[" "]
+        list_obj[Obtem caminho de todos os objetos em 's3_path']
+        filter_obj[\Extensão do objeto == 'format'/]
+        i_unified_df[Inicializa 'unified_df' como None]
+
+        list_obj --> filter_obj
+        filter_obj --> i_unified_df
+    end
 
     subgraph Loop
         obj_loop{{Para cada 'Key' dos objetos filtrados}}
@@ -225,25 +227,31 @@ flowchart LR
         import_dyf[Importa objeto como Dynamic Frame]
         convert_dyf[Converte DynamicFrame para DataFrame]
         add_date[Cria novo DataFrame com data encontrada numa coluna adicional]
-        is_none{'unified_df' é None?}
-        attr[Atribui novo DataFrame a 'unified_df']
-        unify[Unifica novo Dataframe com 'unified_df']
+
+        subgraph if_else[" "]
+            is_none{'unified_df' é None?}
+            attr[Atribui novo DataFrame a 'unified_df']
+            unify[Unifica novo Dataframe com 'unified_df']
+
+            is_none -->|Sim| attr
+            is_none -->|Não| unify
+        end
+        
 
         obj_loop --> import_dyf
         import_dyf --> convert_dyf
         convert_dyf --> key_to_date
         key_to_date --> add_date
-        add_date --> is_none
-        is_none -->|Sim| attr
-        is_none -->|Não| unify
-        attr --> obj_loop
-        unify --> obj_loop
+        add_date --> if_else
+        
+        if_else --> obj_loop
     end
 
     return[/unified_df/]
     flow_end((Fim))
 
-    i_unified_df --> Loop
+    start --> a
+    a --> Loop
     Loop --> return
     return --> flow_end
 ```
@@ -332,14 +340,15 @@ O cargo deve possuir as seguintes permissões:
 - AWSGlueConsoleFullAccess;
 - AWSLakeFormationDataAdmin;
 - CloudWatchFullAccess.
-Vamos utilizar o nome ***AWSGlueServiceRole_DataLakeTrustedLayer***.
+
+Vamos utilizar o nome ***AWSGlueServiceRole_DataLakeTrustedLayer*** para a role.
 
 ![glue_role_permissions](../Evidências/glue_role_permissions.png)
 
 Com a role criada, podemos configurar as permissões do AWS Lake Formation.
 - Vamos acessar o dashboard do AWS Lake Formation;
 - Vamos criar uma database chamada ***movies_and_series_data_lake***;
-- Devemos conceder a role criada permissões de acesso a database.
+- Devemos conceder permissões de acesso a database para a role criada.
 
 ![lake_formation_permissions_1](../Evidências/lake_formation_permissions_1.png)
 ![lake_formation_permissions_2](../Evidências/lake_formation_permissions_2.png)
@@ -348,8 +357,8 @@ Com a role criada, podemos configurar as permissões do AWS Lake Formation.
 ## Criando AWS Glue Jobs
 Como primeiro passo devemos acessar o dashboard do AWS Glue. 
 Dentro deste dashboard podemos seguir os seguintes passos para criar um job:
-1. Vamos acessar a aba **ETL JOBS** na barra lateral do dashboard;
-2. Dentro da seção **Create Job*, selecione ***Script Editor***;
+1. Vamos acessar a aba **ETL Jobs** na barra lateral do dashboard;
+2. Dentro da seção **Create Job**, selecione ***Script Editor***;
 3. Ecolha a opção ***Spark*** como engine e selecione ***start fresh*** na parte de opções;
 4. Ao final você deverá se encontrar na seguinte tela:
 
@@ -418,10 +427,10 @@ Considerando que você está na interface de um crawler recém criado:
 - **Passo 1 - Propriedades:**
 	- Defina o nome do crawler como ***createTrustedLocalDataCrawler***
 - **Passo 2 - Fonte dos dados:**
-	- Na opção *Is your data already mapped to Glue tables?*, selecione ***Not yet***;
+	- Na opção *Is your data already mapped to Glue tables?* selecione ***Not yet***;
 	- Em **Data Sources** adicione as seguintes fontes:
-		- Pasta S3 Local/Movies da camada Trusted;
-		- Pasta S3 Local/Series da camada Trusted.
+		- Pasta S3 ```Local/Movies``` da camada Trusted;
+		- Pasta S3 ```Local/Series``` da camada Trusted.
 - **Passo 3 - Segurança:**
 	- Em **IAM Role**, selecione a role criada anteriormente (AWSGlueServiceRole_DataLakeTrustedLayer).
 - **Passo 4 - Output e Agendamento:**
@@ -439,8 +448,8 @@ Considerando que você está na interface de um crawler recém criado:
 Siga os mesmos passos do crawler anterior, será necessário fazer apenas as seguintes alterações:
 - **Passo 1**: defina o nome como ***createTrustedTMDBDataCrawler***;
 - **Passo 2**: adicione as fontes seguintes fontes:
-	- Pasta S3 TMDB/Movies da camada Trusted;
-	- Pasta S3 TMDB/Series da camada Trusted.
+	- Pasta S3 ```TMDB/Movies``` da camada Trusted;
+	- Pasta S3 ```TMDB/Series``` da camada Trusted.
 - **Passo 4**: defina ***Table prefix*** como ```TMDB_```.
 
 ![crawler_tmdb_1](../Evidências/crawler_tmdb_1.png)
@@ -449,7 +458,7 @@ Siga os mesmos passos do crawler anterior, será necessário fazer apenas as seg
 ### Executando Crawlers
 Podemos executar os crawler seguindo os seguintes passos:
 - Dentro da dashboard do AWS Glue, acesse a aba de ***Crawlers*** na barra lateral;
-- Selecione os dois crawlers criados;
+- Selecione os dois crawlers criados e execute eles no botao ***Run***;
 - Aguarde a coluna ***Last run*** estar como ```Succeeded``` em ambos os crawlers.
 
 ![crawler_runs](../Evidências/crawler_runs.png)
@@ -462,11 +471,16 @@ Podemos verificar as tabelas criadas pelos crawlers usando o AWS Athena.
 - Na aba ***Editor***, do lado esquerdo na seção **Data**, configure:
 	- **Data Source**: AwsDataCatalog;
 	- **Database**: movies_and_series_data_lake;
-- Abaixo da seção ***Data**, em **Tables** deverá aparecer as seguintes tabelas:
+- Abaixo da seção ***Data***, em **Tables** deverá aparecer as seguintes tabelas:
 
 ![athena_tables](../Evidências/athena_tables.png)
 
 Agora podemos acessar os dados utilizando consultas SQL!
 
+* Exemplo de consulta da tabela gerada de ```Trusted/Local/Movies```
+
 ![imdb_query](../Evidências/imdb_query.png)
+
+* Exemplo de consulta da tabela gerada de ```Trusted/TMDB/Series```
+
 ![tmdb_query](../Evidências/tmdb_query.png)

@@ -14,3 +14,20 @@
 
 ![local_env_vars](Evidências/ex3_execution.png)
 
+* Logs de execução do AWS Glue Job ```createTrustedDataLocal```:
+
+![job_local_log](Evidências/job_local_log.png)
+
+* Logs de execução do AWS Glue Job ```createTrustedDataTMDB```:
+
+![job_tmdb_1](Evidências/job_tmdb_1.png)
+![job_tmdb_2](Evidências/job_tmdb_2.png)
+![job_tmdb_3](Evidências/job_tmdb_3.png)
+
+* Logs de execução do AWS Glue Crawler ```createTrustedLocalDataCrawler```:
+
+![crawler_local_log](Evidências/crawler_local_log.png)
+
+* Logs de execução do AWS Glue Crawler ```createTrustedTMDBDataCrawler```:
+
+![crawler_tmdb_log](Evidências/crawler_tmdb_log.png)
