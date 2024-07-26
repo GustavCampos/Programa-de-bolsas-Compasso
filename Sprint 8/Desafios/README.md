@@ -324,22 +324,149 @@ flowchart LR
 
 # Passos para reexecução do desafio
 
-## Setup de Permissões
+## Setup de Permissões/Ambiente
 
-Antes de qualquer coisa, :
+Como primeiro passo é necessário criar uma role para utilização do AWS Glue e AWS Lake Formation.
+O cargo deve possuir as seguintes permissões:
+- AmazonS3FullAccess;
+- AWSGlueConsoleFullAccess;
+- AWSLakeFormationDataAdmin;
+- CloudWatchFullAccess.
+Vamos utilizar o nome ***AWSGlueServiceRole_DataLakeTrustedLayer***.
 
-* Acesse página de funções do AWS Lambda;
-* Selecione criar função:
-    * Escolha a opção **"author from scratch"**;
-    * Coloque o nome da função como **getDataFromTMDB**;
-    * Escolha **Python 3.11** como runtime;
-    * Vá ao final da página e selecione criar função.
-* Após a criação da função você devera ser redirecionado para a página da mesma, caso contrário acesse a função criada;
-* Desça até a seção de código fonte (**code source**);
-* Envie os arquivos de [lambda.zip](lambda.zip) na opção da parte superior direita (**Upload From**);
-* Ao final você deverá ter um ambiente dev parecido com o seguinte:
-![lambda_dev_env](../Evidências/lambda_dev_env.png)
+![glue_role_permissions](../Evidências/glue_role_permissions.png)
 
-## Configurando Variáveis, Permissões e Camadas
+Com a role criada, podemos configurar as permissões do AWS Lake Formation.
+- Vamos acessar o dashboard do AWS Lake Formation;
+- Vamos criar uma database chamada ***movies_and_series_data_lake***;
+- Devemos conceder a role criada permissões de acesso a database.
 
-### Configurando acesso ao S3
+![lake_formation_permissions_1](../Evidências/lake_formation_permissions_1.png)
+![lake_formation_permissions_2](../Evidências/lake_formation_permissions_2.png)
+![lake_formation_permissions_3](../Evidências/lake_formation_permissions_3.png)
+
+## Criando AWS Glue Jobs
+Como primeiro passo devemos acessar o dashboard do AWS Glue. 
+Dentro deste dashboard podemos seguir os seguintes passos para criar um job:
+1. Vamos acessar a aba **ETL JOBS** na barra lateral do dashboard;
+2. Dentro da seção **Create Job*, selecione ***Script Editor***;
+3. Ecolha a opção ***Spark*** como engine e selecione ***start fresh*** na parte de opções;
+4. Ao final você deverá se encontrar na seguinte tela:
+
+![new_job](../Evidências/new_job.png)
+
+### createTrustedDataLocal
+Considerando que você está na interface de um job recém criado:
+- Altere o nome do Job para ***createTrustedDataLocal***;
+- Na aba de ***Scripts*** cole o código encontrado em [createTrustedDataLocal.py](createTrustedDataLocal.py);
+- Na aba de ***Job Details*** configure:
+	- **IAM Role**: AWSGlueServiceRole_DataLakeTrustedLayer;
+	- **Type**: Spark;
+	- **Glue Version**: Glue 4.0;
+	- **Language**: Python 3;
+	- **Worker Type**: G 1x (4vCPU and 16GB RAM);
+	- **Requested number of workers**: 2;
+	- **Job Timeout**: 5.
+- Na aba de ***Job Details***, acesse a parte de propriedades avançadas e adicione os seguintes parâmetros:
+	- **S3_MOVIE_INPUT_PATH**: URI para pasta com arquivos CSV de filmes;
+	- **S3_SERIES_INPUT_PATH**: URI para pasta com arquivos CSV de séries;
+	- **S3_TARGET_PATH**: URI para pasta que define a camada *Trusted*.
+ 
+![local_params](../Evidências/local_params.png)	
+
+- Por último garanta que as configurações foram salvas.
+
+### createTrustedDataTMDB
+Considerando que você está na interface de um job recém criado:
+- Altere o nome do Job para ***createTrustedDataTMDB***;
+- Na aba de ***Scripts*** cole o código encontrado em [createTrustedDataTMDB.py](createTrustedDataTMDB.py);
+- Na aba de ***Job Details*** configure:
+	- **IAM Role**: AWSGlueServiceRole_DataLakeTrustedLayer;
+	- **Type**: Spark;
+	- **Glue Version**: Glue 4.0;
+	- **Language**: Python 3;
+	- **Worker Type**: G 1x (4vCPU and 16GB RAM);
+	- **Requested number of workers**: 2;
+	- **Job Timeout**: 5.
+- Na aba de ***Job Details***, acesse a parte de propriedades avançadas e adicione os seguintes parâmetros:
+	- **S3_MOVIE_INPUT_PATH**: URI para pasta com arquivos JSON de filmes;
+	- **S3_SERIES_INPUT_PATH**: URI para pasta com arquivos JSON de séries;
+	- **S3_TARGET_PATH**: URI para pasta que define a camada *Trusted*;
+	- **TMDB_TOKEN**: Token de sessão para acesso a API do TMDB.
+ 
+![tmdb_params](../Evidências/tmdb_params.png)	
+
+- Por último garanta que as configurações foram salvas.
+
+## Criando AWS Glue Crawlers
+Como primeiro passo é necessário rodar ambos os Jobs criados com sucesso.
+- Caso ainda não tenha executado, execute os Jobs criados;
+- Dentro da dashboard do AWS Glue, acesse a aba de ***Job run monitoring*** na barra lateral;
+- Verifique a seção ***Job Runs*** e procure se ambos os Jobs possuem *Run Status* como **Succeeded**.
+
+![job_runs](../Evidências/job_runs.png)
+
+Agora podemos criar os crawlers.
+- Dentro da dashboard do AWS Glue, acesse a aba de ***Crawlers*** na barra lateral;
+- Selecione criar crawler;
+- Você deverá se encontrar na seguinte aba:
+
+![new_crawler](../Evidências/new_crawler.png)
+
+### createTrustedLocalDataCrawler
+Considerando que você está na interface de um crawler recém criado:
+- **Passo 1 - Propriedades:**
+	- Defina o nome do crawler como ***createTrustedLocalDataCrawler***
+- **Passo 2 - Fonte dos dados:**
+	- Na opção *Is your data already mapped to Glue tables?*, selecione ***Not yet***;
+	- Em **Data Sources** adicione as seguintes fontes:
+		- Pasta S3 Local/Movies da camada Trusted;
+		- Pasta S3 Local/Series da camada Trusted.
+- **Passo 3 - Segurança:**
+	- Em **IAM Role**, selecione a role criada anteriormente (AWSGlueServiceRole_DataLakeTrustedLayer).
+- **Passo 4 - Output e Agendamento:**
+	- Selecione a database criada (movies_and_series_data_lake) como ***Target database***;
+	- Em ***Table name prefix***, preencha com ```IMDB_```;
+	- Em ***Crawler Schedule*** selecione a frequência como ```On demand```.
+- **Passo 5 - Revisão:**
+	- Revise as configurações do crawler;
+	- Crie/Atualize o crawler.
+
+![crawler_local_1](../Evidências/crawler_local_1.png)
+![crawler_local_2](../Evidências/crawler_local_2.png)
+
+### createTrustedTMDBDataCrawler
+Siga os mesmos passos do crawler anterior, será necessário fazer apenas as seguintes alterações:
+- **Passo 1**: defina o nome como ***createTrustedTMDBDataCrawler***;
+- **Passo 2**: adicione as fontes seguintes fontes:
+	- Pasta S3 TMDB/Movies da camada Trusted;
+	- Pasta S3 TMDB/Series da camada Trusted.
+- **Passo 4**: defina ***Table prefix*** como ```TMDB_```.
+
+![crawler_tmdb_1](../Evidências/crawler_tmdb_1.png)
+![crawler_tmdb_2](../Evidências/crawler_tmdb_2.png)
+
+### Executando Crawlers
+Podemos executar os crawler seguindo os seguintes passos:
+- Dentro da dashboard do AWS Glue, acesse a aba de ***Crawlers*** na barra lateral;
+- Selecione os dois crawlers criados;
+- Aguarde a coluna ***Last run*** estar como ```Succeeded``` em ambos os crawlers.
+
+![crawler_runs](../Evidências/crawler_runs.png)
+
+## Verificando Catálogo e Tabelas Criados
+Podemos verificar as tabelas criadas pelos crawlers usando o AWS Athena.
+- Na barra de pesquisa digite ```athena```;
+- Acesse a opção **Athena**;
+- Você deverá ser direcionado para a página ***Query editor***, caso contrário, acesse ela pela barra lateral;
+- Na aba ***Editor***, do lado esquerdo na seção **Data**, configure:
+	- **Data Source**: AwsDataCatalog;
+	- **Database**: movies_and_series_data_lake;
+- Abaixo da seção ***Data**, em **Tables** deverá aparecer as seguintes tabelas:
+
+![athena_tables](../Evidências/athena_tables.png)
+
+Agora podemos acessar os dados utilizando consultas SQL!
+
+![imdb_query](../Evidências/imdb_query.png)
+![tmdb_query](../Evidências/tmdb_query.png)
