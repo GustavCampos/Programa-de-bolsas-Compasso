@@ -1,0 +1,15 @@
+{
+    "pageGroup": 5,
+    "filesPerCall": 10,
+    "progressObjKey": "Temp/v2_progress.json",
+    "movies": {
+        "url": "https://api.themoviedb.org/3/discover/movie?with_genres=16&include_adult=false&include_video=false&primary_release_date.lte=2024-07-01&vote_count.gte=10&sort_by=primary_realease_date.desc",
+        "maxPage": 330,
+        "detailsURL": "https://api.themoviedb.org/3/movie/<id_placeholder>?append_to_response=credits&language=en-US"
+    },
+    "series": {
+        "url": "https://api.themoviedb.org/3/discover/tv?with_genres=16&include_adult=false&include_null_first_air_dates=false&vote_count.gte=10&primary_release_date.lte=2024-07-10&sort_by=first_air_date.desc",
+        "maxPage": 160,
+        "detailsURL": "https://api.themoviedb.org/3/tv/<id_placeholder>?append_to_response=credits&language=en-US"
+    }
+}
