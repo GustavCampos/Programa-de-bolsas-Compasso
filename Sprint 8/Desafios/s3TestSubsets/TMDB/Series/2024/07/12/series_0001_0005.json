@@ -1,0 +1,2213 @@
+{
+    "startPage": 1,
+    "endPage": 5,
+    "registryCount": 100,
+    "results": [
+        {
+            "adult": false,
+            "backdrop_path": "/4YwcKSjW9j5PPKtkns9m5buAoem.jpg",
+            "genre_ids": [
+                16,
+                35
+            ],
+            "id": 235758,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u6642\u3005\u30dc\u30bd\u30c3\u3068\u30ed\u30b7\u30a2\u8a9e\u3067\u30c7\u30ec\u308b\u96a3\u306e\u30a2\u30fc\u30ea\u30e3\u3055\u3093",
+            "overview": "Alya is a transfer student enjoying popularity at her new high school, often sporting a cold shoulder while earning high marks in class. She ignores her nerdy classmate, Kuze Masachika, except for when she blurts out a flirtatious line to him in Russian. Little does she know, Kuze understands Russian, though he pretends not to. Let\u2019s see where this wacky love story takes them!",
+            "popularity": 334.013,
+            "poster_path": "/hfnzByZIRj6rx8xaxzS2zDilei1.jpg",
+            "first_air_date": "2024-07-03",
+            "name": "Alya Sometimes Hides Her Feelings in Russian",
+            "vote_average": 9.0,
+            "vote_count": 10
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/8FKn2nxbWWRC8S4Y5CuBOICyZJy.jpg",
+            "genre_ids": [
+                10765,
+                16,
+                10751,
+                10762
+            ],
+            "id": 237853,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "WondLa",
+            "overview": "Forced to flee her underground sanctuary for Earth\u2019s surface, Eva discovers a world unlike anything she expected. As she journeys across perilous terrain and unknown civilizations, Eva searches to answer the ultimate question: Is she the last human?",
+            "popularity": 158.842,
+            "poster_path": "/8kkrmc41lTk6eT2osAMzd4W0cSI.jpg",
+            "first_air_date": "2024-06-27",
+            "name": "WondLa",
+            "vote_average": 7.5,
+            "vote_count": 18
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/vwyRI4hPtM9Wd6JWJh07PNZjIYv.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 229926,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Suicide Squad Isekai",
+            "overview": "In the crime-ridden city of Gotham, Amanda Waller, the head of A.R.G.U.S., assembles a group of notorious criminals\u2014Harley Quinn, Deadshot, Peacemaker, Clayface and King Shark\u2014for a mission into an otherworldly realm that's connected to this world through a gate. It's a realm of swords and magic where orcs rampage and dragons rule the skies. Can Harley Quinn and her crew conquer this perilous realm?",
+            "popularity": 313.247,
+            "poster_path": "/AbVwsBJnLoqJzPJn8dlGFSGfygy.jpg",
+            "first_air_date": "2024-06-27",
+            "name": "Suicide Squad Isekai",
+            "vote_average": 7.9,
+            "vote_count": 25
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/7y31JWag4vsWtXZvcjmLUDJ6NSp.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765,
+                10762,
+                10751
+            ],
+            "id": 237512,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Jurassic World: Chaos Theory",
+            "overview": "The Camp Cretaceous gang comes together to unravel a mystery when they discover a global conspiracy that brings danger to dinosaurs \u2014 and to themselves.",
+            "popularity": 171.785,
+            "poster_path": "/c2Od0cY2IeayDj5osUxZSAD1QK.jpg",
+            "first_air_date": "2024-05-24",
+            "name": "Jurassic World: Chaos Theory",
+            "vote_average": 8.403,
+            "vote_count": 67
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/li7fkhRa4UpmrkxbbBhFbRSf1UV.jpg",
+            "genre_ids": [
+                16,
+                10759
+            ],
+            "id": 252425,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u9913\u72fc\u4f1d: The Way of the Lone Wolf",
+            "overview": "On the run from a past crime, Juzo Fujimaki is blackmailed into joining an illicit tournament and has to face top martial artists in deadly match-ups.",
+            "popularity": 88.946,
+            "poster_path": "/ozOjfhE6ADlWto0IKgVtniRvUOW.jpg",
+            "first_air_date": "2024-05-23",
+            "name": "Garouden: The Way of the Lone Wolf",
+            "vote_average": 7.568,
+            "vote_count": 22
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/3rkITVg82HcFhEUyYpIqCwMJWTk.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                10759
+            ],
+            "id": 251091,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Star Wars: Tales of the Empire",
+            "overview": "A journey into the fearsome Galactic Empire through the eyes of two warriors on divergent paths.",
+            "popularity": 131.986,
+            "poster_path": "/qA28nLteurVboSSzltuyYt1lvlC.jpg",
+            "first_air_date": "2024-05-04",
+            "name": "Star Wars: Tales of the Empire",
+            "vote_average": 7.885,
+            "vote_count": 90
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/lBjb5NJ7gqV9d8es5JS2D4NQq4o.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                18,
+                10765
+            ],
+            "id": 236385,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "T\u30fbP\u307c\u3093",
+            "overview": "After Bon accidentally intervenes in a Time Patrol case, he must join Agent Ream in saving innocent lives from the past \u2014 while watching history unfold.",
+            "popularity": 87.936,
+            "poster_path": "/13HE9ZZorQ3KLQrFW2KOH0dZLlW.jpg",
+            "first_air_date": "2024-05-02",
+            "name": "T\u30fbP BON",
+            "vote_average": 7.0,
+            "vote_count": 11
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/nVnPoHsR7fo8qlA9fYUsrj701p.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                18,
+                9648
+            ],
+            "id": 249812,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30b0\u30ea\u30e0\u7d44\u66f2",
+            "overview": "Inspired by the classic Brothers Grimm stories, this anthology features six fairy tales with a dark twist, exposing the shadowy side of human desire.",
+            "popularity": 72.544,
+            "poster_path": "/vUe5MtWND6WPdIh3fF7Xdx8coBt.jpg",
+            "first_air_date": "2024-04-17",
+            "name": "The Grimm Variations",
+            "vote_average": 7.458,
+            "vote_count": 23
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/pELpFSbW0zIjlbQy42DrTZyS8nE.jpg",
+            "genre_ids": [
+                16,
+                10759
+            ],
+            "id": 239161,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "THE NEW GATE",
+            "overview": "When an online game turns real, trapping its players in its virtual space, the strongest of them, Shin, rises up to put a stop to the madness. But just moments after defeating the game's final boss, Origin, and freeing everyone, Shin is transported 500 years into the future of the in-game world. Armed with unrivaled strength, the young swordsman embarks on a legendary journey.",
+            "popularity": 125.502,
+            "poster_path": "/neTGdBl851se6Vk9xGVIZ7N2jzJ.jpg",
+            "first_air_date": "2024-04-14",
+            "name": "THE NEW GATE",
+            "vote_average": 6.0,
+            "vote_count": 10
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/htGeuCcNhlBe8GTx3izKOsd8frw.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 207468,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u602a\u7363\uff18\u53f7",
+            "overview": "In a world plagued by creatures known as Kaiju, Kafka Hibino aspired to enlist in The Defense Force. He makes a promise to enlist with his childhood friend, Mina Ashiro. Soon, life takes them in separate ways. While employed cleaning up after Kaiju battles, Kafka meets Reno Ichikawa. Reno's determination to join The Defense Force reawakens Kafka's promise to join Mina and protect humanity.",
+            "popularity": 554.202,
+            "poster_path": "/2fKu2Li0u0YVcsVThcqqaJNXEvC.jpg",
+            "first_air_date": "2024-04-13",
+            "name": "Kaiju No. 8",
+            "vote_average": 8.616,
+            "vote_count": 297
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/nknCA4Emt58gjHvsILTe2X5GCS8.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 216272,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "Unnamed Memory",
+            "overview": "Climbing a deadly tower, Oscar seeks the power of its master, the Witch of the Azure Moon. He hopes her incredible magic can break a curse that will kill any woman he takes for a wife. However, when the prince sees how beautiful Tinasha is, he has a better idea\u2014since she's surely strong enough to survive his curse, she should just marry him instead! Tinasha isn't keen on the idea but agrees to live with Oscar in the royal castle for a year while researching the spell placed on the prince. The witch's pretty face hides several lifetimes of dark secrets, however\u2014secrets that begin resurfacing.",
+            "popularity": 71.64,
+            "poster_path": "/JKwYF6LbhsQOwgvfua2ZsQWoGv.jpg",
+            "first_air_date": "2024-04-09",
+            "name": "Unnamed Memory",
+            "vote_average": 6.231,
+            "vote_count": 13
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/petHMm8TmcYiBy1JOTCncBcNk83.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                10759
+            ],
+            "id": 237233,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "Lv2\u304b\u3089\u30c1\u30fc\u30c8\u3060\u3063\u305f\u5143\u52c7\u8005\u5019\u88dc\u306e\u307e\u3063\u305f\u308a\u7570\u4e16\u754c\u30e9\u30a4\u30d5",
+            "overview": "The Magical Kingdom of Klyrode summons hundreds of heroes from other worlds every year to fight in their war against the Dark One and his army of powerful demons. Banaza is one of those heroes, summoned from the Royal Capital Paluma, but something\u2019s not right\u2014Banaza is only an average merchant. He has no magic, no fighting ability, and his stats are abysmal. Worse, a mishap leaves him unable to return home! Rejected as a hero and stranded in another world, abandoned to the far reaches of the kingdom by a cruel king who just wants him gone, Banaza\u2019s fate looks pretty bleak. But what will happen once the failed hero candidate finds himself with super cheat powers once he hits level two?",
+            "popularity": 128.497,
+            "poster_path": "/3eBu6hYDRe72ZPUfLbhaHfF7EM9.jpg",
+            "first_air_date": "2024-04-08",
+            "name": "Chillin' in Another World with Level 2 Super Cheat Powers",
+            "vote_average": 7.2,
+            "vote_count": 20
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/hhxCYAcFdeoiaBjKshMgKEp1X9E.jpg",
+            "genre_ids": [
+                16,
+                10765
+            ],
+            "id": 237150,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u8ee2\u751f\u8cb4\u65cf\u3001\u9451\u5b9a\u30b9\u30ad\u30eb\u3067\u6210\u308a\u4e0a\u304c\u308b",
+            "overview": "Ars Louvent is reincarnated in another world as the young son of a minor noble who owns a small domain. Ars is not particularly strong or intelligent, but he was born with the Appraisal Skill that's able to see others' abilities and statuses. He uses his skill to find the best hidden talents in the world to make their small, weak domain into the best.",
+            "popularity": 157.386,
+            "poster_path": "/jsugIfxS7mg7G254ZOi6b4jDIgM.jpg",
+            "first_air_date": "2024-04-07",
+            "name": "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World",
+            "vote_average": 6.769,
+            "vote_count": 13
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/8aRrCZIwNSFhCXceGn0RX6atxhA.jpg",
+            "genre_ids": [
+                16,
+                18
+            ],
+            "id": 222923,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u591c\u306e\u30af\u30e9\u30b2\u306f\u6cf3\u3052\u306a\u3044",
+            "overview": "In the bustling heart of Shibuya, four young women\u2014an artist, a retired idol, a V-tuber, and a composer\u2014form JELEE, an anonymous artist group. United in their quest for self-expression, they journey towards self-discovery and finding their voice.",
+            "popularity": 97.819,
+            "poster_path": "/hos25Y5VGGvmHGFSCz0rNPoPhMj.jpg",
+            "first_air_date": "2024-04-07",
+            "name": "Jellyfish Can't Swim in the Night",
+            "vote_average": 7.1,
+            "vote_count": 21
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/xd2hpd1GfMOCinTFEavXryQUIm.jpg",
+            "genre_ids": [
+                16,
+                18
+            ],
+            "id": 243140,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30aa\u30fc\u30a4\uff01\u3068\u3093\u307c",
+            "overview": "A dramatic tale of golf and humans, set on the beautiful Tokara Islands. Igarashi has thrown away his past and fled society, relocating to Hinoshima Island. Here, on \"Japan's last hidden paradise,\" he meets Tonbo, the island\u2019s only middle schooler. To his surprise, this girl harbors an extraordinary talent for golf!? This encounter marks the beginning of a significant change in their destinies.",
+            "popularity": 58.682,
+            "poster_path": "/rAI0hOocFwELMJVmBJn1l3ubRD9.jpg",
+            "first_air_date": "2024-04-06",
+            "name": "Tonbo!",
+            "vote_average": 7.1,
+            "vote_count": 10
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/j6apxlJg1D1zpn7SjLONGQNHFGN.jpg",
+            "genre_ids": [
+                16,
+                18
+            ],
+            "id": 241928,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30ac\u30fc\u30eb\u30ba\u30d0\u30f3\u30c9\u30af\u30e9\u30a4",
+            "overview": "The main character drops out of high school in her second year, and aims at entering a university while working alone in Tokyo. A girl is betrayed by her friends and doesn't know what to do. Another girl is abandoned by her parents, and tries to survive in the city by doing part-time jobs. This world lets us down all the time. Nothing goes as planned. But we want something that we can continue to like. We believe there's a place where we belong. That's why we sing.",
+            "popularity": 123.215,
+            "poster_path": "/zI0ou2tmPqmJ44YUmmSUbFekx1M.jpg",
+            "first_air_date": "2024-04-06",
+            "name": "GIRLS BAND CRY",
+            "vote_average": 9.0,
+            "vote_count": 14
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/xi8GEQrgBhf8UJltVUfcigw8Vbk.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                35,
+                10765
+            ],
+            "id": 238848,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u9b54\u738b\u306e\u4ffa\u304c\u5974\u96b7\u30a8\u30eb\u30d5\u3092\u5ac1\u306b\u3057\u305f\u3093\u3060\u304c\u3001\u3069\u3046\u611b\u3067\u308c\u3070\u3044\u3044\uff1f",
+            "overview": "Zagan might be the most feared evil sorcerer, but when it comes to social interactions, he's the most inept. All those days studying the dark arts won't help him when he falls in love at first sight with Nephelia, the beautiful elven slave, and spends his entire fortune to purchase her. With no clue how to talk to each other, the awkward arrangement for a bumbling sorcerer and timid elf begins.",
+            "popularity": 99.322,
+            "poster_path": "/yrtmTLOnHWJxlqDHNyxm0eUHr1U.jpg",
+            "first_air_date": "2024-04-05",
+            "name": "An Archdemon's Dilemma: How to Love Your Elf Bride",
+            "vote_average": 6.944,
+            "vote_count": 18
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/2VjHbqr00cPvT2U4Vy0JnWT8Fcz.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 235389,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "Re:Monster",
+            "overview": "After meeting an untimely death, Tomokui Kanata is reincarnated as a lowly goblin, but he's worked up a monstrous appetite. Thanks to his new ability that allows him to grow stronger the more he feeds, his feeble status quickly changes, and he rises to become the goblin leader. With a mix of his past memories, new body, and strong stomach, he's taking a bite out of this new fantastical world!",
+            "popularity": 123.913,
+            "poster_path": "/AmFrA0jX0p9twH1IKfxcGWVz2X3.jpg",
+            "first_air_date": "2024-04-05",
+            "name": "Re:Monster",
+            "vote_average": 8.049,
+            "vote_count": 61
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/czrAvoN103RYYX8lhkZPs2zgnkl.jpg",
+            "genre_ids": [
+                16,
+                10759
+            ],
+            "id": 223500,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "WIND BREAKER",
+            "overview": "Haruka Sakura wants nothing to do with weaklings\u2014he's only interested in the strongest of the strong. He's just started at Furin High School, a school of degenerates known only for their brawling strength\u2014strength they use to protect their town from anyone who wishes it ill. But Haruka's not interested in being a hero or being part of any sort of team\u2014he just wants to fight his way to the top!",
+            "popularity": 202.893,
+            "poster_path": "/3kTFL3PAeTyS8gGZAh0iYG6NNjt.jpg",
+            "first_air_date": "2024-04-05",
+            "name": "WIND BREAKER",
+            "vote_average": 8.035,
+            "vote_count": 57
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/7eh5AF4bBn3K0X4z0I2pxZ1JcHe.jpg",
+            "genre_ids": [
+                16,
+                35,
+                18
+            ],
+            "id": 239214,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u82b1\u91ce\u4e95\u304f\u3093\u3068\u604b\u306e\u75c5",
+            "overview": "High school freshman Hotaru Hinase has a vibrant life full of family and friendship, but not much luck in romance. That all changes when she makes a warm gesture to her handsome and heartbroken classmate, Hananoi, leading to him asking her out and her becoming flustered. Witness a girl who grapples with the enigma of love and a boy who is heavy handed with it.",
+            "popularity": 76.905,
+            "poster_path": "/e1ao8YAdgbN0wCUSatCESTPwaAh.jpg",
+            "first_air_date": "2024-04-04",
+            "name": "A Condition Called Love",
+            "vote_average": 6.69,
+            "vote_count": 21
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/q5OktELm35WgMtnEX9lJI7kGbc1.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                18,
+                10759
+            ],
+            "id": 229676,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u72fc\u3068\u9999\u8f9b\u6599 MERCHANT MEETS THE WISE WOLF",
+            "overview": "Lawrence is a traveling merchant selling various goods from a horse-drawn cart. One day, he arrives at a village and meets a beautiful girl with the ears and tail of an animal! Her name is Holo the Wisewolf and she brings bountiful harvests. She wishes to return to her homeland, and Lawrence offers to take her. Now, the once-lonely merchant and the once-lonely wisewolf begin their journey north.",
+            "popularity": 206.82,
+            "poster_path": "/fxzL2EWdiv19eZAoC8s7zuGCJG1.jpg",
+            "first_air_date": "2024-04-02",
+            "name": "Spice and Wolf: MERCHANT MEETS THE WISE WOLF",
+            "vote_average": 8.2,
+            "vote_count": 15
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/xkPGtcMNg7mr1pS8O8FkqaSSGHg.jpg",
+            "genre_ids": [
+                16,
+                10765
+            ],
+            "id": 213830,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u8ee2\u751f\u3057\u305f\u3089\u7b2c\u4e03\u738b\u5b50\u3060\u3063\u305f\u306e\u3067\u3001\u6c17\u307e\u307e\u306b\u9b54\u8853\u3092\u6975\u3081\u307e\u3059",
+            "overview": "Prince Lloyd wasn't always a prince...in fact, his previous life is one he remembers perfectly: he was a sorcerer, of sorts. So when he was forced to reincarnate, he decided to continue his studies, prince of the realm or no! But his new life has its own sets of challenges...including being a 10-year-old! What's the 7th prince/sorcerer to do?!",
+            "popularity": 196.769,
+            "poster_path": "/kMDJ2hdBTLZn33O53xCtE14fFD1.jpg",
+            "first_air_date": "2024-04-02",
+            "name": "I Was Reincarnated as the 7th Prince so I Can Take My Time Perfecting My Magical Ability",
+            "vote_average": 7.7,
+            "vote_count": 20
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/s8gJHtPcbOdv7eGiBqE6m0izFG9.jpg",
+            "genre_ids": [
+                16,
+                18,
+                10765
+            ],
+            "id": 156057,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u795e\u306f\u904a\u622f\u306b\u98e2\u3048\u3066\u3044\u308b\u3002",
+            "overview": "In a world of idle gods, humans are forced into brain challenges with them. With three defeats, gods lose their right to challenge, while 10 victories spell human triumph. Fay, determined to achieve the impossible, enters the ultimate test of wits against the gods. Will he defy divinity, or is he just another loss in the making?",
+            "popularity": 72.734,
+            "poster_path": "/gkpFc791zeyQEO7Ds7mlnaC1cmj.jpg",
+            "first_air_date": "2024-04-01",
+            "name": "Gods' Games We Play",
+            "vote_average": 8.1,
+            "vote_count": 19
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/wbwvYUCr0dIZYISXPWFSqQiJfsO.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                10759
+            ],
+            "id": 123625,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "ARK: The Animated Series",
+            "overview": "In a mysterious primeval land populated by dinosaurs and other extinct creatures, people from throughout human history have been resurrected. When 21st century Australian paleontologist Helena Walker awakes there after tragedy, she must learn to survive and find new allies, or die again at the hands of ruthless warlords, all while trying to uncover the true nature of their strange new world.",
+            "popularity": 93.93,
+            "poster_path": "/3qzBCXJLifxund1QMa8BiXmH3xp.jpg",
+            "first_air_date": "2024-03-21",
+            "name": "ARK: The Animated Series",
+            "vote_average": 8.8,
+            "vote_count": 10
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/12fMJFtqaUQXfbrM9gCDPm45QoN.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765,
+                35
+            ],
+            "id": 239478,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "SAND LAND: THE SERIES",
+            "overview": "Sand Land is a mysterious world where demons and humans eke out an existence in a barren desert wasteland. In hopes of replenishing their water supply, Fiend Prince Beelzebub, a demon named Thief, and a human named Sheriff Rao team up and embark on a journey in search of the Legendary Spring.",
+            "popularity": 89.746,
+            "poster_path": "/fxBu818TRNHjHkUwGQctH775Ro3.jpg",
+            "first_air_date": "2024-03-20",
+            "name": "SAND LAND: THE SERIES",
+            "vote_average": 7.935,
+            "vote_count": 46
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/iDnTAeR2WNA62XQG0ivtteDSjd5.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 138502,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "X-Men '97",
+            "overview": "The X-Men, a band of mutants who use their uncanny gifts to protect a world that hates and fears them, are challenged like never before, forced to face a dangerous and unexpected new future.",
+            "popularity": 288.326,
+            "poster_path": "/9Ycz7yYRf9V4jk3YXwcZhFtbNcF.jpg",
+            "first_air_date": "2024-03-20",
+            "name": "X-Men '97",
+            "vote_average": 8.702,
+            "vote_count": 367
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/ApNKsvgkqMo1F5rU1M5N8IZvjW6.jpg",
+            "genre_ids": [
+                16
+            ],
+            "id": 248664,
+            "origin_country": [
+                "FR"
+            ],
+            "original_language": "fr",
+            "original_name": "Samuel",
+            "overview": "Samuel is 10 years old. He's keeping a diary, and he has a problem. His problem is that Basile told the tall Julie that Samuel loved her. Which isn't true, he doesn't care about Julie. It's only that, she laughed at one of his jokes once and he thought she was nice to do so.",
+            "popularity": 6.856,
+            "poster_path": "/2WVacwrPFwH808L10bHwTbxjQVq.jpg",
+            "first_air_date": "2024-03-11",
+            "name": "Samuel",
+            "vote_average": 9.35,
+            "vote_count": 10
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/ng3O6ngeFl56HaP2Ij8FU8JB2Gs.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10762,
+                10759
+            ],
+            "id": 157432,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Megamind Rules!",
+            "overview": "Megamind finds his footing as the new protector of Metro City and faces a legion of villains while becoming the world's first hero influencer.",
+            "popularity": 34.493,
+            "poster_path": "/yI9Tus6ZpPlBmb1AsrOSkI9nGXj.jpg",
+            "first_air_date": "2024-03-01",
+            "name": "Megamind Rules!",
+            "vote_average": 5.375,
+            "vote_count": 40
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/cGbnK0qMvIhf9m5ZT29GTIAQhtE.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765,
+                10762
+            ],
+            "id": 114481,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Iw\u00e1j\u00fa",
+            "overview": "Two friends in a futuristic Nigeria discover secrets and dangers hidden in their different worlds.",
+            "popularity": 27.819,
+            "poster_path": "/efdcTuG4IB9kREnNmpv0Pe8Q6KG.jpg",
+            "first_air_date": "2024-02-28",
+            "name": "Iw\u00e1j\u00fa",
+            "vote_average": 7.25,
+            "vote_count": 34
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/awlSynWtOKzlI0a8kxABfDkpzex.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                35
+            ],
+            "id": 202667,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "The Second Best Hospital in the Galaxy",
+            "overview": "Dr. Sleech and Dr. Klak \u2014 aliens, best friends and intergalactically renowned surgeons \u2014 tackle anxiety-eating parasites, illegal time loops and deep-space STIs.",
+            "popularity": 62.047,
+            "poster_path": "/syTzEpti66IsK1ezkkBehROOVzD.jpg",
+            "first_air_date": "2024-02-22",
+            "name": "The Second Best Hospital in the Galaxy",
+            "vote_average": 7.6,
+            "vote_count": 22
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/3nmDXGCDcHbtP3Rw4vi9RD3cmmX.jpg",
+            "genre_ids": [
+                16,
+                10759
+            ],
+            "id": 202284,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Ninja Kamui",
+            "overview": "A team of assassins exacts a bloody retribution on Joe Logan \u2013 a former ninja who escaped his clan \u2013 and his family for betraying their ancient code. Rising from his seeming \"death,\" Joe will re-emerge as his former self \u2013 Ninja Kamui \u2013 to avenge his family and friends and bring down the very clan that made him.",
+            "popularity": 154.838,
+            "poster_path": "/3dl7QFrpvtu9My4L6K7KtUMP8p1.jpg",
+            "first_air_date": "2024-02-11",
+            "name": "Ninja Kamui",
+            "vote_average": 8.455,
+            "vote_count": 235
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/gJd7leBA9VvRefWLYuVFHSBPVoW.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 234721,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Masters of the Universe: Revolution",
+            "overview": "It's technology versus magic as He-Man and friends fight back against the shadowy forces of Skeletor in an epic battle for the heart of Eternia.",
+            "popularity": 90.483,
+            "poster_path": "/s54EXuPe3BlQ4PlotUznkuIHgd9.jpg",
+            "first_air_date": "2024-01-25",
+            "name": "Masters of the Universe: Revolution",
+            "vote_average": 8.1,
+            "vote_count": 50
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/9kyyQXy79YRdY5mhrYKyktbFMev.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765
+            ],
+            "id": 94954,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Hazbin Hotel",
+            "overview": "In attempt to find a non-violent alternative for reducing Hell's overpopulation, the daughter of Lucifer opens a rehabilitation hotel that offers a group of misfit demons a chance at redemption.",
+            "popularity": 220.623,
+            "poster_path": "/rXojaQcxVUubPLSrFV8PD4xdjrs.jpg",
+            "first_air_date": "2024-01-18",
+            "name": "Hazbin Hotel",
+            "vote_average": 8.966,
+            "vote_count": 996
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/oziPYy02zzGejwvzsVOPgCaPqRv.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                35,
+                10765
+            ],
+            "id": 226905,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u3076\u3063\u3061\u304e\u308a?!",
+            "overview": "Arajin Tomoshibi\u2019s reunion with his old pal Matakara Asamine takes an unexpected turn when they stumble into a brawl with the toughest guys in town. And just when you thought things couldn\u2019t get weirder, a colossal genie decides to drop in. Brace yourself for the ultimate showdown. It\u2019s the clash of the cool and the magical!",
+            "popularity": 114.559,
+            "poster_path": "/bhtkmLdMleHtGTq267VqhePgp5S.jpg",
+            "first_air_date": "2024-01-13",
+            "name": "BUCCHIGIRI?!",
+            "vote_average": 7.4,
+            "vote_count": 12
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/gSzBVbqxa6RQ95wHUKlpN7anmgL.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 214310,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u6700\u5f31\u30c6\u30a4\u30de\u30fc\u306f\u30b4\u30df\u62fe\u3044\u306e\u65c5\u3092\u59cb\u3081\u307e\u3057\u305f",
+            "overview": "Stars are everything, granting abilities to Tamers. So when Ivy was born without one, her village took it as an ill omen! Now banished, she leads a lonely life of salvaging rubbish to survive. That is until she befriends Sora, a weak little slime, in the forest. Together, the delicate duo embarks on a heartwarming journey of survival and discovers there\u2019s more to Ivy than being starless.",
+            "popularity": 149.052,
+            "poster_path": "/za2EAhBtO08JJw9Q25zKyrY5Jkd.jpg",
+            "first_air_date": "2024-01-12",
+            "name": "The Weakest Tamer Began a Journey to Pick Up Trash",
+            "vote_average": 7.3,
+            "vote_count": 24
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/3sOWWRpSEGrljd8O50KLmOIdIPn.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                10759,
+                18
+            ],
+            "id": 208445,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u9b54\u5973\u3068\u91ce\u7363",
+            "overview": "Guideau is a young woman who was cursed by a witch, forced to carry a dark secret. Ashaf is a tall, soft-spoken man with a coffin strapped to his back and secrets yet untold. Together they venture across the land on their quest for vengeance. Appearances can be deceiving, and each step could be their last. In a dark fantasy filled with adventure, will unlikely heroes find the vengeance they seek?",
+            "popularity": 114.678,
+            "poster_path": "/ooSzpaJkU8MnfuLKn0IThcACv57.jpg",
+            "first_air_date": "2024-01-12",
+            "name": "The Witch and the Beast",
+            "vote_average": 7.667,
+            "vote_count": 15
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/1PhAZuk6RG0u5meBkVg9oEFphVt.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765,
+                18
+            ],
+            "id": 234995,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u6226\u56fd\u5996\u72d0",
+            "overview": "Humans and katawara are at war, but there are those on each side who join forces. Tama is a fox spirit who loves humans, while her sendou brother, Jinka, despises them. Together, they use the power of spirit transformation to defeat the monstrous katawara and put an end to the evils of this chaotic age. What destiny awaits the duo at the end of their journey?",
+            "popularity": 147.961,
+            "poster_path": "/rLeQZRlvJmXnIIV65lNOO3RGrqP.jpg",
+            "first_air_date": "2024-01-11",
+            "name": "Sengoku Youko",
+            "vote_average": 7.5,
+            "vote_count": 12
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/wlHjte7xC8ZfgAMxUKxLL77ejyC.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                10759
+            ],
+            "id": 222787,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30e1\u30bf\u30ea\u30c3\u30af\u30eb\u30fc\u30b8\u30e5",
+            "overview": "In a world where humans coexist with androids called Neans, a group known as the Immortal Nine rises up against society. Tasked with disposing of the revolters, a Nean named Rouge Redstar (aka Metal Rouge) and investigator Naomi Orthmann head to Mars to track them down\u2026but first, Rouge wants some chocolate.",
+            "popularity": 142.502,
+            "poster_path": "/dcUWxOeCiEM7n7KdIYk1O8Xzgzp.jpg",
+            "first_air_date": "2024-01-11",
+            "name": "Metallic Rouge",
+            "vote_average": 7.447,
+            "vote_count": 19
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/eD0eKzDkdvoThLvqaS0Z7RGtC8L.jpg",
+            "genre_ids": [
+                16
+            ],
+            "id": 232865,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "SHAMAN KING FLOWERS",
+            "overview": "Asakura Hana finds that being the son of Asakura You & Anna isn't all it's cracked up to be, and his boredom has him itching for any kind of excitement. But when a fight comes straight to his doorstep, it's from a place he least expects\u2014his own family? The battle for Asakura supremacy begins!",
+            "popularity": 75.579,
+            "poster_path": "/wxVkoCshNRJyB9vfKVHTXOIQQeF.jpg",
+            "first_air_date": "2024-01-10",
+            "name": "SHAMAN KING FLOWERS",
+            "vote_average": 7.6,
+            "vote_count": 12
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/48dmF9JLqB5YRwAFcpfnRSM2l5K.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765
+            ],
+            "id": 231357,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u611a\u304b\u306a\u5929\u4f7f\u306f\u60aa\u9b54\u3068\u8e0a\u308b",
+            "overview": "Determined to protect his demon world from heavenly angels, demon Masatora Akutsu heads to earth in search of a charismatic human to rally his kin. Masquerading as a high schooler for his recruitment mission, he's captivated by the lovely Lily Amane. But he's in for a wild celestial surprise, because she's his archnemesis\u2014an angel\u2014and she's set on reforming his demonic ways!",
+            "popularity": 96.23,
+            "poster_path": "/tyay9L58bSNIxVUXIGNxkjKMRuD.jpg",
+            "first_air_date": "2024-01-09",
+            "name": "The Foolish Angel Dances with the Devil",
+            "vote_average": 5.8,
+            "vote_count": 14
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/pgN7ezTcwLiZHfMy6DUJ3v851U5.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765
+            ],
+            "id": 229443,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u59eb\u69d8\u201c\u62f7\u554f\u201d\u306e\u6642\u9593\u3067\u3059",
+            "overview": "As the war between the Imperial Army and Hellhorde rages on, the Princess, despite being armed with her mythical sword Excalibur, is captured and imprisoned. What kind of torture does she face at the hands of the chief demon interrogator? Fluffy fresh-baked toast! Hot, steaming ramen! Oh, the humanity! Can the Princess withstand these tormenting treats and keep her kingdom\u2019s secrets safe?",
+            "popularity": 83.217,
+            "poster_path": "/c5t7QsHxMqnv7Fi7TAaG3eB5Al3.jpg",
+            "first_air_date": "2024-01-09",
+            "name": "'Tis Time for \"Torture,\" Princess",
+            "vote_average": 6.909,
+            "vote_count": 11
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/m3jSoC9aCTI5euALkCTuiGVVIeS.jpg",
+            "genre_ids": [
+                16,
+                10765
+            ],
+            "id": 222930,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u60aa\u5f79\u4ee4\u5b22\u30ec\u30d9\u30eb99",
+            "overview": "This college kid wants nothing more than a quiet life. So when she's reborn as Yumiella, the hidden villainess of an Otome RPG, she's not exactly thrilled. Still yearning for peace, she abandons her evil duties to live a more discreet life. Until her gamer side kicks in, and she accidentally reaches level 99! Now, everyone suspects that she's the infamous Demon Lord. What future awaits her?",
+            "popularity": 92.639,
+            "poster_path": "/45KqPcfk6qrxl5XF7z9Wwtvo0vw.jpg",
+            "first_air_date": "2024-01-09",
+            "name": "Villainess Level 99: I May Be the Hidden Boss But I'm Not the Demon Lord",
+            "vote_average": 7.5,
+            "vote_count": 23
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/vsVhyFhtJ6XBc0FkVQpvqsPjNm7.jpg",
+            "genre_ids": [
+                16,
+                35
+            ],
+            "id": 213181,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u9053\u7523\u5b50\u30ae\u30e3\u30eb\u306f\u306a\u307e\u3089\u3081\u3093\u3053\u3044",
+            "overview": "Snowflakes aren\u2019t the only things dropping in Hokkaido\u2014so are jaws, thanks to the super adorable gals who are turning the icy north into a hotbed of fashion and fun. Brace yourself for a winter storm of laughs, love, and killer outfits as these gals prove that being cute is an all-season affair. Here, frostbite meets fashionista!",
+            "popularity": 100.021,
+            "poster_path": "/nCJKNJ3rtgLDAhAN5S881z8PHKU.jpg",
+            "first_air_date": "2024-01-09",
+            "name": "Hokkaido Gals Are Super Adorable!",
+            "vote_average": 8.028,
+            "vote_count": 53
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/m0GcZ5FKxzELfHMtSa0kRsnUaJ7.jpg",
+            "genre_ids": [
+                16
+            ],
+            "id": 241002,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u60b6\u3048\u3066\u3088\u3001\u30a2\u30c0\u30e0\u304f\u3093",
+            "overview": "This is the story of a boy, who became the lone Adam among four billion Eves. In a world where a pandemic has rendered all men impotent, high school student Itsuki is the exception who escaped it. In order to protect this secret, he transfers to a very special high school, which turns out to be composed of 90% girls! There, he encounters an upbeat and friendly senior, a sexually frustrated female teacher, a tomboyish school 'prince,' and an heiress from a wealthy family. For Itsuki, who has his pick of any woman in the world, the question remains: which one will he choose?",
+            "popularity": 322.506,
+            "poster_path": "/bs70WStsspaiclienWGeMBUDotQ.jpg",
+            "first_air_date": "2024-01-08",
+            "name": "Adam's Sweet Agony",
+            "vote_average": 6.8,
+            "vote_count": 13
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/eYfyC5foNQVxi0dosgwUl8obHLg.jpg",
+            "genre_ids": [
+                16,
+                9648,
+                10759,
+                10765
+            ],
+            "id": 197848,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u671b\u307e\u306c\u4e0d\u6b7b\u306e\u5192\u967a\u8005",
+            "overview": "Rentt Faina has hunted monsters for the last 10 years. Sadly, he\u2019s not great at his job, stuck hunting slimes and goblins for a few coins each day. His luck turns when he finds an undiscovered path. At the path\u2019s end, he meets his demise in the maw of a legendary dragon. But, he wakes up as an undead bag of bones! He sets out to achieve Existential Evolution and rejoin the land of the living.",
+            "popularity": 95.712,
+            "poster_path": "/lQpkZLyw8ID6lZG3djRtihzVWmY.jpg",
+            "first_air_date": "2024-01-08",
+            "name": "The Unwanted Undead Adventurer",
+            "vote_average": 7.9,
+            "vote_count": 32
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/4e8zDimEuYp5NvhekPZ2W8FiJAa.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 236532,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u6700\u5f37\u30bf\u30f3\u30af\u306e\u8ff7\u5bae\u653b\u7565\uff5e\u4f53\u529b9999\u306e\u30ec\u30a2\u30b9\u30ad\u30eb\u6301\u3061\u30bf\u30f3\u30af\u3001\u52c7\u8005\u30d1\u30fc\u30c6\u30a3\u30fc\u3092\u8ffd\u653e\u3055\u308c\u308b\uff5e",
+            "overview": "Rud, a shielder with a defense stat of 9999, serves as a tank for the Hero's Party as they carry out raids in labyrinths. When the tyrannical hero suddenly kicks him out of the party, saying his skill is \"useless,\" Rud makes his way back to his hometown. Along the way, he saves a young girl, and she reveals the true nature of his skill... which turns out to be incredibly powerful!",
+            "popularity": 82.146,
+            "poster_path": "/3Uf8L7wl4dokMukJ855cBLVxQj5.jpg",
+            "first_air_date": "2024-01-07",
+            "name": "The Strongest Tank's Labyrinth Raids -A Tank with a Rare 9999 Resistance Skill Got Kicked from the Hero's Party-",
+            "vote_average": 5.5,
+            "vote_count": 12
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/flKOXJ2iCAzNNJITuAP3zKqE7UA.jpg",
+            "genre_ids": [
+                16,
+                18,
+                10765
+            ],
+            "id": 232926,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30eb\u30fc\u30d77\u56de\u76ee\u306e\u60aa\u5f79\u4ee4\u5b22\u306f\u3001\u5143\u6575\u56fd\u3067\u81ea\u7531\u6c17\u307e\u307e\u306a\u82b1\u5ac1\u751f\u6d3b\u3092\u6e80\u55ab\u3059\u308b",
+            "overview": "Rishe, the duke\u2019s daughter, is no stranger to reincarnation\u2014it\u2019s her seventh life, after all. Each life restarts at her broken engagement. Having been a merchant, a maid, and a knight, she now desires leisure. But her world changes when a prince, who killed her in a past life, proposes! To prevent war and live to a ripe old age, she begins her seventh life as the bride of an enemy nation\u2019s prince.",
+            "popularity": 79.273,
+            "poster_path": "/5k7bkqolsaJVCj321gLkuikk2Ax.jpg",
+            "first_air_date": "2024-01-07",
+            "name": "7th Time Loop: The Villainess Enjoys a Carefree Life Married to Her Worst Enemy!",
+            "vote_average": 6.8,
+            "vote_count": 16
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/vuHpCqV8f08NNw6yu4Nyb0sDQOm.jpg",
+            "genre_ids": [
+                16,
+                35,
+                80
+            ],
+            "id": 202224,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Grimsburg",
+            "overview": "Marvin Flute may be the greatest detective ever to catch a cannibal clown or correctly identify a mid-century modern armoire. But there\u2019s one mystery he still can\u2019t crack \u2014 his family. Now that he's back in Grimsburg, a town where everyone has a secret or three, Flute will follow every lead he\u2019s got to redeem himself with the ex-wife he never stopped loving, even if it means hanging out with the son he never bothered to get to know.",
+            "popularity": 75.914,
+            "poster_path": "/tfWgaT55Oe3B8EPSe3x2TcIVsNG.jpg",
+            "first_air_date": "2024-01-07",
+            "name": "Grimsburg",
+            "vote_average": 5.8,
+            "vote_count": 11
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/xMNH87maNLt9n2bMDYeI6db5VFm.jpg",
+            "genre_ids": [
+                10759,
+                10765,
+                16
+            ],
+            "id": 127532,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u4ffa\u3060\u3051\u30ec\u30d9\u30eb\u30a2\u30c3\u30d7\u306a\u4ef6",
+            "overview": "They say whatever doesn\u2019t kill you makes you stronger, but that\u2019s not the case for the world\u2019s weakest hunter Sung Jinwoo. After being brutally slaughtered by monsters in a high-ranking dungeon, Jinwoo came back with the System, a program only he could see, that\u2019s leveling him up in every way. Now, he\u2019s inspired to discover the secrets behind his powers and the dungeon that spawned them.",
+            "popularity": 262.356,
+            "poster_path": "/geCRueV3ElhRTr0xtJuEWJt6dJ1.jpg",
+            "first_air_date": "2024-01-07",
+            "name": "Solo Leveling",
+            "vote_average": 8.641,
+            "vote_count": 383
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/oEWiCaRDqmUDRzXNxL9eyA1ofcd.jpg",
+            "genre_ids": [
+                16,
+                35,
+                18
+            ],
+            "id": 230059,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u3086\u3073\u3055\u304d\u3068\u604b\u3005",
+            "overview": "Yuki Itose is just a typical student dealing with the pressures of college. She is struggling one day on the train when an upperclassman named Itsuomi Nagi helps her out. As he gradually opens a new world to her, Yuki develops feelings for Itsuomi. A pure love story begins to grow.",
+            "popularity": 134.893,
+            "poster_path": "/xjKDdiAPmrqB8t1AxJDjbwdxKmt.jpg",
+            "first_air_date": "2024-01-06",
+            "name": "A Sign of Affection",
+            "vote_average": 8.0,
+            "vote_count": 25
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/uDYwinazoCtQFthSzc083biJPn4.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                18,
+                10759
+            ],
+            "id": 218493,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u7d50\u5a5a\u6307\u8f2a\u7269\u8a9e",
+            "overview": "Sato is a high school boy in love with his best friend Hime, an unearthly beauty from another realm. So when she moves back to her home world to get married, Sato doesn\u2019t think twice\u2014he follows her and crashes the wedding. Then, after a kiss from Hime, he suddenly becomes the new groom! But here, Hime is a Ring Princess and her husband is destined to be the Ring King: a hero of immense power.",
+            "popularity": 125.665,
+            "poster_path": "/mNuV7Jti0jYQh34OP2WdmhflTDQ.jpg",
+            "first_air_date": "2024-01-06",
+            "name": "Tales of Wedding Rings",
+            "vote_average": 6.773,
+            "vote_count": 22
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/1WbGhlLj1z6PC6Vrz5baouodURB.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10759,
+                10765
+            ],
+            "id": 131365,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u6cbb\u7652\u9b54\u6cd5\u306e\u9593\u9055\u3063\u305f\u4f7f\u3044\u65b9",
+            "overview": "An ordinary walk home from school turns into an epic journey for Usato. After suddenly being dropped into another world with two fellow students, Usato learns he was summoned there by accident. But things turn around when he discovers a unique aptitude for healing magic! Now, he trains beyond human limitations, using his self-healing abilities to gain absurd strength and unrivaled stamina.",
+            "popularity": 93.829,
+            "poster_path": "/uQEbcmuUwDfPiVUIRCF6d57eErM.jpg",
+            "first_air_date": "2024-01-06",
+            "name": "The Wrong Way to Use Healing Magic",
+            "vote_average": 7.2,
+            "vote_count": 24
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/zN6kspmbYSwR8nmNeKvD4efNnxj.jpg",
+            "genre_ids": [
+                10759,
+                16,
+                35,
+                10765
+            ],
+            "id": 236144,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u5373\u6b7b\u30c1\u30fc\u30c8\u304c\u6700\u5f37\u3059\u304e\u3066\u3001\u7570\u4e16\u754c\u306e\u3084\u3064\u3089\u304c\u307e\u308b\u3067\u76f8\u624b\u306b\u306a\u3089\u306a\u3044\u3093\u3067\u3059\u304c\u3002",
+            "overview": "Yogiri Takatou missed a few things during his nap. When he wakes up, he finds out that he and his entire class are in another word and must now team up with Tomochika and fend off danger with his Instant Death ability. If he can keep his eyes open, that is...",
+            "popularity": 66.952,
+            "poster_path": "/rqklWX3bDMrFx5bmV1kuGuMuo27.jpg",
+            "first_air_date": "2024-01-05",
+            "name": "My Instant Death Ability Is Overpowered",
+            "vote_average": 5.7,
+            "vote_count": 23
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/xljpEwFQF6Rl1rU1w7SEs1pk3YE.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765
+            ],
+            "id": 206630,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u4f50\u3005\u6728\u3068\u30d4\u30fc\u3061\u3083\u3093",
+            "overview": "Sasaki is a middle-aged office worker living in Japan. Feeling drained by the vapid corporate world, he heads to the pet shop in search of a new companion. There he finds an adorable bird named Peeps and takes him home. But Sasaki quickly learns that Peeps isn\u2019t your average bird\u2026he\u2019s a powerful mage from another world! Together, they embark on a magical adventure filled with swords and sorcery.",
+            "popularity": 99.26,
+            "poster_path": "/kVp4PsyB8V839mGQjkn6kevBwKV.jpg",
+            "first_air_date": "2024-01-05",
+            "name": "Sasaki and Peeps",
+            "vote_average": 6.8,
+            "vote_count": 14
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/xC5GyeIzLsSRizJE5LedGShNgBa.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765,
+                35
+            ],
+            "id": 207784,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30c0\u30f3\u30b8\u30e7\u30f3\u98ef",
+            "overview": "Dungeons, dragons... and delicious monster stew!? Adventurers foray into a cursed buried kingdom to save their friend, cooking up a storm along the way.",
+            "popularity": 266.396,
+            "poster_path": "/9t3DYdGxK3i4WRzKvIZwJd4kBnr.jpg",
+            "first_air_date": "2024-01-04",
+            "name": "Delicious in Dungeon",
+            "vote_average": 8.657,
+            "vote_count": 108
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/t02dITrzFNNFEaogaxSOgibpZfp.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 139060,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u9b54\u90fd\u7cbe\u5175\u306e\u30b9\u30ec\u30a4\u30d6",
+            "overview": "Destructive monsters from the Mato dimension threaten the earth, while women gifted with powers from Peaches try to stop them. But to save the world, Yuuki must be willing to become Chief Kyoka's servant both on the battlefield and at home.",
+            "popularity": 125.008,
+            "poster_path": "/9SFBctEZE0X4t1A2q16MC7EJrsC.jpg",
+            "first_air_date": "2024-01-04",
+            "name": "Chained Soldier",
+            "vote_average": 6.158,
+            "vote_count": 19
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/dvIguIZqqQKCt7YiKq7evfk5NW3.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                35
+            ],
+            "id": 236338,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u9b54\u6cd5\u5c11\u5973\u306b\u3042\u3053\u304c\u308c\u3066",
+            "overview": "Hiragi Utena is a major fangirl of the magical girls protecting her city and leaps at the chance to join their ranks. But once she transforms, she learns she's a villain who enjoys being a magical-girl-tormenting sadist instead!",
+            "popularity": 116.921,
+            "poster_path": "/afb9N3U9Jazmn156FS7teFoRxD0.jpg",
+            "first_air_date": "2024-01-03",
+            "name": "Gushing Over Magical Girls",
+            "vote_average": 8.2,
+            "vote_count": 22
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/4QJjj63L1pfhiF9rSRAVbwB4lLp.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 220286,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u7570\u4fee\u7f85",
+            "overview": "A host of demigods have inherited the world after the Demon King has died, and a battle to determine the mightiest ensues.",
+            "popularity": 111.739,
+            "poster_path": "/twNBSlJ6mbKGjbmhkKF09BeeCkD.jpg",
+            "first_air_date": "2024-01-03",
+            "name": "Ishura",
+            "vote_average": 6.278,
+            "vote_count": 18
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/mfalSGLVwkpupN7Zmj0m3x4xUlr.jpg",
+            "genre_ids": [
+                16,
+                10751
+            ],
+            "id": 221301,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30dd\u30b1\u30e2\u30f3\u30b3\u30f3\u30b7\u30a7\u30eb\u30b8\u30e5",
+            "overview": "Welcome to Pok\u00e9mon Resort, a peaceful getaway for Pok\u00e9mon to relax and have fun. Which adorable guest will the new concierge Haru befriend and help first?",
+            "popularity": 68.816,
+            "poster_path": "/2k53AsWsLrMtcbFyH0nVOqQjj2x.jpg",
+            "first_air_date": "2023-12-28",
+            "name": "Pok\u00e9mon Concierge",
+            "vote_average": 7.6,
+            "vote_count": 52
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/nUaOYBs1z1L3hx1ZuUNanXaKwxN.jpg",
+            "genre_ids": [
+                16,
+                35
+            ],
+            "id": 238151,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Carol & the End of the World",
+            "overview": "As a planetary apocalypse looms, a woman struggling to embrace end-times chaos searches for meaning in her last months on Earth.",
+            "popularity": 80.185,
+            "poster_path": "/eqXQL8XGvL2tn2NfXKirBHQKo2d.jpg",
+            "first_air_date": "2023-12-15",
+            "name": "Carol & the End of the World",
+            "vote_average": 7.639,
+            "vote_count": 54
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/sWbzxsnLKWdBXvfGBkJIC5k9U00.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                10759
+            ],
+            "id": 211051,
+            "origin_country": [
+                "TH"
+            ],
+            "original_language": "th",
+            "original_name": "\u0e14\u0e35\u0e21\u0e2d\u0e19\u0e02\u0e2d\u0e07\u0e1c\u0e21",
+            "overview": "To save his mother, a kind-hearted boy and his tiny daemon friend set out on a journey across post-apocalyptic Japan as dark forces close in.",
+            "popularity": 133.489,
+            "poster_path": "/5bWTE3CwBM6z8lew9BPykujeNwG.jpg",
+            "first_air_date": "2023-11-23",
+            "name": "My Daemon",
+            "vote_average": 8.303,
+            "vote_count": 33
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/2lzsmQw7IQFuhngIRIp3aocEwyC.jpg",
+            "genre_ids": [
+                10762,
+                16
+            ],
+            "id": 209710,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "CoComelon Lane",
+            "overview": "Join your favorite \"CoComelon\" characters on imaginative adventures as they explore feelings \u2014 and the world around them \u2014 in this story-driven series.",
+            "popularity": 18.651,
+            "poster_path": "/l5SRYNMkc8NOxQe0E0jNUrdxOR6.jpg",
+            "first_air_date": "2023-11-17",
+            "name": "CoComelon Lane",
+            "vote_average": 7.652,
+            "vote_count": 23
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/weo6T4zmgAhN7Jz9phX5sXHHcr5.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                35,
+                10765
+            ],
+            "id": 155292,
+            "origin_country": [
+                "JP",
+                "GB",
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Scott Pilgrim Takes Off",
+            "overview": "Scott Pilgrim meets the girl of his dreams, Ramona Flowers, only to find out her seven evil exes stand in the way of their love.",
+            "popularity": 169.343,
+            "poster_path": "/nHROk2C6bv8LqtvyYd0tCMURbxC.jpg",
+            "first_air_date": "2023-11-17",
+            "name": "Scott Pilgrim Takes Off",
+            "vote_average": 8.128,
+            "vote_count": 234
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/v9LyHEsDKVi27OAjYIrL46Qsgc.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                9648,
+                80
+            ],
+            "id": 120241,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u60aa\u9b54\u304f\u3093",
+            "overview": "Akuma Kun, a boy raised by a demon, works with his half-human partner Mephisto III as paranormal investigators to solve various murder and mysteries.",
+            "popularity": 96.666,
+            "poster_path": "/zPPYeLhEFbZjImIvGcfvZEIBFQl.jpg",
+            "first_air_date": "2023-11-09",
+            "name": "Akuma Kun",
+            "vote_average": 7.053,
+            "vote_count": 19
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/mGFRWVfH0HTTVighIXjtO2Vkz4z.jpg",
+            "genre_ids": [
+                10759,
+                16,
+                18
+            ],
+            "id": 225180,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "BLUE EYE SAMURAI",
+            "overview": "Driven by a dream of revenge against those who made her an outcast in Edo-period Japan, a young warrior cuts a bloody path toward her destiny.",
+            "popularity": 148.894,
+            "poster_path": "/fXm3JT4WLQVnwukdvghtAblc1wc.jpg",
+            "first_air_date": "2023-11-03",
+            "name": "BLUE EYE SAMURAI",
+            "vote_average": 8.575,
+            "vote_count": 368
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/n6PZpwwTYaigJU981RySxF7zl0k.jpg",
+            "genre_ids": [
+                10765,
+                10759,
+                10762,
+                16,
+                35,
+                10751
+            ],
+            "id": 221504,
+            "origin_country": [
+                "CA"
+            ],
+            "original_language": "en",
+            "original_name": "Unicorn Academy",
+            "overview": "When a dark force threatens to destroy Unicorn Island, a brave teen and her five schoolmates must rise up to protect their beloved magical academy.",
+            "popularity": 71.614,
+            "poster_path": "/5aex9xH2Tq9G9m9WyhPJiyVOJol.jpg",
+            "first_air_date": "2023-11-02",
+            "name": "Unicorn Academy",
+            "vote_average": 7.412,
+            "vote_count": 34
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/wSwq6SiUgR6veSltgS7mebs7n5b.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 210945,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u9b3c\u6b66\u8005",
+            "overview": "With a demonic, soul-consuming weapon in hand, can a legendary swordsman and a samurai brotherhood defeat a bloodthirsty zombie uprising?",
+            "popularity": 103.515,
+            "poster_path": "/lfRmDHegR8OpU3859lBz9YHgD79.jpg",
+            "first_air_date": "2023-11-02",
+            "name": "Onimusha",
+            "vote_average": 7.81,
+            "vote_count": 51
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/4Ima2b1rPCEZKRxjmk03okY40R0.jpg",
+            "genre_ids": [
+                16,
+                10762,
+                10759,
+                10765,
+                10751
+            ],
+            "id": 234800,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Curses!",
+            "overview": "The Vanderhouvens are a typical family\u2026except a curse recently turned Alex\u2014their loving husband and father\u2014to stone. In order to save him, his wife and kids set out on spine-tingling adventures to return ancient artifacts stolen by an ancestor.",
+            "popularity": 36.042,
+            "poster_path": "/hMQUIJwAzncS10ZtoQtIfq3ZNUe.jpg",
+            "first_air_date": "2023-10-26",
+            "name": "Curses!",
+            "vote_average": 6.3,
+            "vote_count": 12
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/oz3LT9glLNWpSQACnWlIYoSZA5M.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                9648,
+                80
+            ],
+            "id": 91997,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "PLUTO",
+            "overview": "When the world's seven most advanced robots and their human allies are murdered one by one, Inspector Gesicht soon discovers that he's also in danger.",
+            "popularity": 65.51,
+            "poster_path": "/agf5sETjlO35s3EDA7wwGliZ5UW.jpg",
+            "first_air_date": "2023-10-26",
+            "name": "PLUTO",
+            "vote_average": 7.954,
+            "vote_count": 130
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/lJuQBW4w1x6NgD514xDPqZ2Lbpz.jpg",
+            "genre_ids": [
+                16,
+                18,
+                9648
+            ],
+            "id": 220542,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u85ac\u5c4b\u306e\u3072\u3068\u308a\u3054\u3068",
+            "overview": "Maomao lived a peaceful life with her apothecary father. Until one day, she's sold as a lowly servant to the emperor's palace. But she wasn't meant for a compliant life among royalty. So when imperial heirs fall ill, she decides to step in and find a cure! This catches the eye of Jinshi, a handsome palace official who promotes her. Now, she's making a name for herself solving medical mysteries!",
+            "popularity": 187.672,
+            "poster_path": "/e3ojpANrFnmJCyeBNTinYwyBCIN.jpg",
+            "first_air_date": "2023-10-22",
+            "name": "The Apothecary Diaries",
+            "vote_average": 8.861,
+            "vote_count": 127
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/vK6QycM1MfqdpDvqrQEzovRoHS5.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10762
+            ],
+            "id": 224285,
+            "origin_country": [
+                "CA"
+            ],
+            "original_language": "en",
+            "original_name": "Total Drama Island",
+            "overview": "After 7 seasons of Total Drama, it's time to go back to the Island! Taking place in the run-down Camp Wawanakwa, contestants must give it their all as they compete in extreme baking, TikToking, drag racing and \"disaster and horror movie inspired challenges\" for a chance to win the one million dollar prize!",
+            "popularity": 42.497,
+            "poster_path": "/w80XbLlE0slKdFPsZWpZHGI1fl1.jpg",
+            "first_air_date": "2023-10-21",
+            "name": "Total Drama Island",
+            "vote_average": 8.1,
+            "vote_count": 15
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/rTViEeltl4rO974PmkUAdhQqW2R.jpg",
+            "genre_ids": [
+                10765,
+                18,
+                16
+            ],
+            "id": 204154,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Scavengers Reign",
+            "overview": "When a deep space freighter is damaged by a solar flare its surviving crew are stranded on a beautiful and unforgiving planet. They begin to learn the true nature of this planet as they try to survive long enough to escape or be rescued.",
+            "popularity": 48.473,
+            "poster_path": "/bFlVZV8TQbs8hcIY7PVYonYFMgK.jpg",
+            "first_air_date": "2023-10-19",
+            "name": "Scavengers Reign",
+            "vote_average": 8.6,
+            "vote_count": 156
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/4udjjH52TQEEiTZpw0FSZwvhK69.jpg",
+            "genre_ids": [
+                16,
+                10759
+            ],
+            "id": 127372,
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Captain Laserhawk: A Blood Dragon Remix",
+            "overview": "Branded an enemy of the state, a cyborg supersoldier struggles to find a cause worth fighting for in a dystopian society where nothing is what it seems.",
+            "popularity": 76.048,
+            "poster_path": "/xo27H3RmU01DQSfRiikpTbUVrxZ.jpg",
+            "first_air_date": "2023-10-19",
+            "name": "Captain Laserhawk: A Blood Dragon Remix",
+            "vote_average": 7.955,
+            "vote_count": 67
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/18S0TgsRcEajR0BZHKvxXSSMyGE.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765
+            ],
+            "id": 233408,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u653e\u8ab2\u5f8c\u5c11\u5e74\u82b1\u5b50\u304f\u3093",
+            "overview": "The spirit Hanako-kun and his human assistant, first-year student Nene Yashiro, keep the peace between supernatural forces and the students of Kamome Academy. When they\u2019re not fighting to maintain balance between the living and spirit worlds, how do they spend their time? Join Hanako-kun and Nene on their adventures after school!",
+            "popularity": 107.487,
+            "poster_path": "/6qtqmilWKwgbcz7l31aTvj7Edmu.jpg",
+            "first_air_date": "2023-10-13",
+            "name": "After-school Hanako-kun",
+            "vote_average": 8.556,
+            "vote_count": 10
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/45Usq8tvBj9DOU3tsZBnd19RmtT.jpg",
+            "genre_ids": [
+                16,
+                10765
+            ],
+            "id": 231677,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30b0\u30c3\u30c9\u30fb\u30ca\u30a4\u30c8\u30fb\u30ef\u30fc\u30eb\u30c9",
+            "overview": "Four miserable members of a dysfunctional household have no idea that they've formed a happy family unit in an immersive VR game \u2014 with each other.",
+            "popularity": 94.769,
+            "poster_path": "/k91PSMjahbvSOIJ1oB9BxjFDDRH.jpg",
+            "first_air_date": "2023-10-12",
+            "name": "GOOD NIGHT WORLD",
+            "vote_average": 7.5,
+            "vote_count": 23
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/2KKDIwALX3HJWCjeDnvLa3Ag6ki.jpg",
+            "genre_ids": [
+                16,
+                10765,
+                10759
+            ],
+            "id": 230050,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u5e30\u9084\u8005\u306e\u9b54\u6cd5\u306f\u7279\u5225\u3067\u3059",
+            "overview": "Another dimension that continues to taint our world, the Shadow World. Humanity is faced with the worst calamity, known as the Shadow Labyrinth. In spite of their desperate attacks, Desir Herrman and his friends lose their battle to the Destruction Dragon, Boromir Napolitan, and the world comes to an end. When Desir is convinced of his end, he opens his eyes... to find himself 13 years in the past. Desir has gone back in time to the enrollment ceremony of Hebrion Academy, the top school for mages in the Empire. To change the future of impending doom, Desir reassembles his friends once again to save the world!",
+            "popularity": 84.532,
+            "poster_path": "/svwCvfLCUqc5tn85lijkKqTXQLF.jpg",
+            "first_air_date": "2023-10-08",
+            "name": "A Returner's Magic Should Be Special",
+            "vote_average": 7.8,
+            "vote_count": 18
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/jibcH0Gnc7mCXD5vooVqU3e6Wuy.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765
+            ],
+            "id": 223564,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u541b\u306e\u3053\u3068\u304c\u5927\u5927\u5927\u5927\u5927\u597d\u304d\u306a100\u4eba\u306e\u5f7c\u5973",
+            "overview": "Rentaro Aijo was rejected 100 times in middle school. He visits a shrine and prays for better luck in high school. The God of Love appears and promises that he'll soon meet 100 people he's destined to date. But there's a catch\u2014once destiny introduces someone to him, the two must happily love each other. If they don't, they'll die. What will befall Rentaro and his 100 girlfriends in high school?",
+            "popularity": 170.342,
+            "poster_path": "/ms7uowQ6gBjfaB2zzwugfr30IKZ.jpg",
+            "first_air_date": "2023-10-08",
+            "name": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You",
+            "vote_average": 8.102,
+            "vote_count": 98
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/4msN2f5WeKVldbdxSymdndWTOmr.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 218843,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u4e03\u3064\u306e\u5927\u7f6a \u9ed9\u793a\u9332\u306e\u56db\u9a0e\u58eb",
+            "overview": "As a prophecy of doom unfolds on the peaceful land of Britannia, a purehearted boy sets out on a journey of discovery \u2014 and revenge.",
+            "popularity": 256.986,
+            "poster_path": "/6SWVJvCIC9B16u6wASZ8FEaNssz.jpg",
+            "first_air_date": "2023-10-08",
+            "name": "The Seven Deadly Sins: Four Knights of the Apocalypse",
+            "vote_average": 8.715,
+            "vote_count": 86
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/92E2kg0wcQMuyPRUjqzRfV9lHMa.jpg",
+            "genre_ids": [
+                16,
+                18,
+                10765,
+                35
+            ],
+            "id": 209604,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30c6\u30a3\u30a2\u30e0\u30fc\u30f3\u5e1d\u56fd\u7269\u8a9e\uff5e\u65ad\u982d\u53f0\u304b\u3089\u59cb\u307e\u308b\u3001\u59eb\u306e\u8ee2\u751f\u9006\u8ee2\u30b9\u30c8\u30fc\u30ea\u30fc\uff5e",
+            "overview": "After a rebellion overthrows the Tearmoon Empire, Princess Mia meets her demise by guillotine at just 20 years old. She awakens eight years in the past, given a second chance at life. Haunted by her memory of the guillotine, the princess sets out to rebuild the empire and prevent a return to fate. Can the selfish princess learn to be a selfless leader, even though she\u2019s trying to save herself?",
+            "popularity": 100.555,
+            "poster_path": "/ukaAsrpMczWl2AP7l27uYwdunvB.jpg",
+            "first_air_date": "2023-10-08",
+            "name": "Tearmoon Empire",
+            "vote_average": 6.8,
+            "vote_count": 13
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/gxiXnVUqZ4RMtyZqJ6NMfuSeHUT.jpg",
+            "genre_ids": [
+                16,
+                35
+            ],
+            "id": 234740,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u65b0\u3057\u3044\u4e0a\u53f8\u306f\u3069\u5929\u7136",
+            "overview": "The workplace comedy's story follows a 26-year-old office worker named Momose. He recently changed jobs after his previous boss harassed him. He's worried his new boss will also use power harassment to make his life miserable. Momose is trying to hide his anxious stomach when he first meets his new boss Shirasaki, however he's surprised to find his new boss is such a natural airhead that he eliminates all of Momose's anxiety.",
+            "popularity": 135.468,
+            "poster_path": "/znyUBGQfT9Z59eqwJu0n9SNofXo.jpg",
+            "first_air_date": "2023-10-07",
+            "name": "My New Boss Is Goofy",
+            "vote_average": 6.864,
+            "vote_count": 11
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/mOwMz143BPJzQbyoCbUr6BXWoAZ.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 219673,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u306f\u3081\u3064\u306e\u304a\u3046\u3053\u304f",
+            "overview": "Witches were once respected for the wisdom and magic they gifted to humans. But with the rise of the Gear Expansion era, the new science community deemed them as enemies who hindered the progress of society. Thus began the slaughter of all witches, including one who had mentored a human boy named Adonis. After witnessing her death, Adonis vows to bring bloodshed and terror to the human race.",
+            "popularity": 111.135,
+            "poster_path": "/uHSFGSZFR1VH3nG5x48gImWePeL.jpg",
+            "first_air_date": "2023-10-07",
+            "name": "The Kingdoms of Ruin",
+            "vote_average": 7.207,
+            "vote_count": 58
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/997Wc69ryU44fvDLxSv4aL2Cs76.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765
+            ],
+            "id": 217755,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u3072\u304d\u3053\u307e\u308a\u5438\u8840\u59eb\u306e\u60b6\u3005",
+            "overview": "Shut-in vampire Terakomari, or Komari for short, awakens from her slumber to find she's been promoted to a commander of the army! The thing is, though, her new squad has a reputation for being violently insubordinate. And although Komari was born to a prestigious vampire family, her hatred of blood has made her the picture of mediocrity-scrawny, uncoordinated, and inept at magic. With the odds stacked against her, will the help of her trusty maid be enough for this recluse to blunder her way to success?",
+            "popularity": 117.707,
+            "poster_path": "/9IfQxH5ORqYbsxtCNcUVCwID8Cg.jpg",
+            "first_air_date": "2023-10-07",
+            "name": "The Vexations of a Shut-In Vampire Princess",
+            "vote_average": 7.6,
+            "vote_count": 15
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/8uoNGqXeJCBoG2gLOsKW3qUDuaI.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765,
+                10759
+            ],
+            "id": 209077,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30a2\u30f3\u30c7\u30c3\u30c9\u30a2\u30f3\u30e9\u30c3\u30af",
+            "overview": "Andy, a Negator with the ability \"Undead,\" has been long in search for someone with the ability to give him a 'real death.' Fuko Izumo brings misfortune to those around her due to her ability \"Unluck.\" The two decide to join the Union, an organization which aims to control and protect the world from unidentified phenomena. The two uncover the mystery of the world as they search for the \"greatest death ever.\"",
+            "popularity": 222.666,
+            "poster_path": "/vcd9WHPHOEoiFEbz2EBN58IT7ab.jpg",
+            "first_air_date": "2023-10-07",
+            "name": "Undead Unluck",
+            "vote_average": 7.121,
+            "vote_count": 33
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/r65DFW2YePjqKjsjVRVkTNokqs1.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10759,
+                10765
+            ],
+            "id": 229609,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u5192\u967a\u8005\u306b\u306a\u308a\u305f\u3044\u3068\u90fd\u306b\u51fa\u3066\u884c\u3063\u305f\u5a18\u304cS\u30e9\u30f3\u30af\u306b\u306a\u3063\u3066\u305f",
+            "overview": "The young adventurer Belgrieve retires to a quieter life after losing his leg to a beast. While gathering herbs in the woods one day, he rescues an abandoned child. Angeline trains with her father and later achieves S-Rank in the capital\u2019s adventurer guild. Five years later, she decides to return home. Will Belgrieve get another chance at being an adventurer? Will Angeline return home unscathed?",
+            "popularity": 54.278,
+            "poster_path": "/21RbBglma8tFhKBLX2UxfZ4DT8X.jpg",
+            "first_air_date": "2023-10-06",
+            "name": "My Daughter Left the Nest and Returned an S-Rank Adventurer",
+            "vote_average": 5.5,
+            "vote_count": 13
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/NJVgpUiyDTgt9SLv6LKxvbDF4k.jpg",
+            "genre_ids": [
+                16,
+                35
+            ],
+            "id": 209845,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u7d4c\u9a13\u6e08\u307f\u306a\u30ad\u30df\u3068\u3001 \u7d4c\u9a13\u30bc\u30ed\u306a\u30aa\u30ec\u304c\u3001 \u304a\u4ed8\u304d\u5408\u3044\u3059\u308b\u8a71\u3002",
+            "overview": "Ryuto Kashima is the school's gloomy introvert, and he's got a crush on Runa Shirakawa, the popular girl. After losing a bet to classmates, he confesses his feelings to Runa one day. Shocked and secretly just as inexperienced as Ryuto, Runa agrees to date him. The relationship grows between two people who are as similar as they are different. Will their young love blossom? Time will tell!",
+            "popularity": 73.362,
+            "poster_path": "/ylz5RxpOCWkxIBiCCmNAlJcxYLn.jpg",
+            "first_air_date": "2023-10-06",
+            "name": "Our Dating Story: The Experienced You and the Inexperienced Me",
+            "vote_average": 5.926,
+            "vote_count": 27
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/stZFUSfDrKxbViHSM96uoPjEjwA.jpg",
+            "genre_ids": [
+                16,
+                18,
+                35,
+                10759
+            ],
+            "id": 132917,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30a2\u30f3\u30c0\u30fc\u30cb\u30f3\u30b8\u30e3",
+            "overview": "Within the shadows of Japan, a covert battle wages on. Around 200,000 ninjas still exist carrying out deadly missions as a secret organization, National Intelligence of NINJA, or NIN. But a challenger arises: UNDER NINJA. Known as UN, these ninjas oppose NIN at every turn. One such UN is Kuro, a high school loner sent to the front lines. What will be his fate and which faction will prevail?",
+            "popularity": 53.12,
+            "poster_path": "/uliIvGVI92s0C26jBOxaiSNUH1v.jpg",
+            "first_air_date": "2023-10-06",
+            "name": "UNDER NINJA",
+            "vote_average": 7.417,
+            "vote_count": 12
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/hjjlL2dg7qguCiPrJQnUfuIBwKm.jpg",
+            "genre_ids": [
+                16,
+                10751,
+                10762
+            ],
+            "id": 229612,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u67da\u6728\u3055\u3093\u3061\u306e\u56db\u5144\u5f1f\u3002",
+            "overview": "The four Yuzuki brothers\u2014Hayato, Mikoto, Minato, and young Gakuto\u2014lost their parents two years ago and now work to raise themselves. Together they live, learn, fight, and forgive as brothers should.",
+            "popularity": 71.942,
+            "poster_path": "/iHiwqJpE1ByB0Ie41lMdKh0nSMO.jpg",
+            "first_air_date": "2023-10-05",
+            "name": "The Yuzuki Family's Four Sons",
+            "vote_average": 6.7,
+            "vote_count": 12
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/y6X0TZq0dV0vvXK1AKD6zzAByvi.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765
+            ],
+            "id": 217512,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "16bit\u30bb\u30f3\u30bb\u30fc\u30b7\u30e7\u30f3 ANOTHER LAYER",
+            "overview": "Konoha Akisato is an illustrator that loves beautiful girls and bishojo games. Her dream is to become a super-popular illustrator, so she is working hard at a bishojo game production company, but reality isn't that kind... With the golden age of social network games in full force, Konoha's company isn't doing well, and she works as a sub illustrator, spending her days painting the backs of random background characters.\n\nOne day, the owner of a game shop gives her a classic bishojo game. With all her excitement over the golden age of bishojo games, she opens the package to \"Dokyusei,\" and is enveloped by a bright light. Konoha then realizes that she just traveled back in time!\n\nShe ends up in the year 1992! It's the dawn of the bishojo game era! Konoha ends up working at a company called Alcohol Soft. Will she be able to think about, draw, and create all the beautiful girls she\u2019s ever wanted?!\n\nA story about a girl and her overwhelming love for beautiful girls\u2014\"Now, let's begin!\"",
+            "popularity": 82.967,
+            "poster_path": "/zgjZsuLBwOGgUaIyLkpVPxl8Ii0.jpg",
+            "first_air_date": "2023-10-05",
+            "name": "16bit Sensation: Another Layer",
+            "vote_average": 5.7,
+            "vote_count": 14
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/w6UrhLiXEMLwI4PFv2I2JEPhLRj.jpg",
+            "genre_ids": [
+                16,
+                10765
+            ],
+            "id": 213331,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u66b4\u98df\u306e\u30d9\u30eb\u30bb\u30eb\u30af",
+            "overview": "Fate Graphite was born into a world where magical skills shape your destiny. His skill is Gluttony, a seemingly useless curse of unending hunger that has left him shunned and looked down upon. Until one day, after he takes the life of a thief, his true power awakens: he can devour the skill of anyone he kills to feed his appetite. Will he learn to control this gruesome ability for the better?",
+            "popularity": 107.197,
+            "poster_path": "/wQMcq5YUjMfoIEqLRzrNQVt4ROl.jpg",
+            "first_air_date": "2023-10-05",
+            "name": "Berserk of Gluttony",
+            "vote_average": 6.72,
+            "vote_count": 24
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/ydf5WJgPX5o34sMFcIQIglv0d4R.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765
+            ],
+            "id": 217405,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u5a5a\u7d04\u7834\u68c4\u3055\u308c\u305f\u4ee4\u5b22\u3092\u62fe\u3063\u305f\u4ffa\u304c\u3001\u30a4\u30b1\u30ca\u30a4\u3053\u3068\u3092\u6559\u3048\u8fbc\u3080",
+            "overview": "What does a young noblewoman freshly betrayed by her betrothed need most? A crash course in everything naughty! And who better to teach her than the feared hermit sorcerer who for some reason can\u2019t help but pamper her to no end?",
+            "popularity": 61.876,
+            "poster_path": "/tFr8Edx1Txms9EDiyLPEC6oiDDr.jpg",
+            "first_air_date": "2023-10-04",
+            "name": "I'm Giving the Disgraced Noble Lady I Rescued a Crash Course in Naughtiness",
+            "vote_average": 6.692,
+            "vote_count": 13
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/FiNJDtQ5biSmK6GWXi0aVtNqAj.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                35,
+                10765
+            ],
+            "id": 229610,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u3068\u3042\u308b\u304a\u3063\u3055\u3093\u306eVRMMO\u6d3b\u52d5\u8a18",
+            "overview": "Taichi Tanaka is just an ordinary 38-year-old who enjoys video games. He starts a new virtual reality multiplayer game called One More Free Life Online, naming his character Earth. Unlike his fellow players, he decides to master the most menial of skills in the game. He cooks the finest meals, overbrews complicated potions, and hunts monsters with handmade weapons. His fantasy life begins!",
+            "popularity": 31.041,
+            "poster_path": "/ukCu3TQCTUFTZMf4QNMpxwf3ufO.jpg",
+            "first_air_date": "2023-10-03",
+            "name": "A Playthrough of a Certain Dude's VRMMO Life",
+            "vote_average": 5.75,
+            "vote_count": 18
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/irpfqoLS3cI08zGSpCDhclA3yyR.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10765
+            ],
+            "id": 216269,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u79c1\u306e\u63a8\u3057\u306f\u60aa\u5f79\u4ee4\u5b22\u3002",
+            "overview": "The world turns upside down when a corporate drone wakes up as Rae Taylor, the heroine in her favorite otome game, Revolution. Rae is elated at the opportunity to court Claire Fran\u00e7ois, the game\u2019s villainess and the object of her affection. Armed with her knowledge of the game and events to come, Rae sets out to make Claire fall for her. But how will the villainess take Rae\u2019s romantic advances?",
+            "popularity": 87.943,
+            "poster_path": "/29jtBbv4eSk0QHdVMLwl8P4p6NX.jpg",
+            "first_air_date": "2023-10-03",
+            "name": "I'm in Love with the Villainess",
+            "vote_average": 6.9,
+            "vote_count": 17
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/sA6L9bRLVpFEtralQY5UQmgsHOD.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                10765
+            ],
+            "id": 211709,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "SHY",
+            "overview": "On the brink of a third World War, superheroes appeared on Earth. Gifted with powers, their appearance brings peace to the world. The heroes each selected a country in which they would reside, serve, and protect its citizens. Shy is Japan\u2019s hero, endowed with super strength. Her most daunting enemy yet? Crippling shyness. Join Shy and her super friends as she defends Earth and gains confidence!",
+            "popularity": 131.908,
+            "poster_path": "/u2kzoSZNk0z3nS71p6UzSxzh3zQ.jpg",
+            "first_air_date": "2023-10-03",
+            "name": "SHY",
+            "vote_average": 6.1,
+            "vote_count": 17
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/lcLPYKhmZJPp5v5tGjlUOclvoXc.jpg",
+            "genre_ids": [
+                16,
+                35,
+                10759,
+                10765
+            ],
+            "id": 136840,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u8056\u5263\u5b66\u9662\u306e\u9b54\u5263\u4f7f\u3044",
+            "overview": "Awakening from magical stasis after a thousand years, the Dark Lord Leonis suddenly finds himself in the body of a ten-year-old boy! He quickly meets Riselia, a girl confronting the Voids, creatures that have nearly exterminated humanity. Determined to uncover the mysteries of this strange new era, Leonis enrolls in Excalibur Academy, a school that trains students to fight back against these enigmatic monsters. Could the Voids hold some connection to Leonis's past?",
+            "popularity": 71.757,
+            "poster_path": "/h4OUGWuxjBlvsbgi62g26deXclc.jpg",
+            "first_air_date": "2023-10-03",
+            "name": "The Demon Sword Master of Excalibur Academy",
+            "vote_average": 6.182,
+            "vote_count": 10
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/5IBSPGPAEFEkEJo4leqvpq0RcKf.jpg",
+            "genre_ids": [
+                16
+            ],
+            "id": 233643,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u3057\u30fc\u304f\u308c\u3063\u3068\u307f\u3063\u3057\u3087\u3093\uff5e\u6f5c\u5165\u635c\u67fb\u5b98\u306f\u7d76\u5bfe\u306b\u8ca0\u3051\u306a\u3044\uff01\uff5e",
+            "overview": "Narcotics Enforcement Agent Riko Ikazuchi is undercover with her junior colleague Noma in an apartment that serves as the hideout for a criminal organization. Despite Riko and Noma posing as a newlywed couple, the criminals begin to suspect them after not hearing any marital intimacy during the night. To convince them that they are a loving couple, Noma starts touching Riko's body... Despite the feelings of humiliation and pleasure throughout the undercover investigations, Riko endures them and devotes herself to justice.",
+            "popularity": 142.552,
+            "poster_path": "/ipqu76qqHiVB2vlK2gGZNwF9SwX.jpg",
+            "first_air_date": "2023-10-02",
+            "name": "Secret Mission: Sennyuu Sousakan wa Zettai ni Makenai!",
+            "vote_average": 5.8,
+            "vote_count": 17
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/9EVQLSslxwSPiOqBufrzr7guJQ5.jpg",
+            "genre_ids": [
+                16,
+                9648,
+                80,
+                10759
+            ],
+            "id": 216523,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u9d28\u4e43\u6a4b\u30ed\u30f3\u306e\u7981\u65ad\u63a8\u7406",
+            "overview": "Ron Kamonohashi was once regarded as a genius at the top detective training academy. But after a fatal mistake, he was expelled and forbidden to become a detective. Years later, police officer Totomaru Isshiki knocks on Ron\u2019s door seeking help on a serial murder case. He finds Ron, now a messy-haired recluse, who agrees. Together, this mismatched detective team begins solving their first mystery!",
+            "popularity": 71.274,
+            "poster_path": "/79fk0GLg3vJsjL3uv13NVwcFbE3.jpg",
+            "first_air_date": "2023-10-02",
+            "name": "Ron Kamonohashi's Forbidden Deductions",
+            "vote_average": 6.2,
+            "vote_count": 21
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/qEqLerjgjX9BL1fsqRc4MoWzqIU.jpg",
+            "genre_ids": [
+                16,
+                10759
+            ],
+            "id": 154526,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "MF\u30b4\u30fc\u30b9\u30c8",
+            "overview": "Japan adopts self-driving electric automobiles and renders most gas engines obsolete by 202X. The fastest cars find new life in the MFG, a racing circuit held on Japanese motorways. Drivers from around the world race for a shot at the title. Kanata Rivington returns from Britain to Japan for the MFG\u2014and to find his father. Can he win the title and find answers? Buckle up and push it to the limit!",
+            "popularity": 93.552,
+            "poster_path": "/63cDEEjJw1x7RXPi3DxKdQ2Q7oK.jpg",
+            "first_air_date": "2023-10-02",
+            "name": "MF GHOST",
+            "vote_average": 7.8,
+            "vote_count": 11
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/sTnKX862YdnrLzhtAlzqGIYoHZs.jpg",
+            "genre_ids": [
+                16,
+                35,
+                9648
+            ],
+            "id": 153450,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30df\u30ae\u3068\u30c0\u30ea",
+            "overview": "The boy's name was Hitori. A stork brought the angel into the lives of a middle-aged couple who were not blessed with children. His parents were kind, his house spacious, and his meals hot. But to protect the happiness he had received, Hitori continued to hide an important secret from his parents.",
+            "popularity": 54.078,
+            "poster_path": "/oRWVGZ4k0DUPpIpzGuD6irKJJ1z.jpg",
+            "first_air_date": "2023-10-02",
+            "name": "Migi&Dali",
+            "vote_average": 6.125,
+            "vote_count": 16
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/aMfkRcw3GsawdoJnhFzqkRZ1LCG.jpg",
+            "genre_ids": [
+                16,
+                18
+            ],
+            "id": 218684,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30aa\u30fc\u30d0\u30fc\u30c6\u30a4\u30af!",
+            "overview": "Haruka Asahina is a high school teen racing in Formula 4. He crosses paths with a washed-up photographer, K\u014dya Madoka, who decides to help Haruka realize his dream and reach the podium. The heat is on, and competition is fierce. Racing for the family-run Komaki Motors team means Haruka must push the car, and himself, to the limits to catch the attention of top teams. Buckle up, it\u2019s time to race!",
+            "popularity": 127.686,
+            "poster_path": "/fnv09j3fUnu4YM569E3nrn7SSjD.jpg",
+            "first_air_date": "2023-10-01",
+            "name": "OVERTAKE!",
+            "vote_average": 6.727,
+            "vote_count": 11
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/yErVUZkLVak2ICxFC7mMfl3vcNP.jpg",
+            "genre_ids": [
+                16,
+                10759,
+                35,
+                10765
+            ],
+            "id": 205050,
+            "origin_country": [
+                "JP"
+            ],
+            "original_language": "ja",
+            "original_name": "\u30b7\u30e3\u30f3\u30b0\u30ea\u30e9\u30fb\u30d5\u30ed\u30f3\u30c6\u30a3\u30a2",
+            "overview": "Rakuro Hizutome only cares about one thing: beating crappy VR games. He devotes his entire life to these buggy games and could clear them all in his sleep. One day, he decides to challenge himself and play a popular god-tier game called Shangri-La Frontier. But he quickly learns just how difficult it is. Will his expert skills be enough to uncover its hidden secrets?",
+            "popularity": 169.725,
+            "poster_path": "/j39TyyUjlOd1lYUUGWh7jIza9jn.jpg",
+            "first_air_date": "2023-10-01",
+            "name": "Shangri-La Frontier",
+            "vote_average": 7.786,
+            "vote_count": 70
+        }
+    ]
+}
