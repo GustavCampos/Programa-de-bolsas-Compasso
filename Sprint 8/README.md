@@ -10,9 +10,27 @@
 
 # Evidências
 
+* Arquivo txt criado no exercício 1 para ser usado no exercício 2 dentro do container Spark.
+
+![ex1_output](Evidências/ex1_output.png)
+
+
+* Execução das etapas do exercício 2 dentro do container Spark.
+
+![ex2_1](Evidências/ex2_1.png)
+![ex2_2](Evidências/ex2_2.png)
+![ex2_3](Evidências/ex2_3.png)
+![ex2_4](Evidências/ex2_4.png)
+![ex2_5](Evidências/ex2_5.png)
+![ex2_6](Evidências/ex2_6.png)
+![ex2_7](Evidências/ex2_7.png)
+![ex2_8](Evidências/ex2_8.png)
+![ex2_9](Evidências/ex2_9.png)
+
+
 * Execução do Script [tmdb_test.py](Exercícios/Ex3/tmdb_test.py) criado para o exercício 3.
 
-![local_env_vars](Evidências/ex3_execution.png)
+![ex3_execution](Evidências/ex3_execution.png)
 
 * Logs de execução do AWS Glue Job ```createTrustedDataLocal```:
 
