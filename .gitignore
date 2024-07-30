@@ -20,7 +20,7 @@ Sprint 8/Desafios/*.csv
 Sprint 8/Desafios/*_parameters.json
 
 # Ignore sprint 9
-Sprint 9/Desafios/*_params.json
+Sprint 9/Desafios/**/*_params.json
 
 # Not ignore
 !**/aws_parameters.env
