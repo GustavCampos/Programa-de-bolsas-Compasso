@@ -5,6 +5,24 @@ title: Movies and Series Data Warehouse Dimensional Model
 ---
 
 erDiagram
+    Fact_MediaEvaluation {
+        int id
+        int media_id
+        int artist_id
+
+        int ingestion_date
+        int release_date
+        int end_date
+
+        int minute_duration
+        float vote_average
+        int vote_count
+        int budget
+        int revenue
+        float popularity
+
+    }
+
     Dim_Date {
         int id
         string complete_date
@@ -15,51 +33,33 @@ erDiagram
         int day
     }
 
-    Dim_Movie {
+    Dim_Media {
         int id
         int tmdb_id
         string imdb_id
 
+        string type
         string title
-        string original_title
-        array(string) genre
-    }
-
-    Fact_MediaEvaluation {
-        int id
-        int movie_id
-        int series_id
-        int artist_id
-
-        int ingestion_date
-        int release_date
-        int end_date
-
-        int minute_duration
-        float vote_average
-        int vote_count
-    }
-
-    Dim_Series {
-        int id
-        int tmdb_id
-        string imdb_id
+        array origin_country
+        array genre
     }
 
     Dim_Artist {
         int id
+        int tmdb_id
         string name
         string genre
         int birth_year
         int death_year
-        array(string) occupation
+        %%occupation == job for crew%%
+        array occupation 
+        float popularity
     }
 
+    Fact_MediaEvaluation }o--|| Dim_Media : media_id
 
-    Fact_MediaEvaluation }o--|| Dim_Movie : movie_id
-    Fact_MediaEvaluation }o--|| Dim_Series : series_id
+    Fact_MediaEvaluation }o--|| Dim_Date : ingestion_date
+    Fact_MediaEvaluation }o--|| Dim_Date : release_date
+    Fact_MediaEvaluation }o--|| Dim_Date : end_date
+
     Fact_MediaEvaluation }o--|| Dim_Artist : artist_id
-
-    Dim_Date ||--o{ Fact_MediaEvaluation : ingestion_date
-    Dim_Date ||--o{ Fact_MediaEvaluation : release_date
-    Dim_Date ||--o{ Fact_MediaEvaluation : end_date
