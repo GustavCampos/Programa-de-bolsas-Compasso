@@ -134,6 +134,39 @@ def local_extract_people(spark_df: DataFrame) -> DataFrame:
         spk_func.col("occupation").alias("occupation"),
         spk_func.lit(None).alias("popularity")
     )
+    
+def tmdb_extract_people(spark_df: DataFrame) -> DataFrame:
+    # Setting UDFs
+    genre_description_udf = spk_func.udf(
+        lambda genre_num: (None, "female", "male", "non-binary")[genre_num]
+    )
+    
+    normalize_occupation_udf = spk_func.udf(
+        lambda occupation_str: occupation_str.replace(" ", "_").lower()
+    )
+    
+    return spark_df\
+        .select(spk_func.explode(spk_func.col("credits.cast")).alias("cast"))\
+        .select(
+            spk_func.col("cast.id").alias("tmdb_id"),
+            spk_func.lower(spk_func.col("cast.name")).alias("name"),
+            genre_description_udf(spk_func.col("cast.gender")).alias("gender"),
+            spk_func.lit(None).alias("birth_year"),
+            spk_func.lit(None).alias("death_year"),
+            spk_func.array(spk_func.lit("actor")).alias("occupation"),
+            spk_func.col("cast.popularity").alias("popularity"),
+        ).union(spark_df
+            .select(spk_func.explode(spk_func.col("credits.crew")).alias("crew"))
+            .select(
+                spk_func.col("crew.id").alias("tmdb_id"),
+                spk_func.lower(spk_func.col("crew.name")).alias("name"),
+                genre_description_udf(spk_func.col("crew.gender")),
+                spk_func.lit(None).alias("birth_year"),
+                spk_func.lit(None).alias("death_year"),
+                spk_func.array(normalize_occupation_udf(spk_func.col("crew.job"))).alias("occupation"),
+                spk_func.col("crew.popularity").alias("popularity")
+            )
+        )
 
 def main():
     # Loading Job Parameters __________________________________________________
@@ -183,15 +216,6 @@ def main():
             ]
         }
     }
-    
-    # Setting UDFs
-    genre_description_udf = spk_func.udf(
-        lambda genre_num: (None, "female", "male", "non-binary")[genre_num]
-    )
-    
-    normalize_occupation_udf = spk_func.udf(
-        lambda occupation_str: occupation_str.replace(" ", "_").lower()
-    )
     
     # Creating Dimensional Model Tables _______________________________________
     print("Generating Dimensional Model Tables...")
@@ -264,45 +288,52 @@ def main():
     print("Date Dimension Complete!")
 
     # Creating dim_people _____________________________________________________
+    print("Extracting Data for dim_people...")
+    
+    # Local Data
     local_movie_dim_people = local_extract_people(dropped_local_movie_df)
     local_series_dim_people = local_extract_people(dropped_local_series_df) 
     
-    tmdb_movie_dim_people = dropped_tmdb_movie_df\
-        .select(spk_func.explode(spk_func.col("credits.cast")).alias("cast"))\
-        .select(
-            spk_func.col("cast.id").alias("tmdb_id"),
-            spk_func.lower(spk_func.col("cast.name")).alias("name"),
-            genre_description_udf(spk_func.col("cast.gender")).alias("gender"),
-            spk_func.lit(None).alias("birth_year"),
-            spk_func.lit(None).alias("death_year"),
-            spk_func.array(spk_func.lit("actor")).alias("occupation"),
-            spk_func.col("cast.popularity").alias("popularity"),
-        ).union(dropped_tmdb_movie_df
-            .select(spk_func.explode(spk_func.col("credits.crew")).alias("crew"))
-            .select(
-                spk_func.col("crew.id").alias("tmdb_id"),
-                spk_func.lower(spk_func.col("crew.name")).alias("name"),
-                genre_description_udf(spk_func.col("crew.gender")),
-                spk_func.lit(None).alias("birth_year"),
-                spk_func.lit(None).alias("death_year"),
-                spk_func.array(normalize_occupation_udf(spk_func.col("crew.job"))).alias("occupation"),
-                spk_func.col("crew.popularity").alias("popularity")
-            )
-        )
-        
-    tmdb_series_dim_people = dropped_tmdb_series_df
-    
-    tmdb_movie_dim_date.select("occupation").distinct().show(truncate=False)
+    # TMDB Data
+    tmdb_movie_dim_people = tmdb_extract_people(dropped_tmdb_movie_df)
+    tmdb_series_dim_people = tmdb_extract_people(dropped_tmdb_series_df)
 
+    print("Adding data to dim_people...")
+    
+    dim_people = dim_people.union(local_movie_dim_people
+        .union(local_series_dim_people)
+        .union(tmdb_movie_dim_people)
+        .union(tmdb_series_dim_people)
+        .groupBy("name").agg(
+            spk_func.first("tmdb_id").alias("tmdb_id"),
+            spk_func.first("gender").alias("gender"),
+            spk_func.first("birth_year").alias("birth_year"),
+            spk_func.first("death_year").alias("death_year"),
+            spk_func.flatten(spk_func.collect_set("occupation")).alias("occupation"),
+            spk_func.first("popularity").alias("popularity")
+        )
+        .orderBy(
+            spk_func.when(spk_func.col("tmdb_id").isNull(), 1).otherwise(0),
+            spk_func.col("tmdb_id"),
+            spk_func.col("name")
+        )
+        .select(
+            spk_func.monotonically_increasing_id().alias("id"),
+            spk_func.col("*")
+        )
+    )
+    
+    print("People Dimension Complete!")
+    
     # # Creating dim_media ______________________________________________________
-    # local_movie_dim_media = dropped_local_movie_df.select(
-    #     spk_func.lit(None).alias("tmdb_id"),
-    #     spk_func.col("id").alias("imdb_id"),
-    #     spk_func.lit("movie").alias("type"),
-    #     spk_func.lower(spk_func.col("title")).alias("title"),
-    #     spk_func.lit(None).alias("origin_country"),
-    #     spk_func.col("genre").alias("genre")
-    # ).drop_duplicates()
+    local_movie_dim_media = dropped_local_movie_df.select(
+        spk_func.lit(None).alias("tmdb_id"),
+        spk_func.col("id").alias("imdb_id"),
+        spk_func.lit("movie").alias("type"),
+        spk_func.lower(spk_func.col("title")).alias("title"),
+        spk_func.lit(None).alias("origin_country"),
+        spk_func.col("genre").alias("genre")
+    ).drop_duplicates()
     
     # Custom Code End =========================================================
     job.commit()
