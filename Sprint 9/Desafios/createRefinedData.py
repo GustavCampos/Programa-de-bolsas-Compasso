@@ -167,6 +167,28 @@ def tmdb_extract_people(spark_df: DataFrame) -> DataFrame:
                 spk_func.col("crew.popularity").alias("popularity")
             )
         )
+        
+def local_extract_media(spark_df: DataFrame, media_type: str) -> DataFrame:
+    return spark_df.select(
+        spk_func.lit(None).alias("tmdb_id"),
+        spk_func.col("id").alias("imdb_id"),
+        spk_func.lit(media_type).alias("type"),
+        spk_func.lower(spk_func.col("title")).alias("title"),
+        spk_func.lit(None).alias("origin_country"),
+        spk_func.col("genre").alias("genres")
+    ).drop_duplicates()
+    
+def tmdb_extract_media(spark_df: DataFrame, media_type: str, has_imdb_id: bool=True) -> DataFrame:
+    expr_value = ("NULL", "imdb_id")[has_imdb_id]
+    
+    return spark_df.select(
+        spk_func.col("id").alias("tmdb_id"),
+        spk_func.expr(expr_value).alias("imdb_id"),
+        spk_func.lit(media_type).alias("type"),
+        spk_func.col("title").alias("title"),
+        spk_func.col("origin_country").alias("origin_country"),
+        spk_func.col("genres").alias("genres")
+    )   
 
 def main():
     # Loading Job Parameters __________________________________________________
@@ -300,6 +322,7 @@ def main():
 
     print("Adding data to dim_people...")
     
+    # Union all dim_people
     dim_people = dim_people.union(local_movie_dim_people
         .union(local_series_dim_people)
         .union(tmdb_movie_dim_people)
@@ -311,7 +334,7 @@ def main():
             spk_func.first("death_year").alias("death_year"),
             spk_func.flatten(spk_func.collect_set("occupation")).alias("occupation"),
             spk_func.first("popularity").alias("popularity")
-        )
+        ).drop_duplicates()
         .orderBy(
             spk_func.when(spk_func.col("tmdb_id").isNull(), 1).otherwise(0),
             spk_func.col("tmdb_id"),
@@ -325,15 +348,47 @@ def main():
     
     print("People Dimension Complete!")
     
-    # # Creating dim_media ______________________________________________________
-    local_movie_dim_media = dropped_local_movie_df.select(
-        spk_func.lit(None).alias("tmdb_id"),
-        spk_func.col("id").alias("imdb_id"),
-        spk_func.lit("movie").alias("type"),
-        spk_func.lower(spk_func.col("title")).alias("title"),
-        spk_func.lit(None).alias("origin_country"),
-        spk_func.col("genre").alias("genre")
-    ).drop_duplicates()
+    # Creating dim_media ______________________________________________________
+    # Local Data
+    local_movie_dim_media = local_extract_media(dropped_local_movie_df, "movie")
+    local_series_dim_media = local_extract_media(dropped_local_series_df, "series")
+    
+    # TMDB Data
+    tmdb_movie_dim_media = tmdb_extract_media(dropped_tmdb_movie_df, "movie")
+    tmdb_series_dim_media = tmdb_extract_media(dropped_tmdb_series_df, "series", False)
+    
+    # Union all dim_media
+    unified_dim_media = (local_movie_dim_media
+        .union(local_series_dim_media)
+        .union(tmdb_movie_dim_media)
+        .union(tmdb_series_dim_media)
+    )
+    
+    unified_dim_media.show()
+    
+    # dim_media = dim_media.union(local_movie_dim_media
+    #     .union(local_series_dim_media)
+    #     .union(tmdb_movie_dim_media)
+    #     .union(tmdb_series_dim_media)
+    #     .groupBy("imdb_id").agg(
+    #         spk_func.first("tmdb_id").alias("tmdb_id"),
+    #         spk_func.first("gender").alias("gender"),
+    #         spk_func.first("birth_year").alias("birth_year"),
+    #         spk_func.first("death_year").alias("death_year"),
+    #         spk_func.flatten(spk_func.collect_set("occupation")).alias("occupation"),
+    #         spk_func.first("popularity").alias("popularity")
+    #     ).drop_duplicates()
+    #     .orderBy(
+    #         spk_func.when(spk_func.col("tmdb_id").isNull(), 1).otherwise(0),
+    #         spk_func.col("tmdb_id"),
+    #         spk_func.col("name")
+    #     )
+    #     .select(
+    #         spk_func.monotonically_increasing_id().alias("id"),
+    #         spk_func.col("*")
+    #     )
+    # )
+    
     
     # Custom Code End =========================================================
     job.commit()
