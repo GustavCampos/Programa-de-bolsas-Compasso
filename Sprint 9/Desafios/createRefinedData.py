@@ -24,7 +24,7 @@ def load_args(arg_list: list=None, file_path: str=None) -> dict:
 
 # Pyspark functions ___________________________________________________________
 def create_model_tables(spark: SparkSession) -> list[DataFrame]:
-    dim_artist = spark.createDataFrame(spark.sparkContext.emptyRDD(),
+    dim_people = spark.createDataFrame(spark.sparkContext.emptyRDD(),
         StructType([
             StructField("id", LongType(), False),
             StructField("tmdb_id", LongType(), True),
@@ -79,7 +79,7 @@ def create_model_tables(spark: SparkSession) -> list[DataFrame]:
         ])
     )
     
-    return [dim_artist, dim_date, dim_media, fact_media_evaluation]
+    return [dim_people, dim_date, dim_media, fact_media_evaluation]
    
 def to_dim_date(spark_df: DataFrame, date_column: str, only_year: bool=False) -> DataFrame:
     if only_year:
@@ -119,6 +119,20 @@ def to_dim_date(spark_df: DataFrame, date_column: str, only_year: bool=False) ->
         spk_func.quarter(date_column).alias("quarter"),
         spk_func.weekofyear(date_column).alias("week"),
         spk_func.dayofmonth(date_column).alias("day")
+    )
+    
+def local_extract_people(spark_df: DataFrame) -> DataFrame:
+    return spark_df.select(
+        spk_func.lit(None).alias("tmdb_id"),
+        spk_func.lower(spk_func.col("artist_name")).alias("name"),
+        spk_func
+            .when(spk_func.col("artist_genre") == "M", "male")
+            .when(spk_func.col("artist_genre") == "F", "female")
+            .otherwise(None).alias("gender"),
+        spk_func.col("birth_year").alias("birth_year"),
+        spk_func.col("death_year").alias("death_year"),
+        spk_func.col("occupation").alias("occupation"),
+        spk_func.lit(None).alias("popularity")
     )
 
 def main():
@@ -170,9 +184,18 @@ def main():
         }
     }
     
+    # Setting UDFs
+    genre_description_udf = spk_func.udf(
+        lambda genre_num: (None, "female", "male", "non-binary")[genre_num]
+    )
+    
+    normalize_occupation_udf = spk_func.udf(
+        lambda occupation_str: occupation_str.replace(" ", "_").lower()
+    )
+    
     # Creating Dimensional Model Tables _______________________________________
     print("Generating Dimensional Model Tables...")
-    dim_artist, dim_date, dim_media, fact_evaluation = create_model_tables(spark)
+    dim_people, dim_date, dim_media, fact_evaluation = create_model_tables(spark)
     
     # Import Data _____________________________________________________________
     print("Import Local Movie Data...")
@@ -240,38 +263,36 @@ def main():
     
     print("Date Dimension Complete!")
 
-    # Creating dim_artist _____________________________________________________
-    local_movie_dim_artist = dropped_local_movie_df.select(
-        spk_func.lit(None).alias("tmdb_id"),
-        spk_func.lower(spk_func.col("artist_name")).alias("name"),
-        spk_func
-            .when(spk_func.col("artist_genre") == "M", "male")
-            .when(spk_func.col("artist_genre") == "F", "female")
-            .otherwise(None).alias("genre"),
-        spk_func.col("birth_year").alias("birth_year"),
-        spk_func.col("death_year").alias("death_year"),
-        spk_func.col("occupation").alias("occupation"),
-        spk_func.lit(None).alias("popularity")
-    )
+    # Creating dim_people _____________________________________________________
+    local_movie_dim_people = local_extract_people(dropped_local_movie_df)
+    local_series_dim_people = local_extract_people(dropped_local_series_df) 
     
-    local_series_dim_artist = dropped_local_series_df.select(
-        spk_func.lit(None).alias("tmdb_id"),
-        spk_func.lower(spk_func.col("artist_name")).alias("name"),
-        spk_func
-            .when(spk_func.col("artist_genre") == "M", "male")
-            .when(spk_func.col("artist_genre") == "F", "female")
-            .otherwise(None).alias("genre"),
-        spk_func.col("birth_year").alias("birth_year"),
-        spk_func.col("death_year").alias("death_year"),
-        spk_func.col("occupation").alias("occupation"),
-        spk_func.lit(None).alias("popularity")
-    )
-    
-    # tmdb_movie_dim_date = dropped_tmdb_movie_df.select(
+    tmdb_movie_dim_people = dropped_tmdb_movie_df\
+        .select(spk_func.explode(spk_func.col("credits.cast")).alias("cast"))\
+        .select(
+            spk_func.col("cast.id").alias("tmdb_id"),
+            spk_func.lower(spk_func.col("cast.name")).alias("name"),
+            genre_description_udf(spk_func.col("cast.gender")).alias("gender"),
+            spk_func.lit(None).alias("birth_year"),
+            spk_func.lit(None).alias("death_year"),
+            spk_func.array(spk_func.lit("actor")).alias("occupation"),
+            spk_func.col("cast.popularity").alias("popularity"),
+        ).union(dropped_tmdb_movie_df
+            .select(spk_func.explode(spk_func.col("credits.crew")).alias("crew"))
+            .select(
+                spk_func.col("crew.id").alias("tmdb_id"),
+                spk_func.lower(spk_func.col("crew.name")).alias("name"),
+                genre_description_udf(spk_func.col("crew.gender")),
+                spk_func.lit(None).alias("birth_year"),
+                spk_func.lit(None).alias("death_year"),
+                spk_func.array(normalize_occupation_udf(spk_func.col("crew.job"))).alias("occupation"),
+                spk_func.col("crew.popularity").alias("popularity")
+            )
+        )
         
-    # )
+    tmdb_series_dim_people = dropped_tmdb_series_df
     
-    dropped_tmdb_movie_df.select(spk_func.explode(spk_func.col("credits.cast"))).show()
+    tmdb_movie_dim_date.select("occupation").distinct().show(truncate=False)
 
     # # Creating dim_media ______________________________________________________
     # local_movie_dim_media = dropped_local_movie_df.select(
