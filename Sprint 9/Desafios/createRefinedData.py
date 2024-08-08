@@ -66,7 +66,7 @@ def create_model_tables(spark: SparkSession) -> list[DataFrame]:
         StructType([
             StructField("id", LongType(), False),
             StructField("media_id", LongType(), True),
-            StructField("artist_id", LongType(), True),
+            StructField("people_id", LongType(), True),
             StructField("ingestion_date", LongType(), True),
             StructField("release_date", LongType(), True),
             StructField("end_date", LongType(), True),
@@ -173,7 +173,7 @@ def local_extract_media(spark_df: DataFrame, media_type: str) -> DataFrame:
         spk_func.lit(None).alias("tmdb_id"),
         spk_func.col("id").alias("imdb_id"),
         spk_func.lit(media_type).alias("type"),
-        spk_func.lower(spk_func.col("title")).alias("title"),
+        spk_func.col("title").alias("title"),
         spk_func.lit(None).alias("origin_country"),
         spk_func.col("genre").alias("genres")
     ).drop_duplicates()
@@ -198,28 +198,28 @@ def local_extract_evaluation(spark_df: DataFrame, dim_media: DataFrame,
             spk_func.when(spk_func.col("artist_genre") == "M", "male")
             .when(spk_func.col("artist_genre") == "F", "female")
             .otherwise(None)
-        ).alias("mvdf").join(
+        ).alias("ogdf").join(
             other=dim_media.alias("m"), 
-            on=[spk_func.col("mvdf.id") == spk_func.col("m.imdb_id")], 
+            on=[spk_func.col("ogdf.id") == spk_func.col("m.imdb_id")], 
             how="left_outer"
         ).join(
             other=dim_people.alias("p"),
             on=[
-                spk_func.col("mvdf.artist_name") == spk_func.col("p.name"),
-                spk_func.col("mvdf.artist_genre") == spk_func.col("p.gender")
+                spk_func.col("ogdf.artist_name") == spk_func.col("p.name"),
+                spk_func.col("ogdf.artist_genre") == spk_func.col("p.gender")
             ],
             how="left_outer"
         )
         .join(
             other=dim_date.alias("ig_date"),
-            on=[spk_func.col("ig_date.complete_date") == spk_func.col("mvdf.ingestion_date")],
+            on=[spk_func.col("ig_date.complete_date") == spk_func.col("ogdf.ingestion_date")],
             how="left_outer"
         ).join(
             other=dim_date.alias("rl_date"),
             on=[
                 spk_func.concat(
                     spk_func.lit("year only "), 
-                    spk_func.col("mvdf.release_year")
+                    spk_func.col("ogdf.release_year")
                 ) == spk_func.col("rl_date.complete_date")
             ],
             how="left_outer"
@@ -228,7 +228,7 @@ def local_extract_evaluation(spark_df: DataFrame, dim_media: DataFrame,
             on=[
                 spk_func.concat(
                     spk_func.lit("year only "), 
-                    spk_func.col("mvdf.end_year")
+                    spk_func.col("ogdf.end_year")
                 ) == spk_func.col("ed_date.complete_date")    
             ],
             how="left_outer"
@@ -238,7 +238,8 @@ def local_extract_evaluation(spark_df: DataFrame, dim_media: DataFrame,
             spk_func.col("ig_date.id").alias("ingestion_date"),
             spk_func.col("rl_date.id").alias("release_date"),
             spk_func.col("ed_date.id").alias("end_date"),
-            spk_func.col("mvdf.minute_duration").alias("minute_duration"),
+            spk_func.col("ogdf.minute_duration").alias("minute_duration"),
+            spk_func.col("vote_average").alias("vote_average"),
             spk_func.col("vote_count").alias("vote_count"),
             spk_func.lit(None).alias("budget"),
             spk_func.lit(None).alias("revenue"),
@@ -246,8 +247,53 @@ def local_extract_evaluation(spark_df: DataFrame, dim_media: DataFrame,
         )
     )
     
-def tmdb_extract_evaluation():
-    pass
+def tmdb_extract_evaluation(spark_df: DataFrame, dim_media: DataFrame,
+                            dim_people: DataFrame, dim_date:DataFrame, 
+                            media_type: str="movie") -> DataFrame:
+    return (spark_df
+        .withColumn("credits", spk_func.explode(spk_func.col("credits.cast")))
+        .withColumn("credits", spk_func.col("credits.id"))
+        .union(spark_df
+            .withColumn("credits", spk_func.explode(spk_func.col("credits.crew")))
+            .withColumn("credits", spk_func.col("credits.id"))
+        ).alias("ogdf").join(
+            how="left_outer",
+            other=dim_media.alias("m"),
+            on=[
+                spk_func.col("ogdf.id") == spk_func.col("m.tmdb_id"),
+                spk_func.col("m.type") == media_type
+            ]
+        ).join(
+            how="left_outer",
+            other=dim_people.alias("p"),
+            on=[spk_func.col("ogdf.credits") == spk_func.col("p.tmdb_id")]
+        )
+        .join(
+            how="left_outer",
+            other=dim_date.alias("ig_date"),
+            on=[spk_func.col("ogdf.ingestion_date") == spk_func.col("ig_date.complete_date")]
+        ).join(
+            how="left_outer",
+            other=dim_date.alias("rl_date"),
+            on=[spk_func.col("ogdf.release_date") == spk_func.col("rl_date.complete_date")]
+        ).join(
+            how="left_outer",
+            other=dim_date.alias("ed_date"),
+            on=[spk_func.col("ogdf.end_date") == spk_func.col("ed_date.complete_date")]
+        ).select(
+            spk_func.col("m.id").alias("media_id"),
+            spk_func.col("p.id").alias("people_id"),
+            spk_func.col("ig_date.id").alias("ingestion_date"),
+            spk_func.col("rl_date.id").alias("release_date"),
+            spk_func.col("ed_date.id").alias("end_date"),
+            spk_func.col("ogdf.runtime").alias("minute_duration"),
+            spk_func.col("ogdf.vote_average").alias("vote_average"),
+            spk_func.col("ogdf.vote_count").alias("vote_count"),
+            spk_func.col("ogdf.budget").alias("budget"),
+            spk_func.col("ogdf.revenue").alias("revenue"),
+            spk_func.col("ogdf.popularity").alias("popularity")
+        )
+    )
 
 def main():
     # Loading Job Parameters __________________________________________________
@@ -256,10 +302,11 @@ def main():
     ARGS_LIST = [
         "JOB_NAME", 
         "LOCAL_MOVIE_DATA_PATH", "LOCAL_SERIES_DATA_PATH",
-        "TMDB_MOVIE_DATA_PATH", "TMDB_SERIES_DATA_PATH"
+        "TMDB_MOVIE_DATA_PATH", "TMDB_SERIES_DATA_PATH",
+        "S3_TARGET_PATH"
     ]
     
-    ## @params: [JOB_NAME,LOCAL_MOVIE_DATA_PATH, LOCAL_SERIES_DATA_PATH, TMDB_MOVIE_DATA_PATH, TMDB_SERIES_DATA_PATH]
+    ## @params: [JOB_NAME,LOCAL_MOVIE_DATA_PATH, LOCAL_SERIES_DATA_PATH, TMDB_MOVIE_DATA_PATH, TMDB_SERIES_DATA_PATH, S3_TARGET_PATH]
     args = load_args(arg_list=ARGS_LIST, file_path='job_params.json')
     
     # Creating Job Context ____________________________________________________
@@ -279,7 +326,16 @@ def main():
     LOCAL_SERIES_DATA_PATH = args[ARGS_LIST[2]]
     TMDB_MOVIE_DATA_PATH = args[ARGS_LIST[3]]
     TMDB_SERIES_DATA_PATH = args[ARGS_LIST[4]]
+    S3_TARGET_PATH = args[ARGS_LIST[5]]
     
+    # S3 Paths
+    RESULT_FOLDER_PATH = f"{S3_TARGET_PATH}movies_and_series_dw/"
+    DIM_MEDIA_PATH = f"{RESULT_FOLDER_PATH}dim_movie/"
+    DIM_PEOPLE_PATH = f"{RESULT_FOLDER_PATH}dim_people/"
+    DIM_DATE_PATH = f"{RESULT_FOLDER_PATH}dim_date/"
+    FACT_MEDIA_EVALUATION_PATH = f"{RESULT_FOLDER_PATH}fact_media_evaluation/"
+    
+    # Columns constants
     COLUMNS_TO_REMOVE = {
         "LOCAL": ["original_title", "character", "most_known_titles"],
         "TMDB": {
@@ -297,6 +353,9 @@ def main():
             ]
         }
     }
+    
+    MEDIA_TYPE_MOVIE = "movie"
+    MEDIA_TYPE_SERIE = "series"
     
     # Creating Dimensional Model Tables _______________________________________
     print("Generating Dimensional Model Tables...")
@@ -423,12 +482,12 @@ def main():
     print("Extracting Data for dim_media...")
     
     # Local Data
-    local_movie_dim_media = local_extract_media(dropped_local_movie_df, "movie")
-    local_series_dim_media = local_extract_media(dropped_local_series_df, "series")
+    local_movie_dim_media = local_extract_media(dropped_local_movie_df, MEDIA_TYPE_MOVIE)
+    local_series_dim_media = local_extract_media(dropped_local_series_df, MEDIA_TYPE_SERIE)
     
     # TMDB Data
-    tmdb_movie_dim_media = tmdb_extract_media(dropped_tmdb_movie_df, "movie")
-    tmdb_series_dim_media = tmdb_extract_media(dropped_tmdb_series_df, "series", False)
+    tmdb_movie_dim_media = tmdb_extract_media(dropped_tmdb_movie_df, MEDIA_TYPE_MOVIE)
+    tmdb_series_dim_media = tmdb_extract_media(dropped_tmdb_series_df, MEDIA_TYPE_SERIE, False)
     
     # Union all dim_media
     print("Adding data to dim_media...")
@@ -461,28 +520,81 @@ def main():
     
     # Local Data
     local_movie_fact_evaluation = local_extract_evaluation(
-        dropped_local_movie_df.withColumn("end_year", spk_func.lit(None)),
-        dim_media, dim_people, dim_date
+        spark_df=   dropped_local_movie_df.withColumn("end_year", spk_func.lit(None)),
+        dim_media=  dim_media, 
+        dim_people= dim_people,
+        dim_date=   dim_date
     )
     local_series_fact_evaluation = local_extract_evaluation(
-        dropped_local_series_df, dim_media, dim_people, dim_date
+        spark_df=   dropped_local_series_df, 
+        dim_media=  dim_media, 
+        dim_people= dim_people, 
+        dim_date=   dim_date
     )
     
     # TMDB Data
-    tmdb_movie_fact_evaluation = (dropped_tmdb_movie_df
-        .alias()
+    tmdb_movie_fact_evaluation = tmdb_extract_evaluation(
+        spark_df=   dropped_tmdb_movie_df.withColumn("end_date", spk_func.lit(None)),
+        dim_media=  dim_media, 
+        dim_people= dim_people, 
+        dim_date=   dim_date,
+        media_type= MEDIA_TYPE_MOVIE
     )
     
-    local_series_fact_evaluation.show()
-    # local_movie_fact_evaluation.where(spk_func.col("people_id") == None).show()
+    tmdb_series_fact_evaluation = tmdb_extract_evaluation(
+        spark_df= (dropped_tmdb_series_df
+            .withColumn("runtime", spk_func.lit(None))
+            .withColumn("budget", spk_func.lit(None))
+            .withColumn("revenue", spk_func.lit(None))
+        ),
+        dim_media=  dim_media, 
+        dim_people= dim_people, 
+        dim_date=   dim_date,
+        media_type= MEDIA_TYPE_SERIE
+    )
     
+    # Union all fact_media_evaluation
     print("Adding data to fact_media_evaluation...")
-    print("Media Evaluation Fact Complete!")
-
-    # Writing Data ____________________________________________________________
     
+    fact_media_evaluation = fact_media_evaluation.union(
+        local_movie_fact_evaluation
+        .union(local_series_fact_evaluation)
+        .union(tmdb_movie_fact_evaluation)
+        .union(tmdb_series_fact_evaluation)
+        .orderBy(
+            spk_func.when(spk_func.col("media_id").isNull(), 1).otherwise(0),
+            spk_func.col("media_id"),
+            spk_func.when(spk_func.col("people_id").isNull(), 1).otherwise(0),
+            spk_func.col("people_id")
+        ).select(
+            spk_func.monotonically_increasing_id().alias("id"),
+            spk_func.col("media_id"),
+            spk_func.col("people_id"),
+            spk_func.col("ingestion_date"),
+            spk_func.col("release_date"),
+            spk_func.col("end_date"),
+            spk_func.col("minute_duration"),
+            spk_func.col("vote_average"),
+            spk_func.col("vote_count"),
+            spk_func.col("budget"),
+            spk_func.col("revenue"),
+            spk_func.col("popularity")
+        )
+    )
+        
+    print("Media Evaluation Fact Complete!")
+    
+    # Writing Data ____________________________________________________________
+    print(f"Writing Data on {S3_TARGET_PATH}...")
+    
+    fact_media_evaluation.write.mode("overwrite").parquet(FACT_MEDIA_EVALUATION_PATH)
+    dim_media.write.mode("overwrite").parquet(DIM_MEDIA_PATH)
+    dim_people.write.mode("overwrite").parquet(DIM_PEOPLE_PATH)
+    dim_date.write.mode("overwrite").parquet(DIM_DATE_PATH)
+    
+    print("Data Write Complete!")
     # Custom Code End =========================================================
     job.commit()
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     main()
