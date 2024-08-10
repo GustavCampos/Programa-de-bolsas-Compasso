@@ -330,7 +330,7 @@ def main():
     
     # S3 Paths
     RESULT_FOLDER_PATH = f"{S3_TARGET_PATH}movies_and_series_dw/"
-    DIM_MEDIA_PATH = f"{RESULT_FOLDER_PATH}dim_movie/"
+    DIM_MEDIA_PATH = f"{RESULT_FOLDER_PATH}dim_media/"
     DIM_PEOPLE_PATH = f"{RESULT_FOLDER_PATH}dim_people/"
     DIM_DATE_PATH = f"{RESULT_FOLDER_PATH}dim_date/"
     FACT_MEDIA_EVALUATION_PATH = f"{RESULT_FOLDER_PATH}fact_media_evaluation/"
