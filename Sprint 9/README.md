@@ -79,55 +79,24 @@ flowchart LR
 
 # Evidências
 
-* Arquivo txt criado no exercício 1 para ser usado no exercício 2 dentro do container Spark.
+* Logs de execução do AWS Glue Job ```createRefinedData```:
 
-![ex1_output](Evidências/ex1_output.png)
+![job_log_1](Evidências/job_log_1.png)
+![job_log_2](Evidências/job_log_2.png)
 
+* Logs de execução do AWS Glue Crawler ```createRefinedDataCrawler```:
 
-* Execução das etapas do exercício 2 dentro do container Spark.
-
-![ex2_1](Evidências/ex2_1.png)
-![ex2_2](Evidências/ex2_2.png)
-![ex2_3](Evidências/ex2_3.png)
-![ex2_4](Evidências/ex2_4.png)
-![ex2_5](Evidências/ex2_5.png)
-![ex2_6](Evidências/ex2_6.png)
-![ex2_7](Evidências/ex2_7.png)
-![ex2_8](Evidências/ex2_8.png)
-![ex2_9](Evidências/ex2_9.png)
-
-
-* Execução do Script [tmdb_test.py](Exercícios/Ex3/tmdb_test.py) criado para o exercício 3.
-
-![ex3_execution](Evidências/ex3_execution.png)
-
-* Logs de execução do AWS Glue Job ```createTrustedDataLocal```:
-
-![job_local_log](Evidências/job_local_log.png)
-
-* Logs de execução do AWS Glue Job ```createTrustedDataTMDB```:
-
-![job_tmdb_1](Evidências/job_tmdb_1.png)
-![job_tmdb_2](Evidências/job_tmdb_2.png)
-![job_tmdb_3](Evidências/job_tmdb_3.png)
-
-* Logs de execução do AWS Glue Crawler ```createTrustedLocalDataCrawler```:
-
-![crawler_local_log](Evidências/crawler_local_log.png)
-
-* Logs de execução do AWS Glue Crawler ```createTrustedTMDBDataCrawler```:
-
-![crawler_tmdb_log](Evidências/crawler_tmdb_log.png)
+![crawler_log](Evidências/crawler_log.png)
 
 * Estrutura de diretórios do S3 para os arquivos temporários de teste durante desenvolvimento dos Jobs do Glue.
 
-![temp_tree](Evidências/temp_tree.png)
+![test_subsets_tree](Evidências/test_subsets_tree.png)
+![test_results_tree](Evidências/test_results_tree.png)
 
-* Estrutura de diretórios do S3 para os arquivos da camada ***Raw***.
-
-![raw_tree](Evidências/raw_tree.png)
-
-* Estrutura de diretórios do S3 para os arquivos criados para a camada ***Trusted*** pelos Jobs do Glue.
+* Estrutura de diretórios do S3 para os arquivos da camada ***Trusted***.
 
 ![trusted_tree](Evidências/trusted_tree.png)
 
+* Estrutura de diretórios do S3 para os arquivos da camada ***Refined***.
+
+![refined_tree](Evidências/refined_tree.png)

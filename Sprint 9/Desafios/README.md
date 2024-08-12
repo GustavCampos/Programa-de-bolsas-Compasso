@@ -4,162 +4,296 @@
 
 * Como a Squad 1 deve abordar filmes/séries de comédia ou animação, tenho como objetivo verificar se o gênero de animação possuía algum tipo de estigma e caso verdadeiro, como ele evoluiu ao longo do tempo.
 * Pretendo verificar quais genêros que mais aparecem em conjunto com animação em cada década. 
-* Pretendo também verificar se os filmes mais conhecidos dos atores vindo dos dados do IMDB possuem o gênero animação.
+* Pretendo também outras questões como budget, popularidade, etc...
 
-## Modelagem Dimensional
+## Modelagem Dimensional:
 
+### Tabela Fato
 
+Para tabela fato, verifiquei dados quantitativos presentes nos dados Trusted/Local e Trusted/TMDB e selecionei os seguintes dados:
 
-## Processamento dos Dados para Camada Trusted:
+#### Dados Locais
 
-* Script para Dados Locais (IMDB): [createTrustedDataLocal.py](createTrustedDataLocal.py)
-* Script para Dados do TMDB: [createTrustedDataTMDB.py](createTrustedDataTMDB.py)
+| Na fonte | Processado |
+| ----- | ----- |
+| minute_duration | minute_duration |
+| vote_average | vote_average |
+| vote_count | vote_count |
+| *None* | budget |
+| *None* | revenue |
+| *None* | popularity |
+
+#### Dados TMDB
+
+| Na fonte | Processado |
+| ----- | ----- |
+| runtime | minute_duration |
+| vote_average | vote_average |
+| vote_count | vote_count |
+| budget | budget |
+| revenue | revenue |
+| popularity | popularity |
+
+### Dimensão de Data (Tempo)
+
+Para dimensão de tempo, verifiquei dados de marcação temporal e a partir deles vou gerar vários níveis de informação para estes dados.
+
+#### Dados Local
+
+| Na fonte | Processado |
+| ----- | ----- |
+| release_year | row(release_date) |
+| end_year | row(end_date) |
+| ingestion_date | row(ingestion_date) |
+
+#### Dados TMDB
+
+| Na fonte | Processado |
+| ----- | ----- |
+| release_date | row(release_date) |
+| end_date | row(end_date) |
+| ingestion_date | row(ingestion_date) |
+
+### Dimensão de Pessoas
+
+Para criar a dimensão de pessoas vamos ter dois tramentos diferentes.
+
+#### Dados Local
+
+Aqui os registros aparecem em redundância apenas alterando dados dos atores, ficando simples de extrair os dados.
+
+| Na fonte | Processado |
+| ----- | ----- |
+| *None* | tmdb_id |
+| artist_name | name |
+| artist_genre( *M* ou *F* ) | gender( *male* ou *female* ) |
+| birth_year | birth_year |
+| death_year | death_year |
+| occupation | occupation |
+| *None* | popularity |
+
+#### Dados TMDB
+
+O DataFrame gerado pelos arquivos parquets do TMDB geram uma coluna com o seguinte struct:
+
+![credits_struct](../Evidências/credits_struct.png)
+
+Será necessário "explodir" estes dados para os extrair.
+
+| Na fonte (cast) | Na fonte (crew) | Processado |
+| - | - | - |
+| id | id | tmdb_id |
+| name | name | name |
+| gender | gender | map(gender) |
+| *None* | *None* | birth_year |
+| *None* | *None* | death_year |
+| lit("actor") | job | occupation |
+| popularity | popularity | popularity |
+
+### Dimensão de Mídia
+
+Para esta dimensão vamos extrair os dados que descrevem as características da mídia.
+
+#### Dados Locais
+
+| Na fonte | Processado |
+|-|-|
+| *None* | tmdb_id |
+| id | imdb_id |
+| lit( *movie* ) ou lit( *series* ) | type |
+| title | title |
+| *None* | origin_country |
+| genre | genres |
+
+#### Dados TMDB
+
+| Na fonte | Processado |
+|-|-|
+| id | tmdb_id |
+| expr("NULL" ou "imdb_id") | imdb_id |
+| lit( *movie* ) ou lit( *series* ) | type |
+| title | title |
+| origin_country | origin_country |
+| genre | genres |
+
+### Modelagem Completa
+
+Como pode ser notado, nesta modelagem não utilizei os IDs originais dos dados como identificador para evitar conflitos nos registros, assim, será criado identificadores próprios para as tabelas.
+
+Por fim temos o seguinte diagram de entidade e relacionamento:
+
+![modelagem_dimensional](modelagem_dimensional.png)
+
+## Processamento dos Dados para Camada Refined:
+
+* Script para processar todos os dados da camada Trusted a partir de um AWS Glue Job: [createRefinedData.py](createRefinedData.py)
+
 ---
 
 # Fluxos de Execução
 
-## Funções Gerais
-Aqui vamos explorar o fluxo de execução e a entrada/saída de algumas funções que aparecem em ambos os scripts feitos.
+Vamos explorar a entradas/saída das funções criadas para o Glue Job e seus fluxos de execução.
 
-### Funções de manipulação de URIs do S3
-```python
-def uri_to_bucket_name(uri: str) -> str:
-    # s3://gustavcampos/2024/07/01/movies.csv -> gustavcampos
+## Funções Usando PySpark
 
-def uri_to_s3_key(uri: str) -> str:
-    # s3://gustavcampos/2024/07/01/movies.csv -> 2024/07/01/movies.csv
-
-def s3_key_to_uri(obj_key: str, bucket_name: str) -> str:
-    # 2024/07/01/movies.csv, gustavcampos -> s3://gustavcampos/2024/07/01/movies.csv
-
-def s3_key_to_date(obj_key: str) -> str:
-    # s3://gustavcampos/2024/07/01/movies.csv -> 2024-07-01
-```
-
-### Funções de Requisição
-
-#### *get_genre_map*
+### *create_model_tables*
 
 ```python
-def get_genre_map(url: str, header: dict) -> dict:
+def create_model_tables(spark: SparkSession) -> list[DataFrame]:
 ```
 
-Função encarregada de criar um mapeamento dos nomes dos gêneros registrados na API do TMDB.
+Função criada para gerar Dataframes com a estrutura correta e alinhada com a modelagem dimensional para garantir que os dados tratados ao final estão corretamente selecionados, tipados e padronizados.
 - **Parâmetros**
-    - *url*: ***str*** informando a url da requisição.
-    - *header*: ***dict*** contendo as informações do cabeçalho da requisição.
-- **Retorno**: ***dict*** no modelo ```id: nome``` dos gêneros disponibilizados pela API.
+    - *spark*: ***SparkSession*** do script, será utilizada para criar os DataFrames.
+- **Retorno**: ***list[DataFrame]*** com os DataFrames da modelagem dimensional na seguinte ordem: ```dim_people```, ```dim_date```, ```dim_media``` e ```fact_media_evaluation```.
+
+### *to_dim_date*
+
+```python
+def to_dim_date(spark_df: DataFrame, date_column: str, only_year: bool=False) -> DataFrame:
+```
+
+Função criada para gerar registros para o DataFrame dim_date. 
+- **Parâmetros**
+    - *spark_df*: ***DataFrame*** com a coluna de datas que você deseja processar.
+    - *date_column*: ***str*** que indica a coluna que você deseja processar.
+    - *only_year*: ***bool*** que indica se a coluna será uma data completa "yyyy-mm-dd" ou apenas um ***int*** como ano.
+- **Retorno**: ***DataFrame*** com  as colunas ```complete_date, decade, year, month, quarter, week, day``` baseado em cada data do DataFrame original.
 
 ```mermaid
-flowchart LR
-    start((Início))
-    request["Requisita dados para URL"]
-    json["Converte conteúdo da resposta para JSON"]
-    dict["Cria dicionário (id: nome)"]
-    return[/Dicionário criado /]
-    flow_end((Fim))
+---
+title: Fluxo to_dim_date
+---
 
-    start --> request
-    request --> json
-    json --> dict
-    dict --> return
-    return --> flow_end
+flowchart LR
+    start((Começo))
+    only_year{only_year == True}
+    decade1["Novo dataframe com a coluna 'decade'"]
+    decade2["Novo dataframe com a coluna 'decade'"]
+    add_cd["Gera data completa"]
+    add_year["Seleciona década e ano"]
+    add_none["Seleciona nulo para outras colunas"]
+    add_all["Seleciona todas as colunas a partir da data completa"]
+    return[/" Retorna DataFrame criado"/]
+    fend(("Fim"))
+
+    start --> only_year
+    only_year -- Sim --> decade1
+    decade1 --> add_cd
+    add_cd --> add_year
+    add_year --> add_none
+    add_none --> return
+    only_year -- Não --> decade2
+    decade2 --> add_all
+    add_all --> return
+    return --> fend
 ```
 
-### Funções Usando PySpark
-
-#### *map_columns_df*
+### *local_extract_people*
 
 ```python
-def map_columns_df(spark_df: DataFrame, mapping: list,  null_symbol: str="None") -> DataFrame:
+def local_extract_people(spark_df: DataFrame) -> DataFrame:
 ```
 
-Mapeia multiplas colunas de um DataFrame a partir de uma lista de mapeamento
+Função criada para extrair dados dos atores registrados nos dados locais.
 - **Parâmetros**
-    - *spark_df*: ***pyspark.sql.DataFrame*** a ser mapeado.
-    - *mapping*: ***list*** onde cada item é uma tupla ```(<nome coluna>, <nome coluna desejado>, <tipo desejado>)```.
-    - *null_symbol*: ***str*** valor a ser reconhecido como nulo.
-- **Retorno**: novo ***pyspark.sql.DataFrame*** com colunas e valores mapeados. 
+    - *spark_df*: ***DataFrame*** dos dados locais.
+- **Retorno**: ***DataFrame*** com  as colunas ```tmdb_id, name, gender, birth_year, death_year, occupation, popularity```.
 
-```mermaid
-flowchart LR
-    start((Início))
+### *tmdb_extract_people*
 
-    i_evaluate_null[Inicializa UDF 'evaluate_null']
-    i_return_df[Inicializa 'return_df' como 'spark_df']
-
-    start --> i_evaluate_null
-    i_evaluate_null --> i_return_df
-    i_return_df --> sb_column
-
-
-    subgraph sb_column[" "]
-        column_loop{{Para cada coluna mapeada}}
-        col_is_array{col_type é ArrayType?}
-        evaluate_null[Cria nova coluna com evaluate_null]
-        explode_values[Divide valores da nova coluna]
-        cast_type[Converte nova coluna para col_type]
-        drop_col[Remove coluna original]
-        update_return[Atualiza return_df]
-
-        column_loop --> evaluate_null
-        evaluate_null --> col_is_array
-        col_is_array -->|Sim| explode_values
-        col_is_array -->|Não| cast_type
-        explode_values --> cast_type
-        cast_type --> drop_col
-        drop_col --> update_return
-        update_return --> column_loop
-    end
-
-    return[/Retorna return_df/]
-    flow_end((Fim))
-
-    sb_column --> return
-    return --> flow_end
-```
-
-#### *rename_columns*
 ```python
-def rename_columns(spark_df: DataFrame, mapping: list) -> DataFrame:
+def tmdb_extract_people(spark_df: DataFrame) -> DataFrame:
 ```
 
-Renomeia multiplas colunas de um DataFrame a partir de uma lista de mapeamento.
+Função criada para extrair dados dos atores registrados nos dados do TMDB.
 - **Parâmetros**
-    - *spark_df*: ***pyspark.sql.DataFrame*** a ser mapeado.
-    - *mapping*: ***list*** onde cada item é uma tupla ```(<nome coluna>, <nome coluna desejado>)```.
-- **Retorno**: novo ***pyspark.sql.DataFrame*** com colunas mapeadas.
+    - *spark_df*: ***DataFrame*** dos dados do TMDB.
+- **Retorno**: ***DataFrame*** com  as colunas ```tmdb_id, name, gender, birth_year, death_year, occupation, popularity```.
 
 ```mermaid
+---
+title: Fluxo tmdb_extract_people
+---
 flowchart LR
-    start((Início))
-    i_return_df[Inicializa 'return_df' como 'spark_df']
-    return[/return_df/]
-    flow_end((Fim))
-
-    subgraph loop[" "]
-        direction TB
-
-        column_loop{{Para cada coluna mapeada}}
-        renamed[Cria novo DataFrame com a coluna renomeada]
-        attr[Atribui novo DataFrame a 'return_df']
-
-        column_loop --> renamed
-        renamed --> attr
-        attr --> column_loop
-    end
-
-    start --> i_return_df
-    i_return_df --> loop
+    start((Começo))
+    fend((Fim))
+    cast_create["Gera novo dataframe com os dados em 'credits.cast'"]
+    cast_select["Seleciona os dados importantes de cast"]
+    crew_create["Gera novo dataframe com os dados em 'credits.crew'"]
+    crew_select["Seleciona os dados importantes de crew"]
+    union["Unifica os dois DataFrames criados"]
+    return[/"Retorna DataFrame unificado"/]
     
-
-    loop --> return
-    return --> flow_end
+    start --> cast_create
+    cast_create --> cast_select
+    cast_select --> crew_create
+    crew_create --> crew_select
+    crew_select --> union
+    union --> return
+    return --> fend
 ```
 
-### Funções Para o Glue Job
+### *local_extract_media*
 
-#### *load_args*
+```python
+def local_extract_media(spark_df: DataFrame, media_type: str) -> DataFrame:
+```
+
+Função criada para extrair dados das mídias registradas nos dados do Locais.
+- **Parâmetros**
+    - *spark_df*: ***DataFrame*** dos dados Locais.
+    - *media_type*: ***str*** que define o valor da coluna ***type***.
+- **Retorno**: ***DataFrame*** com  as colunas ```tmdb_id, imdb_id, type, title, origin_country, genres```.
+
+### *tmdb_extract_media*
+
+```python
+def tmdb_extract_media(spark_df: DataFrame, media_type: str, has_imdb_id: bool=True) -> DataFrame:
+```
+
+Função criada para extrair dados das mídias registradas nos dados do TMDB.
+- **Parâmetros**
+    - *spark_df*: ***DataFrame*** dos dados Locais.
+    - *media_type*: ***str*** que define o valor da coluna ***type***.
+    - *has_imdb_id*: ***bool*** que indica se *spark_df* possui a coluna ```imdb_id```.
+- **Retorno**: ***DataFrame*** com  as colunas ```tmdb_id, imdb_id, type, title, origin_country, genres```.
+
+### *local_extract_evaluation*
+
+```python
+def local_extract_evaluation(spark_df: DataFrame, dim_media: DataFrame, 
+                            dim_people: DataFrame, dim_date:DataFrame) -> DataFrame:
+```
+
+Função criada para gerar a tabela fato fazendo as relações de IDs corretas para os dados Locais.
+- **Parâmetros**
+    - *spark_df*: ***DataFrame*** dos dados Locais.
+    - *dim_media*: ***DataFrame*** da dimensão de mídias.
+    - *dim_people*: ***DataFrame*** da dimensão de pessoas.
+    - *dim_date*: ***DataFrame*** da dimensão de datas.
+- **Retorno**: ***DataFrame*** com  as colunas ```media_id, people_id, ingestion_date, release_date, end_date, minute_duration, vote_average, vote_count, budget, revenue, popularity```.
+
+### *tmdb_extract_evaluation*
+
+```python
+def tmdb_extract_evaluation(spark_df: DataFrame, dim_media: DataFrame,
+                            dim_people: DataFrame, dim_date:DataFrame, 
+                            media_type: str="movie") -> DataFrame:
+```
+
+Função criada para gerar a tabela fato fazendo as relações de IDs corretas para os dados Locais.
+- **Parâmetros**
+    - *spark_df*: ***DataFrame*** dos dados Locais.
+    - *dim_media*: ***DataFrame*** da dimensão de mídias.
+    - *dim_people*: ***DataFrame*** da dimensão de pessoas.
+    - *dim_date*: ***DataFrame*** da dimensão de datas.
+    - *media_type* ***str*** tipo de mídia que *spark_df* possui.
+- **Retorno**: ***DataFrame*** com  as colunas ```media_id, people_id, ingestion_date, release_date, end_date, minute_duration, vote_average, vote_count, budget, revenue, popularity```.
+
+## Funções Para o Glue Job
+
+### *load_args*
 
 ```python
 def load_args(arg_list: list=None, file_path: str=None) -> dict:
@@ -196,141 +330,104 @@ flowchart LR
     return_dict --> fim
 ```
 
-#### *generate_unified_df*
-
-```python
-def generate_unified_df(glue_context: GlueContext, s3_client: boto3.client, s3_path: str,  
-                        file_format: str, format_options: dict) -> DataFrame:
-```
-
-Gera um DataFrame a partir de múltiplos arquivos dentro de uma pasta especificada no S3.
-- **Parâmetros**
-    - *glue_context*: ***GlueContext*** criado para Job.
-    - *s3_client*: Um ***boto3.client*** conectado ao s3.
-    - *s3_path*: URI do bucket/pasta que deseja procurar os arquivos.
-    - *file_format*: Parâmetro ***format*** de ***GlueContext.create_dynamic_frame.from_options***.
-    - *format_options*: Parâmetro ***format_options*** de ***GlueContext.create_dynamic_frame.from_options***.
-- **Retorno**: ***pyspark.sql.DataFrame*** com valores de todos os objetos encontrados.
-
-```mermaid
-flowchart LR
-    start((Início))
-
-    subgraph a[" "]
-        list_obj[Obtem caminho de todos os objetos em 's3_path']
-        filter_obj[\Extensão do objeto == 'format'/]
-        i_unified_df[Inicializa 'unified_df' como None]
-
-        list_obj --> filter_obj
-        filter_obj --> i_unified_df
-    end
-
-    subgraph Loop
-        obj_loop{{Para cada 'Key' dos objetos filtrados}}
-        key_to_date[["s3_key_to_date()"]]
-        import_dyf[Importa objeto como Dynamic Frame]
-        convert_dyf[Converte DynamicFrame para DataFrame]
-        add_date[Cria novo DataFrame com data encontrada numa coluna adicional]
-
-        subgraph if_else[" "]
-            is_none{'unified_df' é None?}
-            attr[Atribui novo DataFrame a 'unified_df']
-            unify[Unifica novo Dataframe com 'unified_df']
-
-            is_none -->|Sim| attr
-            is_none -->|Não| unify
-        end
-        
-
-        obj_loop --> import_dyf
-        import_dyf --> convert_dyf
-        convert_dyf --> key_to_date
-        key_to_date --> add_date
-        add_date --> if_else
-        
-        if_else --> obj_loop
-    end
-
-    return[/unified_df/]
-    flow_end((Fim))
-
-    start --> a
-    a --> Loop
-    Loop --> return
-    return --> flow_end
-```
-
-## Fluxo Glue Job createTrustedDataLocal
+## Fluxo Glue Job createRefinedData
 Fluxo que ocorre na função ***main()***:
 
 ```mermaid
+---
+title: Fluxo principal de createRefinedData.py
+---
 flowchart LR
     start((Início))
     flow_end((Fim))
-    load_params[["load_args()"]]
-    ctx[Obtem contexto Glue e sessão Spark]
-    job_init[Inicia Glue Job]
-    s3_client[Obtem cliente S3]
+     sv_df["Salva cada dimensão/fato <br> criado  como parquet em uma pasta <br> separada na camada Refined"]
 
-    start --> load_params
-    load_params --> ctx
-    ctx --> job_init
-    job_init --> s3_client
-
-    subgraph movie["Fluxo executado para os Filmes e depois para as Séries"]
-        direction TB
-
-        get_df[["generate_unified_df()"]]
-        map_genre[Cria novo DataFrame com valores de 'generoArtista' mapeados]
-        map[["map_columns_df()"]]
-        save["Salva novo DataFrame em Parquet particionado por 'ingestion_date'"]
-
-        get_df --> map_genre
-        map_genre --> map
-        map --> save
+    subgraph initial["Setup Inicial"]
+        load_params[["load_args()"]]
+        ctx[Obtem contexto Glue e sessão Spark]
+        job_init[Inicia Glue Job]
+        create_model[["create_model_tables()"]]
+        read_pqts["Lê as 4 pastas fonte e gera respectivos DataFrames"]
+        rm_columns["Remove colunas desnecessárias dos DataFrames"]
+        load_params --> ctx
+        ctx --> job_init
+        job_init --> create_model
+        create_model --> read_pqts
+        read_pqts --> rm_columns
     end
 
-    s3_client --> movie
-    movie --> flow_end
-```
-
-
-## Fluxo Glue Job createTrustedDataTMDB
-
-Fluxo que ocorre na função ***main()***:
-
-```mermaid
-flowchart LR
-    start((Início))
-    flow_end((Fim))
-    load_params[["load_args()"]]
-    ctx[Obtem contexto Glue e sessão Spark]
-    job_init[Inicia Glue Job]
-    s3_client[Obtem cliente S3]
-
-    start --> load_params
-    load_params --> ctx
-    ctx --> job_init
-    job_init --> s3_client
-
-    subgraph movie["Fluxo executado para os Filmes e depois para as Séries"]
-        direction TB
-
-        get_df[["generate_unified_df()"]]
-        drop_col[Cria novo DataFrame removendo colunas desnecessárias]
-        rename_g[["rename_columns()"]]
-        map[Cria novo DataFrame com valores da coluna 'genres' mapeados]
-        save["Salva novo DataFrame em Parquet particionado por 'ingestion_date'"]
-
-        get_df --> drop_col
-        drop_col --> rename_g
-        rename_g --> map
-        map --> save
+    subgraph date["Dimensão de Data"]
+        d_local_movie[["to_dim_date(Filmes Locais)"]]
+        d_local_series[["to_dim_date(Series Locais)"]]
+        d_tmdb_movie[["to_dim_date(Filmes TMDB)"]]
+        d_tmdb_series[["to_dim_date(Series TMDB)"]]
+        d_union["Unifica DataFrames Tratados"]
+        d_add_id["gera IDs para os registros"]
+        d_union_dim["Unifica DataFrame com 'dim_date'"]
+        d_local_movie   --> d_local_series
+        d_local_series  --> d_tmdb_movie
+        d_tmdb_movie    --> d_tmdb_series
+        d_tmdb_series   --> d_union
+        d_union         --> d_add_id
+        d_add_id        --> d_union_dim
     end
 
-    s3_client --> movie
-    movie --> flow_end
-```
+    subgraph people["Dimensão de Pessoas"]
+        p_local_movie[["local_extract_people(Filmes Locais)"]]
+        p_local_series[["local_extract_people(Series Locais)"]]
+        p_tmdb_movie[["tmdb_extract_people(Filmes TMDB)"]]
+        p_tmdb_series[["tmdb_extract_people(Series TMDB)"]]
+        p_union["Unifica DataFrames Tratados"]
+        p_add_id["gera IDs para os registros"]
+        p_union_dim["Unifica DataFrame com 'dim_people'"]
+        p_local_movie   --> p_local_series
+        p_local_series  --> p_tmdb_movie
+        p_tmdb_movie    --> p_tmdb_series
+        p_tmdb_series   --> p_union
+        p_union         --> p_add_id
+        p_add_id        --> p_union_dim
+    end
+
+    subgraph media["Dimensão de Mídia"]
+        m_local_movie[["local_extract_media(Filmes Locais)"]]
+        m_local_series[["local_extract_media(Series Locais)"]]
+        m_tmdb_movie[["tmdb_extract_media(Filmes TMDB)"]]
+        m_tmdb_series[["tmdb_extract_media(Series TMDB)"]]
+        m_union["Unifica DataFrames Tratados"]
+        m_add_id["gera IDs para os registros"]
+        m_union_dim["Unifica DataFrame com 'dim_media'"]
+        m_local_movie   --> m_local_series
+        m_local_series  --> m_tmdb_movie
+        m_tmdb_movie    --> m_tmdb_series
+        m_tmdb_series   --> m_union
+        m_union         --> m_add_id
+        m_add_id        --> m_union_dim
+    end
+
+    subgraph fact["Fato Avalição de Mídia"]
+        f_local_movie[["local_extract_evaluation(Filmes Locais)"]]
+        f_local_series[["local_extract_evaluation(Series Locais)"]]
+        f_tmdb_movie[["tmdb_extract_evaluation(Filmes TMDB)"]]
+        f_tmdb_series[["tmdb_extract_evaluation(Series TMDB)"]]
+        f_union["Unifica DataFrames Tratados"]
+        f_add_id["gera IDs para os registros"]
+        f_union_dim["Unifica DataFrame com 'fact_media_evaluation'"]
+        f_local_movie   --> f_local_series
+        f_local_series  --> f_tmdb_movie
+        f_tmdb_movie    --> f_tmdb_series
+        f_tmdb_series   --> f_union
+        f_union         --> f_add_id
+        f_add_id        --> f_union_dim
+    end
+
+    start --> initial
+    initial --> date
+    date --> people
+    people --> media
+    media --> fact
+    fact --> sv_df
+    sv_df --> flow_end
+``` 
 
 ---
 
@@ -351,27 +448,26 @@ Vamos utilizar o nome ***AWSGlueServiceRole_DataLakeTrustedLayer*** para a role.
 
 Com a role criada, podemos configurar as permissões do AWS Lake Formation.
 - Vamos acessar o dashboard do AWS Lake Formation;
-- Vamos criar uma database chamada ***movies_and_series_data_lake***;
+- Vamos criar uma database chamada ***movies_and_series_data_warehouse***;
 - Devemos conceder permissões de acesso a database para a role criada.
 
 ![lake_formation_permissions_1](../Evidências/lake_formation_permissions_1.png)
 ![lake_formation_permissions_2](../Evidências/lake_formation_permissions_2.png)
 ![lake_formation_permissions_3](../Evidências/lake_formation_permissions_3.png)
 
-## Criando AWS Glue Jobs
+## Criando Glue Job *createRefinedData*
 Como primeiro passo devemos acessar o dashboard do AWS Glue. 
 Dentro deste dashboard podemos seguir os seguintes passos para criar um job:
 1. Vamos acessar a aba **ETL Jobs** na barra lateral do dashboard;
 2. Dentro da seção **Create Job**, selecione ***Script Editor***;
-3. Ecolha a opção ***Spark*** como engine e selecione ***start fresh*** na parte de opções;
-4. Ao final você deverá se encontrar na seguinte tela:
+3. Ecolha a opção ***Spark*** como engine;
+4. Nas opções, selecione para fazer upload de um script e envie o arquivo [createRefinedData.py](createRefinedData.py)
+5. Ao final você deverá se encontrar na seguinte tela:
 
 ![new_job](../Evidências/new_job.png)
 
-### createTrustedDataLocal
-Considerando que você está na interface de um job recém criado:
-- Altere o nome do Job para ***createTrustedDataLocal***;
-- Na aba de ***Scripts*** cole o código encontrado em [createTrustedDataLocal.py](createTrustedDataLocal.py);
+Na interface do um job recém criado vamos fazer a seguintes configurções:
+- Altere o nome do Job para ***createRefinedData***;
 - Na aba de ***Job Details*** configure:
     - **IAM Role**: AWSGlueServiceRole_DataLakeTrustedLayer;
     - **Type**: Spark;
@@ -381,41 +477,21 @@ Considerando que você está na interface de um job recém criado:
     - **Requested number of workers**: 2;
     - **Job Timeout**: 5.
 - Na aba de ***Job Details***, acesse a parte de propriedades avançadas e adicione os seguintes parâmetros:
-    - **S3_MOVIE_INPUT_PATH**: URI para pasta com arquivos CSV de filmes;
-    - **S3_SERIES_INPUT_PATH**: URI para pasta com arquivos CSV de séries;
-    - **S3_TARGET_PATH**: URI para pasta que define a camada *Trusted*.
+    - **LOCAL_MOVIE_DATA_PATH**: URI para pasta com arquivos parquet de filmes do imdb;
+    - **LOCAL_SERIES_DATA_PATH**: URI para pasta com arquivos parquet de séries do imdb;
+    - **TMDB_MOVIE_DATA_PATH**: URI para pasta com arquivos parquet de filmes do TMDB;
+    - **TMDB_SERIES_DATA_PATH**: URI para pasta com arquivos parquet de séries do TMDB;
+    - **S3_TARGET_PATH**: URI para pasta que define a camada *Refined*.
  
 ![local_params](../Evidências/local_params.png)	
 
 - Por último garanta que as configurações foram salvas.
 
-### createTrustedDataTMDB
-Considerando que você está na interface de um job recém criado:
-- Altere o nome do Job para ***createTrustedDataTMDB***;
-- Na aba de ***Scripts*** cole o código encontrado em [createTrustedDataTMDB.py](createTrustedDataTMDB.py);
-- Na aba de ***Job Details*** configure:
-    - **IAM Role**: AWSGlueServiceRole_DataLakeTrustedLayer;
-    - **Type**: Spark;
-    - **Glue Version**: Glue 4.0;
-    - **Language**: Python 3;
-    - **Worker Type**: G 1x (4vCPU and 16GB RAM);
-    - **Requested number of workers**: 2;
-    - **Job Timeout**: 5.
-- Na aba de ***Job Details***, acesse a parte de propriedades avançadas e adicione os seguintes parâmetros:
-    - **S3_MOVIE_INPUT_PATH**: URI para pasta com arquivos JSON de filmes;
-    - **S3_SERIES_INPUT_PATH**: URI para pasta com arquivos JSON de séries;
-    - **S3_TARGET_PATH**: URI para pasta que define a camada *Trusted*;
-    - **TMDB_TOKEN**: Token de sessão para acesso a API do TMDB.
- 
-![tmdb_params](../Evidências/tmdb_params.png)	
-
-- Por último garanta que as configurações foram salvas.
-
-## Criando AWS Glue Crawlers
-Como primeiro passo é necessário rodar ambos os Jobs criados com sucesso.
-- Caso ainda não tenha executado, execute os Jobs criados;
+## Criando AWS Glue Crawler
+Como primeiro passo é necessário rodar o Job criado anteriormente com sucesso.
+- Caso ainda não tenha executado, execute o Job criado;
 - Dentro da dashboard do AWS Glue, acesse a aba de ***Job run monitoring*** na barra lateral;
-- Verifique a seção ***Job Runs*** e procure se ambos os Jobs possuem *Run Status* como **Succeeded**.
+- Verifique a seção ***Job Runs*** e procure o Job possui *Run Status* como **Succeeded**.
 
 ![job_runs](../Evidências/job_runs.png)
 
@@ -426,44 +502,33 @@ Agora podemos criar os crawlers.
 
 ![new_crawler](../Evidências/new_crawler.png)
 
-### createTrustedLocalDataCrawler
-Considerando que você está na interface de um crawler recém criado:
+Vamos realizar a seguinte configuração:
 - **Passo 1 - Propriedades:**
-    - Defina o nome do crawler como ***createTrustedLocalDataCrawler***
+    - Defina o nome do crawler como ***createRefinedDataCrawler***
 - **Passo 2 - Fonte dos dados:**
     - Na opção *Is your data already mapped to Glue tables?* selecione ***Not yet***;
     - Em **Data Sources** adicione as seguintes fontes:
-        - Pasta S3 ```Local/Movies``` da camada Trusted;
-        - Pasta S3 ```Local/Series``` da camada Trusted.
+        - Pasta S3 ```movies_and_series_dw/dim_date``` da camada Refined;
+        - Pasta S3 ```movies_and_series_dw/dim_people``` da camada Refined.
+        - Pasta S3 ```movies_and_series_dw/dim_media``` da camada Refined.
+        - Pasta S3 ```movies_and_series_dw/fact_media_evaluation``` da camada Refined.
 - **Passo 3 - Segurança:**
     - Em **IAM Role**, selecione a role criada anteriormente (AWSGlueServiceRole_DataLakeTrustedLayer).
 - **Passo 4 - Output e Agendamento:**
-    - Selecione a database criada (movies_and_series_data_lake) como ***Target database***;
-    - Em ***Table name prefix***, preencha com ```IMDB_```;
+    - Selecione a database criada (movies_and_series_data_warehouse) como ***Target database***;
     - Em ***Crawler Schedule*** selecione a frequência como ```On demand```.
 - **Passo 5 - Revisão:**
     - Revise as configurações do crawler;
     - Crie/Atualize o crawler.
 
-![crawler_local_1](../Evidências/crawler_local_1.png)
-![crawler_local_2](../Evidências/crawler_local_2.png)
+![crawler_local_1](../Evidências/crawler_settings_1.png)
+![crawler_local_2](../Evidências/crawler_settings_2.png)
 
-### createTrustedTMDBDataCrawler
-Siga os mesmos passos do crawler anterior, será necessário fazer apenas as seguintes alterações:
-- **Passo 1**: defina o nome como ***createTrustedTMDBDataCrawler***;
-- **Passo 2**: adicione as fontes seguintes fontes:
-    - Pasta S3 ```TMDB/Movies``` da camada Trusted;
-    - Pasta S3 ```TMDB/Series``` da camada Trusted.
-- **Passo 4**: defina ***Table prefix*** como ```TMDB_```.
-
-![crawler_tmdb_1](../Evidências/crawler_tmdb_1.png)
-![crawler_tmdb_2](../Evidências/crawler_tmdb_2.png)
-
-### Executando Crawlers
-Podemos executar os crawler seguindo os seguintes passos:
+### Executando Crawler
+Podemos executar o crawler seguindo os seguintes passos:
 - Dentro da dashboard do AWS Glue, acesse a aba de ***Crawlers*** na barra lateral;
-- Selecione os dois crawlers criados e execute eles no botao ***Run***;
-- Aguarde a coluna ***Last run*** estar como ```Succeeded``` em ambos os crawlers.
+- Selecione o crawlers criado e execute ele no botao ***Run***;
+- Aguarde a coluna ***Last run*** estar como ```Succeeded```.
 
 ![crawler_runs](../Evidências/crawler_runs.png)
 
@@ -474,17 +539,13 @@ Podemos verificar as tabelas criadas pelos crawlers usando o AWS Athena.
 - Você deverá ser direcionado para a página ***Query editor***, caso contrário, acesse ela pela barra lateral;
 - Na aba ***Editor***, do lado esquerdo na seção **Data**, configure:
     - **Data Source**: AwsDataCatalog;
-    - **Database**: movies_and_series_data_lake;
+    - **Database**: movies_and_series_data_warehouse;
 - Abaixo da seção ***Data***, em **Tables** deverá aparecer as seguintes tabelas:
 
 ![athena_tables](../Evidências/athena_tables.png)
 
 Agora podemos acessar os dados utilizando consultas SQL!
 
-* Exemplo de consulta da tabela gerada de ```Trusted/Local/Movies```
+* Exemplo: Consultando quantas mídias possuem o gênero Ação.
 
-![imdb_query](../Evidências/imdb_query.png)
-
-* Exemplo de consulta da tabela gerada de ```Trusted/TMDB/Series```
-
-![tmdb_query](../Evidências/tmdb_query.png)
+![query_example](../Evidências/query_example.png)
