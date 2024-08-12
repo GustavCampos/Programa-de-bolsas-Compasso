@@ -337,14 +337,12 @@ Fluxo que ocorre na função ***main()***:
 ---
 title: Fluxo principal de createRefinedData.py
 ---
-flowchart TD
+flowchart LR
     start((Início))
     flow_end((Fim))
      sv_df["Salva cada dimensão/fato <br> criado  como parquet em uma pasta <br> separada na camada Refined"]
 
     subgraph initial["Setup Inicial"]
-        direction LR
-
         load_params[["load_args()"]]
         ctx[Obtem contexto Glue e sessão Spark]
         job_init[Inicia Glue Job]
@@ -359,8 +357,6 @@ flowchart TD
     end
 
     subgraph date["Dimensão de Data"]
-        direction LR
-
         d_local_movie[["to_dim_date(Filmes Locais)"]]
         d_local_series[["to_dim_date(Series Locais)"]]
         d_tmdb_movie[["to_dim_date(Filmes TMDB)"]]
@@ -377,8 +373,6 @@ flowchart TD
     end
 
     subgraph people["Dimensão de Pessoas"]
-        direction LR
-
         p_local_movie[["local_extract_people(Filmes Locais)"]]
         p_local_series[["local_extract_people(Series Locais)"]]
         p_tmdb_movie[["tmdb_extract_people(Filmes TMDB)"]]
@@ -395,8 +389,6 @@ flowchart TD
     end
 
     subgraph media["Dimensão de Mídia"]
-        direction LR
-
         m_local_movie[["local_extract_media(Filmes Locais)"]]
         m_local_series[["local_extract_media(Series Locais)"]]
         m_tmdb_movie[["tmdb_extract_media(Filmes TMDB)"]]
@@ -413,8 +405,6 @@ flowchart TD
     end
 
     subgraph fact["Fato Avalição de Mídia"]
-        direction LR
-     
         f_local_movie[["local_extract_evaluation(Filmes Locais)"]]
         f_local_series[["local_extract_evaluation(Series Locais)"]]
         f_tmdb_movie[["tmdb_extract_evaluation(Filmes TMDB)"]]
