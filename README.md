@@ -66,7 +66,7 @@
 
 ## Github Stats Para os Nerds🐱
 <img align='left' src='https://github-readme-stats.vercel.app/api?username=GustavCampos&show_icons=true&theme=tokyonight&layout=compact#gh-dark-mode-only'>
-<img src='https://github-readme-stats.vercel.app/api/top-langs/?username=GustavCampos&layout=compact&theme=tokyonight'> 
+<img src='https://github-readme-stats.vercel.app/api/top-langs/?username=GustavCampos&layout=compact&theme=tokyonight&hide=css,html,jupyter%20notebook'> 
 
 ___
 
