@@ -9,7 +9,7 @@ from awsglue.utils import getResolvedOptions
 from awsglue.context import GlueContext
 from awsglue.job import Job
 from pyspark.context import SparkContext
-from pyspark.sql import SparkSession, DataFrame, functions as spk_func, Window
+from pyspark.sql import DataFrame, functions as spk_func, Window
 from pyspark.sql.types import *
 
 # Glue Job Functions __________________________________________________________
@@ -23,122 +23,23 @@ def load_args(arg_list: list=None, file_path: str=None) -> dict:
 
 
 # Pyspark functions ___________________________________________________________
-def create_model_tables(spark: SparkSession) -> list[DataFrame]:
-    dim_occupation = spark.createDataFrame(spark.sparkContext.emptyRDD(),
-        StructType([
-            StructField("id", LongType(), False),
-            StructField("name", StringType(), True)
-        ])
-    )
+def create_dimension(spark_df: DataFrame, order_by: str | tuple[str], *select: str) -> DataFrame:    
+    if len(order_by) == 0:
+        raise ValueError("'order_by' needs to have at least one 'str' inside or be a valid string.")
     
-    dim_country = spark.createDataFrame(spark.sparkContext.emptyRDD(),
-        StructType([
-            StructField("id", LongType(), False),
-            StructField("code", StringType(), True),
-        ])
-    )
-    
-    dim_genre = spark.createDataFrame(spark.sparkContext.emptyRDD(),
-        StructType([
-            StructField("id", LongType(), False),
-            StructField("name", StringType(), True),
-        ])
-    )
-    
-    dim_media = spark.createDataFrame(spark.sparkContext.emptyRDD(),
-        StructType([
-            StructField("id", LongType(), False),
-            StructField("tmdb_id", LongType(), True),
-            StructField("imdb_id", StringType(), True),
-            StructField("type", StringType(), True),
-            StructField("title", StringType(), True)
-        ])                                
-    )
-    
-    dim_date = spark.createDataFrame(spark.sparkContext.emptyRDD(),
-        StructType([
-            StructField("id", LongType(), False),
-            StructField("complete_date", StringType(), True),
-            StructField("decade", IntegerType(), True),
-            StructField("year", IntegerType(), True),
-            StructField("month", IntegerType(), True),
-            StructField("quarter", IntegerType(), True),
-            StructField("week", IntegerType(), True),
-            StructField("day", IntegerType(), True)
-        ])
-    )
-    
-    dim_people = spark.createDataFrame(spark.sparkContext.emptyRDD(),
-        StructType([
-            StructField("id", LongType(), False),
-            StructField("tmdb_id", LongType(), True),
-            StructField("name", StringType(), True),
-            StructField("gender", StringType(), True),
-            StructField("birth_year", IntegerType(), True),
-            StructField("death_year", IntegerType(), True),
-            StructField("occupation", StringType(), True)
-        ])
-    )
-    
-    fme = spark.createDataFrame(spark.sparkContext.emptyRDD(),
-        StructType([
-            StructField("id", LongType(), False),
-            StructField("ingestion_date", LongType(), True),
-            StructField("release_date", LongType(), True),
-            StructField("end_date", LongType(), True),
-            StructField("media_id", LongType(), True),
-            StructField("genre_id", LongType(), True),
-            StructField("origin_country_id", LongType(), True),
-            StructField("people_id", LongType(), True),
-            StructField("minute_duration", IntegerType(), True),
-            StructField("vote_average", DoubleType(), True),
-            StructField("vote_count", IntegerType(), True),
-            StructField("budget", IntegerType(), True),
-            StructField("revenue", IntegerType(), True),
-            StructField("popularity", DoubleType(), True)
-        ])
-    )
-    
-    return (fme, dim_people, dim_date, dim_media, dim_genre, dim_country, dim_occupation)
-   
-def to_dim_date(spark_df: DataFrame, date_column: str, only_year: bool=False) -> DataFrame:
-    if only_year:
-        return spark_df.withColumn(
-            "decade",
-            spk_func.expr(f"FLOOR({date_column} / 10) * 10")
-        ).select(
-            spk_func
-                .when(spk_func.col(date_column).isNull(), None)
-                .when(spk_func.col(date_column) == "", None)
-                .otherwise(
-                    spk_func.concat_ws(" ", 
-                        spk_func.lit("year only"), 
-                        spk_func.col(date_column)
-                    )    
-                ).alias("complete_date"),
-            spk_func.col("decade"),
-            spk_func.col(date_column).alias("year"),
-            spk_func.lit(None).alias("month"),
-            spk_func.lit(None).alias("quarter"),
-            spk_func.lit(None).alias("week"),
-            spk_func.lit(None).alias("day")
-        )
-
-    return spark_df.withColumn(
-        "decade",           
-        spk_func.expr(f"FLOOR(YEAR({date_column}) / 10) * 10")
-    ).select(
-        spk_func
-            .when(spk_func.col(date_column).isNull(), None)
-            .when(spk_func.col(date_column) == "", None)
-            .otherwise(spk_func.col(date_column))
-            .alias("complete_date"),
-        spk_func.col("decade"),
-        spk_func.year(date_column).alias("year"),
-        spk_func.month(date_column).alias("month"),
-        spk_func.quarter(date_column).alias("quarter"),
-        spk_func.weekofyear(date_column).alias("week"),
-        spk_func.dayofmonth(date_column).alias("day")
+    is_tuple = isinstance(order_by, tuple)
+    norm_order_by = order_by if is_tuple else tuple([order_by])
+        
+    return (
+        spark_df
+            .select(*norm_order_by, *select)
+            .where(spk_func.coalesce(*norm_order_by).isNotNull())
+            .distinct()
+            .withColumn("id", spk_func
+                .row_number()
+                .over(Window.orderBy(*norm_order_by))
+            )
+            .orderBy(*norm_order_by)
     )
 
 def main():
@@ -182,9 +83,11 @@ def main():
     FACT_MEDIA_EVALUATION_PATH = f"{RESULT_FOLDER_PATH}fact_media_evaluation/"
     
     # Columns constants
+    COL_ID              = "id"
     COL_RELEASE_DATE    = "release_date"
     COL_END_DATE        = "end_date"
     COL_INGESTION_DATE  = "ingestion_date"
+    COL_COMPLETE_DATE   = "complete_date"
     COL_TMDB_ID         = "tmdb_id"
     COL_IMDB_ID         = "imdb_id"
     COL_TYPE            = "type"
@@ -203,26 +106,16 @@ def main():
     COL_BUDGET          = "budget"
     COL_REVENUE         = "revenue"
     COL_POPULARITY      = "popularity"
+    COL_CHARACTER       = "character"
     
     
     # Media Type
     MEDIA_TYPE_MOVIE = "movie"
     MEDIA_TYPE_SERIE = "series"
     
-    # Creating Dimensional Model Tables _______________________________________
-    print("Generating Dimensional Model Tables...")
-    data_frames = create_model_tables(spark)
-    fact_media_evaluation   = data_frames[0] 
-    dim_people              = data_frames[1] 
-    dim_date                = data_frames[2] 
-    dim_media               = data_frames[3] 
-    dim_genre               = data_frames[4] 
-    dim_country             = data_frames[5]
-    dim_occupation          = data_frames[6]
-    
     # Processing Local Data _____________________________________________________________
     print("Import Local Data...")
-    print(f"Getting data from {LOCAL_MOVIE_DATA_PATH}")
+    print(f"Getting data from {LOCAL_MOVIE_DATA_PATH}")    
     local_movie_df = spark.read.parquet(LOCAL_MOVIE_DATA_PATH)
     
     print(f"Getting data from {LOCAL_SERIES_DATA_PATH}")
@@ -244,7 +137,8 @@ def main():
             spk_func.col(COL_BIRTH_YEAR),
             spk_func.col(COL_OCCUPATION),
             spk_func.col(COL_INGESTION_DATE),
-            spk_func.lit(MEDIA_TYPE_MOVIE).alias(COL_TYPE)
+            spk_func.lit(MEDIA_TYPE_MOVIE).alias(COL_TYPE),
+            spk_func.col(COL_CHARACTER)
         ).unionByName(local_series_df.select(
             spk_func.col("id").alias(COL_IMDB_ID),
             spk_func.col(COL_TITLE),
@@ -258,9 +152,10 @@ def main():
             spk_func.col(COL_DEATH_YEAR),
             spk_func.col(COL_BIRTH_YEAR),
             spk_func.col(COL_OCCUPATION),
-            spk_func.col("end_year"),
+            spk_func.col("end_year").alias(COL_END_DATE),
             spk_func.col(COL_INGESTION_DATE),
-            spk_func.lit(MEDIA_TYPE_SERIE).alias(COL_TYPE)
+            spk_func.lit(MEDIA_TYPE_SERIE).alias(COL_TYPE),
+            spk_func.col(COL_CHARACTER)
         ), allowMissingColumns=True)
     )
     
@@ -270,21 +165,26 @@ def main():
     print("Exploding Local Data...")
     exploded_local_df = (
         local_df
-            .withColumn(COL_VOTE_AVERAGE, spk_func.round(spk_func.col(COL_VOTE_AVERAGE), 2))
-            
+            # Filter non animations and adult animations
+            .filter(spk_func.array_contains(spk_func.col(COL_GENRE), "Animation"))
+            .filter(~spk_func.array_contains(spk_func.col(COL_GENRE), "Adult"))
+            # Adjust columns
+            .withColumnRenamed("release_year", COL_RELEASE_DATE)
+            .withColumnRenamed("end_year", COL_END_DATE)
+            .withColumn(COL_RELEASE_DATE, spk_func.col(COL_RELEASE_DATE).cast(StringType()))
+            .withColumn(COL_END_DATE, spk_func.col(COL_END_DATE).cast(StringType()))
+            .withColumn(COL_VOTE_AVERAGE, 
+                spk_func.round(spk_func.col(COL_VOTE_AVERAGE).cast(DoubleType()), 2)
+            )
             .withColumn(COL_TITLE, spk_func.lower(COL_TITLE))
-            
             .withColumn(COL_P_NAME, spk_func.lower(COL_P_NAME))
-            
             .withColumn(COL_P_GENDER, spk_func
                 .when(spk_func.col(COL_P_GENDER) == "M", "male")
                 .when(spk_func.col(COL_P_GENDER) == "F", "female")
                 .otherwise(None)
             )
-            
             .withColumn(COL_GENRE, spk_func.explode_outer(COL_GENRE))
             .withColumn(COL_GENRE, spk_func.lower(COL_GENRE))
-            
             .withColumn(COL_OCCUPATION, spk_func.explode_outer(COL_OCCUPATION))
             .withColumn(COL_OCCUPATION, spk_func
                 .when(spk_func.col(COL_OCCUPATION) == "", None)
@@ -292,11 +192,10 @@ def main():
             ).withColumn(COL_OCCUPATION, 
                 spk_func.regexp_replace(spk_func.col(COL_OCCUPATION), "_", " ")
             )
-            
-            .withColumnRenamed("release_year", COL_RELEASE_DATE)
-            .withColumnRenamed("end_year", COL_END_DATE)
     )
     
+    print(f"Record count before explode: {local_df.count()}")
+    print(f"Record count after explode: {exploded_local_df.count()}")
     exploded_local_df.show(5)
 
     # Processing TMDB Data ____________________________________________________
@@ -307,296 +206,294 @@ def main():
     print(f"Getting data from {TMDB_SERIES_DATA_PATH}")
     tmdb_series_df = spark.read.parquet(TMDB_SERIES_DATA_PATH)
     
-    tmdb_series_df.printSchema()
-    
     print("Unifying Movie and Series TMDB Data...")
-    tmdb_df = (
-        tmdb_movie_df
-            .withColumn("credits", spk_func.explode("credits.cast"))
-            .select("*", 
-                spk_func.col("credits.gender").alias(COL_P_GENDER),
-                spk_func.col("credits.id").alias(COL_P_TMDB_ID),
-                spk_func.col("credits.name").alias(COL_P_NAME),
-                spk_func.lit("actor").alias(COL_OCCUPATION),
-            ).unionByName(tmdb_movie_df
-                .withColumn("credits", spk_func.explode("credits.crew"))
-                .select("*",
-                    spk_func.col("credits.gender").alias(COL_P_GENDER),
-                    spk_func.col("credits.id").alias(COL_P_TMDB_ID),
-                    spk_func.col("credits.name").alias(COL_P_NAME),
-                    spk_func.col("credits.job").alias(COL_OCCUPATION),
-                )
-            ).unionByName(
-                tmdb_series_df.withColumn("credits", spk_func.explode("credits.cast"))
-                    .select("*", 
-                    spk_func.col("credits.gender").alias(COL_P_GENDER),
-                    spk_func.col("credits.id").alias(COL_P_TMDB_ID),
-                    spk_func.col("credits.name").alias(COL_P_NAME),
-                    spk_func.lit("actor").alias(COL_OCCUPATION),
-                ).unionByName(tmdb_series_df
-                    .withColumn("credits", spk_func.explode("credits.crew"))
-                    .select("*",
-                        spk_func.col("credits.gender").alias(COL_P_GENDER),
-                        spk_func.col("credits.id").alias(COL_P_TMDB_ID),
-                        spk_func.col("credits.name").alias(COL_P_NAME),
-                        spk_func.col("credits.job").alias(COL_OCCUPATION),
-                    )
-                )
-
+    c_gender = "credits.gender"
+    c_id = "credits.id"
+    c_name = "credits.name"
+    explode_local_movie_credits_df = (tmdb_movie_df
+        .withColumn("credits", spk_func.explode("credits.cast"))
+        .select("*", 
+            spk_func.col(c_gender).alias(COL_P_GENDER),
+            spk_func.col(c_id).alias(COL_P_TMDB_ID),
+            spk_func.col(c_name).alias(COL_P_NAME),
+            spk_func.lit("actor").alias(COL_OCCUPATION),
+            spk_func.col(f"credits.{COL_CHARACTER}").alias(COL_CHARACTER),
         )
-        # ).select(
-        #     spk_func.col(COL_BUDGET),
-        #     spk_func.col("genres").alias(COL_GENRE),
-        #     spk_func.col("id").alias(COL_TMDB_ID),
-        #     spk_func.col(COL_IMDB_ID),
-        #     spk_func.col(COL_OG_COUNTRY),
-        #     spk_func.col(COL_POPULARITY),
-        #     spk_func.col(COL_RELEASE_DATE),
-        #     spk_func.col(COL_REVENUE),
-        #     spk_func.col("runtime").alias(COL_MINUTE_DURATION),
-        #     spk_func.col(COL_TITLE),
-        #     spk_func.col(COL_VOTE_AVERAGE),
-        #     spk_func.col(COL_VOTE_COUNT),
-        #     spk_func.col("credits"),
-        #     spk_func.col(COL_INGESTION_DATE),
-        #     spk_func.lit(MEDIA_TYPE_MOVIE).alias(COL_TYPE)
-        # ).unionByName(tmdb_series_df.select(
-        #     spk_func.col("genres").alias(COL_GENRE),
-        #     spk_func.col("id").alias(COL_TMDB_ID),
-        #     spk_func.col(COL_OG_COUNTRY),
-        #     spk_func.col(COL_POPULARITY),
-        #     spk_func.col(COL_RELEASE_DATE),
-        #     spk_func.col(COL_END_DATE),
-        #     spk_func.col(COL_TITLE),
-        #     spk_func.col(COL_VOTE_AVERAGE),
-        #     spk_func.col(COL_VOTE_COUNT),
-        #     spk_func.col("credits"),
-        #     spk_func.col(COL_INGESTION_DATE),
-        #     spk_func.lit(MEDIA_TYPE_SERIE).alias(COL_TYPE)
-        # ), allowMissingColumns=True)
-    )
-    
-    tmdb_df.show()
-    
-    # Cleaning Data ____________________________________________________________
-    print("Cleaning Unuseful Columns...")
-    dropped_local_movie_df = local_movie_df.drop(*COLUMNS_TO_REMOVE["LOCAL"])
-    dropped_local_series_df = local_series_df.drop(*COLUMNS_TO_REMOVE["LOCAL"])
-    dropped_tmdb_movie_df = tmdb_movie_df.drop(*COLUMNS_TO_REMOVE["TMDB"]["MOVIE"])
-    dropped_tmdb_series_df = tmdb_series_df.drop(*COLUMNS_TO_REMOVE["TMDB"]["SERIES"])
-    
-    # Creating dim_date _______________________________________________________
-    print("Extracting Data for dim_date...")
-    
-    # For Local Movies
-    local_movie_dim_date = to_dim_date(dropped_local_movie_df, COL_INGESTION_DATE)
-    local_movie_dim_date = local_movie_dim_date.union(to_dim_date(dropped_local_movie_df, "release_year", True))
-    
-    # For Local Series
-    local_series_dim_date = to_dim_date(dropped_local_series_df, COL_INGESTION_DATE)
-    local_series_dim_date = local_series_dim_date.union(to_dim_date(dropped_local_series_df, "release_year", True))
-    local_series_dim_date = local_series_dim_date.union(to_dim_date(dropped_local_series_df, "end_year", True))
-    
-    # For TMDB Movies
-    tmdb_movie_dim_date = to_dim_date(dropped_tmdb_movie_df, COL_INGESTION_DATE)
-    tmdb_movie_dim_date = tmdb_movie_dim_date.union(to_dim_date(dropped_tmdb_movie_df, COL_RELEASE_DATE))
-    
-    # For TMDB Series
-    tmdb_series_dim_date = to_dim_date(dropped_tmdb_series_df, COL_INGESTION_DATE)
-    tmdb_series_dim_date = tmdb_series_dim_date.union(to_dim_date(dropped_tmdb_series_df, COL_RELEASE_DATE))
-    tmdb_series_dim_date = tmdb_series_dim_date.union(to_dim_date(dropped_tmdb_series_df, COL_END_DATE))
-        
-
-    print("Adding data to dim_date...")
-
-    # Union all dim_date
-    dim_date = dim_date.union(
-        local_movie_dim_date
-            .union(local_series_dim_date)
-            .union(tmdb_series_dim_date)
-            .union(tmdb_movie_dim_date)
-            .drop_duplicates()
-            .orderBy(
-                spk_func.when(spk_func.col("year").isNull(), 1).otherwise(0),
-                spk_func.when(spk_func.col("month").isNull(), 1).otherwise(0),
-                spk_func.when(spk_func.col("day").isNull(), 1).otherwise(0),
-                spk_func.col("year"),
-                spk_func.col("month"),
-                spk_func.col("day")
-            ).select(
-                spk_func.monotonically_increasing_id().alias("id"),
-                spk_func.col("complete_date"),
-                spk_func.col("decade"),
-                spk_func.col("year"),
-                spk_func.col("month"),
-                spk_func.col("quarter"),
-                spk_func.col("week"),
-                spk_func.col("day")
+        .drop("credits")
+        .unionByName(tmdb_movie_df
+            .withColumn("credits", spk_func.explode("credits.crew"))
+            .select("*",
+                spk_func.col(c_gender).alias(COL_P_GENDER),
+                spk_func.col(c_id).alias(COL_P_TMDB_ID),
+                spk_func.col(c_name).alias(COL_P_NAME),
+                spk_func.col("credits.job").alias(COL_OCCUPATION),
+                spk_func.col("credits.credit_id").cast(StringType()).alias(COL_CHARACTER),
             )
+            .drop("credits")
+        )
+        .withColumn(COL_TYPE, spk_func.lit(MEDIA_TYPE_MOVIE))
     )
     
-    print("Date Dimension Complete!")
-
-    # Creating dim_people _____________________________________________________
-    print("Extracting Data for dim_people...")
-    
-    # Local Data
-    local_movie_dim_people = local_extract_people(dropped_local_movie_df)
-    local_series_dim_people = local_extract_people(dropped_local_series_df) 
-    
-    # TMDB Data
-    tmdb_movie_dim_people = tmdb_extract_people(dropped_tmdb_movie_df)
-    tmdb_series_dim_people = tmdb_extract_people(dropped_tmdb_series_df)
-
-    print("Adding data to dim_people...")
-    
-    # Union all dim_people
-    dim_people = dim_people.union(local_movie_dim_people
-        .union(local_series_dim_people)
-        .union(tmdb_movie_dim_people)
-        .union(tmdb_series_dim_people)
-        .groupBy("name").agg(
-            spk_func.first(COL_TMDB_ID).alias(COL_TMDB_ID),
-            spk_func.first("gender").alias("gender"),
-            spk_func.first(COL_BIRTH_YEAR).alias(COL_BIRTH_YEAR),
-            spk_func.first(COL_DEATH_YEAR).alias(COL_DEATH_YEAR),
-            spk_func.flatten(spk_func.collect_set(COL_OCCUPATION)).alias(COL_OCCUPATION),
-            spk_func.first(COL_POPULARITY).alias(COL_POPULARITY)
-        ).drop_duplicates()
-        .orderBy(
-            spk_func.when(spk_func.col(COL_TMDB_ID).isNull(), 1).otherwise(0),
-            spk_func.col(COL_TMDB_ID),
-            spk_func.col("name")
+    explode_local_series_credits_df = (tmdb_series_df
+        .withColumn("credits", spk_func.explode("credits.cast"))
+        .select("*", 
+            spk_func.col(c_gender).alias(COL_P_GENDER),
+            spk_func.col(c_id).alias(COL_P_TMDB_ID),
+            spk_func.col(c_name).alias(COL_P_NAME),
+            spk_func.lit("actor").alias(COL_OCCUPATION),
+            spk_func.col(f"credits.{COL_CHARACTER}").alias(COL_CHARACTER),
         )
-        .select(
-            spk_func.monotonically_increasing_id().alias("id"),
-            spk_func.col(COL_TMDB_ID),
-            spk_func.col("name"),
-            spk_func.col("gender"),
-            spk_func.col(COL_BIRTH_YEAR),
-            spk_func.col(COL_DEATH_YEAR),
-            spk_func.col(COL_OCCUPATION),
-            spk_func.col(COL_POPULARITY)
+        .drop("credits")
+        .unionByName(tmdb_series_df
+            .withColumn("credits", spk_func.explode("credits.crew"))
+            .select("*",
+                spk_func.col(c_gender).alias(COL_P_GENDER),
+                spk_func.col(c_id).alias(COL_P_TMDB_ID),
+                spk_func.col(c_name).alias(COL_P_NAME),
+                spk_func.col("credits.job").alias(COL_OCCUPATION),
+                spk_func.col("credits.credit_id").cast(StringType()).alias(COL_CHARACTER),
+            )
+            .drop("credits")
         )
+        .withColumn(COL_TYPE, spk_func.lit(MEDIA_TYPE_SERIE))
     )
     
-    print("People Dimension Complete!")
-    
-    # Creating dim_media ______________________________________________________
-    print("Extracting Data for dim_media...")
-    
-    # Local Data
-    local_movie_dim_media = local_extract_media(dropped_local_movie_df, MEDIA_TYPE_MOVIE)
-    local_series_dim_media = local_extract_media(dropped_local_series_df, MEDIA_TYPE_SERIE)
-    
-    # TMDB Data
-    tmdb_movie_dim_media = tmdb_extract_media(dropped_tmdb_movie_df, MEDIA_TYPE_MOVIE)
-    tmdb_series_dim_media = tmdb_extract_media(dropped_tmdb_series_df, MEDIA_TYPE_SERIE, False)
-    
-    # Union all dim_media
-    print("Adding data to dim_media...")
-    
-    dim_media = dim_media.union(
-        local_movie_dim_media
-        .union(local_series_dim_media)
-        .union(tmdb_movie_dim_media)
-        .union(tmdb_series_dim_media)
-        .drop_duplicates()
-        .orderBy(
-            spk_func.when(spk_func.col(COL_TITLE).isNull(), 1).otherwise(0),
-            spk_func.col(COL_TITLE)
+    tmdb_df = (
+        explode_local_movie_credits_df
+        .unionByName(
+            explode_local_series_credits_df, 
+            allowMissingColumns=True
         )
         .select(
-            spk_func.monotonically_increasing_id().alias("id"),
-            spk_func.col(COL_TMDB_ID),
+            spk_func.col(COL_BUDGET),
+            spk_func.col("genres").alias(COL_GENRE),
+            spk_func.col("id").alias(COL_TMDB_ID),
             spk_func.col(COL_IMDB_ID),
-            spk_func.col(COL_TYPE),
-            spk_func.col(COL_TITLE),
             spk_func.col(COL_OG_COUNTRY),
-            spk_func.col("genres")
-        )
-    )
-    
-    print("Media Dimension Complete!")
-    
-    # Creating fact_media_evaluation __________________________________________
-    print("Extracting Data for fact_media_evaluation...")
-    
-    # Local Data
-    local_movie_fact_evaluation = local_extract_evaluation(
-        spark_df=   dropped_local_movie_df.withColumn("end_year", spk_func.lit(None)),
-        dim_media=  dim_media, 
-        dim_people= dim_people,
-        dim_date=   dim_date
-    )
-    local_series_fact_evaluation = local_extract_evaluation(
-        spark_df=   dropped_local_series_df, 
-        dim_media=  dim_media, 
-        dim_people= dim_people, 
-        dim_date=   dim_date
-    )
-    
-    # TMDB Data
-    tmdb_movie_fact_evaluation = tmdb_extract_evaluation(
-        spark_df=   dropped_tmdb_movie_df.withColumn(COL_END_DATE, spk_func.lit(None)),
-        dim_media=  dim_media, 
-        dim_people= dim_people, 
-        dim_date=   dim_date,
-        media_type= MEDIA_TYPE_MOVIE
-    )
-    
-    tmdb_series_fact_evaluation = tmdb_extract_evaluation(
-        spark_df= (dropped_tmdb_series_df
-            .withColumn("runtime", spk_func.lit(None))
-            .withColumn(COL_BUDGET, spk_func.lit(None))
-            .withColumn(COL_REVENUE, spk_func.lit(None))
-        ),
-        dim_media=  dim_media, 
-        dim_people= dim_people, 
-        dim_date=   dim_date,
-        media_type= MEDIA_TYPE_SERIE
-    )
-    
-    # Union all fact_media_evaluation
-    print("Adding data to fact_media_evaluation...")
-    
-    fact_media_evaluation = fact_media_evaluation.union(
-        local_movie_fact_evaluation
-        .union(local_series_fact_evaluation)
-        .union(tmdb_movie_fact_evaluation)
-        .union(tmdb_series_fact_evaluation)
-        .orderBy(
-            spk_func.when(spk_func.col("media_id").isNull(), 1).otherwise(0),
-            spk_func.col("media_id"),
-            spk_func.when(spk_func.col("people_id").isNull(), 1).otherwise(0),
-            spk_func.col("people_id")
-        ).select(
-            spk_func.monotonically_increasing_id().alias("id"),
-            spk_func.col("media_id"),
-            spk_func.col("people_id"),
-            spk_func.col(COL_INGESTION_DATE),
+            spk_func.col(COL_POPULARITY),
             spk_func.col(COL_RELEASE_DATE),
-            spk_func.col(COL_END_DATE),
-            spk_func.col(COL_MINUTE_DURATION),
+            spk_func.col(COL_REVENUE),
+            spk_func.col("runtime").alias(COL_MINUTE_DURATION),
+            spk_func.col(COL_TITLE),
             spk_func.col(COL_VOTE_AVERAGE),
             spk_func.col(COL_VOTE_COUNT),
-            spk_func.col(COL_BUDGET),
-            spk_func.col(COL_REVENUE),
-            spk_func.col(COL_POPULARITY)
+            spk_func.col(COL_INGESTION_DATE),
+            spk_func.col(COL_P_GENDER),
+            spk_func.col(COL_P_TMDB_ID),
+            spk_func.col(COL_P_NAME),
+            spk_func.col(COL_OCCUPATION),
+            spk_func.col(COL_END_DATE),
+            spk_func.col(COL_TYPE),
+            spk_func.col(COL_CHARACTER)
         )
     )
+    
+    print("TMDB data unified!")
+    tmdb_df.printSchema()
+    
+    print("Exploding Local Data...")
+    exploded_tmdb_df = (
+        tmdb_df
+        .withColumn(COL_TITLE, spk_func.lower(COL_TITLE))
+        .withColumn(COL_P_NAME, spk_func.lower(COL_P_NAME))
+        .withColumn(COL_OCCUPATION, spk_func.lower(COL_OCCUPATION))
+        .withColumn(COL_P_GENDER, spk_func
+            .when(spk_func.col(COL_P_GENDER) == 1, "female")
+            .when(spk_func.col(COL_P_GENDER) == 2, "male")
+            .when(spk_func.col(COL_P_GENDER) == 3, "non-binary")
+            .otherwise(None)
+        )
+        .withColumn(COL_GENRE, spk_func.explode_outer(COL_GENRE))
+        .withColumn(COL_GENRE, spk_func.lower(COL_GENRE))
+        .withColumn(COL_OG_COUNTRY, spk_func.explode(COL_OG_COUNTRY))
+        .withColumn(COL_OG_COUNTRY, spk_func.upper(COL_OG_COUNTRY))
+    )
+    
+    print(f"Record count before explode: {tmdb_df.count()}")
+    print(f"Record count after explode: {exploded_tmdb_df.count()}")
+    exploded_tmdb_df.show(5)
+    
+    # Evaluating data union beetwen local and TMDB ____________________________
+    print("Evaluating Local/TMDB data to unify DataFrames...")
+    complete_df = (
+        exploded_local_df.alias("i").join(
+            how="full_outer",
+            other=exploded_tmdb_df.alias("t"),
+            on=(
+                (spk_func.col(f"i.{COL_TITLE}") == spk_func.col(f"t.{COL_TITLE}")) & 
+                (spk_func.col(f"i.{COL_GENRE}") == spk_func.col(f"t.{COL_GENRE}")) & 
+                (spk_func.col(f"i.{COL_P_NAME}") == spk_func.col(f"t.{COL_P_NAME}")) &
+                (spk_func.col(f"i.{COL_CHARACTER}") == spk_func.col(f"t.{COL_CHARACTER}")) &
+                (spk_func.col(f"i.{COL_OCCUPATION}") == spk_func.col(f"t.{COL_OCCUPATION}"))
+            )
+        ).select(
+            spk_func.coalesce(spk_func.col(f"t.{COL_RELEASE_DATE}"), spk_func.col(f"i.{COL_RELEASE_DATE}")).alias(COL_RELEASE_DATE),
+            spk_func.coalesce(spk_func.col(f"t.{COL_END_DATE}"), spk_func.col(f"i.{COL_END_DATE}")).alias(COL_END_DATE),
+            spk_func.coalesce(spk_func.col(f"t.{COL_INGESTION_DATE}"), spk_func.col(f"i.{COL_INGESTION_DATE}")).alias(COL_INGESTION_DATE),
+            spk_func.col(f"t.{COL_TMDB_ID}"),
+            spk_func.coalesce(spk_func.col(f"t.{COL_IMDB_ID}"), spk_func.col(f"i.{COL_IMDB_ID}")).alias(COL_IMDB_ID),
+            spk_func.col(f"t.{COL_TYPE}"),
+            spk_func.col(f"t.{COL_TITLE}"),
+            spk_func.col(f"t.{COL_GENRE}"),
+            spk_func.col(f"t.{COL_OG_COUNTRY}"),
+            spk_func.col(f"t.{COL_P_TMDB_ID}"),
+            spk_func.coalesce(spk_func.col(f"t.{COL_P_NAME}"), spk_func.col(f"i.{COL_P_NAME}")).alias(COL_P_NAME),
+            spk_func.coalesce(spk_func.col(f"t.{COL_P_GENDER}"), spk_func.col(f"i.{COL_P_GENDER}")).alias(COL_P_GENDER),
+            spk_func.col(f"i.{COL_BIRTH_YEAR}"),
+            spk_func.col(f"i.{COL_DEATH_YEAR}"),
+            spk_func.col(f"t.{COL_OCCUPATION}"),
+            spk_func.coalesce(spk_func.col(f"t.{COL_MINUTE_DURATION}"), spk_func.col(f"i.{COL_MINUTE_DURATION}")).alias(COL_MINUTE_DURATION),
+            spk_func.coalesce(spk_func.col(f"t.{COL_VOTE_AVERAGE}"), spk_func.col(f"i.{COL_VOTE_AVERAGE}")).alias(COL_VOTE_AVERAGE),
+            spk_func.coalesce(spk_func.col(f"t.{COL_VOTE_COUNT}"), spk_func.col(f"i.{COL_VOTE_COUNT}")).alias(COL_VOTE_COUNT),
+            spk_func.col(f"t.{COL_BUDGET}"),
+            spk_func.col(f"t.{COL_REVENUE}"),
+            spk_func.col(f"t.{COL_POPULARITY}"),
+        )
+    )
+    
+    a = exploded_local_df.count()
+    b = exploded_tmdb_df.count()
+    c = complete_df.count() 
+    print(f"Local Records: {a}\nTMDB Records: {b}\nUnited Records: {c}\nReduced Records: {abs((a + b) - c)}")
+     
+    complete_df.show(5)
+    
+    # Creating dimensions _____________________________________________________
+    print("Creating Dimensions...")
+    
+    # Dim occupation
+    print("Creating Occupation Dimension...")
+    occupation_df = create_dimension(complete_df, COL_OCCUPATION)
+    occupation_df.printSchema()
+    
+    # Creating country dimension
+    print("Creating Country Dimension")
+    country_df = create_dimension(complete_df, COL_OG_COUNTRY)    
+    country_df.printSchema()
+    
+    # Creating genre dimension
+    print("Creating Genre Dimension")
+    genre_df = create_dimension(complete_df, COL_GENRE)
+    genre_df.printSchema()
+    
+    # Creating media dimension
+    print("Creating Media Dimension")
+    media_df_order_by = (COL_TITLE, COL_TMDB_ID, COL_IMDB_ID)
+    media_df = create_dimension(complete_df, media_df_order_by, COL_TYPE)
+    media_df.printSchema()
+    
+    # Creating date dimension
+    print("Creating Date Dimension")
+    date_union_df = (complete_df
+        .select(spk_func.col(COL_RELEASE_DATE).alias(COL_COMPLETE_DATE))
+        .union(complete_df.select(spk_func.col(COL_END_DATE).alias(COL_COMPLETE_DATE)))
+        .union(complete_df.select(spk_func.col(COL_INGESTION_DATE).alias(COL_COMPLETE_DATE)))
+    )
+    
+    date_df = (
+        create_dimension(date_union_df, (COL_COMPLETE_DATE))
+        .withColumn("year", spk_func.year(COL_COMPLETE_DATE))
+        .withColumn("month", spk_func.month(COL_COMPLETE_DATE))
+        .withColumn("day", spk_func.dayofmonth(COL_COMPLETE_DATE))
+        .withColumn("quarter", spk_func.quarter(COL_COMPLETE_DATE))
+        .withColumn("week", spk_func.weekofyear(COL_COMPLETE_DATE))
+        .withColumn(
+            "decade", 
+            (spk_func.col("year") / 10).cast(IntegerType()) * 10
+        )
+    )
+    date_df.printSchema()
         
-    print("Media Evaluation Fact Complete!")
+    # Creating people dimension
+    print("Creating People Dimension")
+    people_df_order_by = (COL_P_TMDB_ID, COL_P_NAME)
+    people_df = create_dimension(
+        complete_df, 
+        people_df_order_by,
+        COL_P_GENDER, COL_BIRTH_YEAR, COL_DEATH_YEAR
+    )
+    people_df.printSchema()
+    
+    # Creating fact and checking data _________________________________________
+    print("Checking data correctness...")
+    
+    join_complete_df = (
+        complete_df.alias("c")
+        # Occupation join
+        .orderBy(COL_OCCUPATION)
+        .join(
+            how="left",
+            other=occupation_df.alias("o"), 
+            on=spk_func.col(f"c.{COL_OCCUPATION}") == spk_func.col(f"o.{COL_OCCUPATION}"), 
+        )
+        # Country join
+        .orderBy(COL_OG_COUNTRY)
+        .join(
+            how="left",
+            other=country_df.alias("co"), 
+            on=spk_func.col(f"c.{COL_OG_COUNTRY}") == spk_func.col(f"co.{COL_OG_COUNTRY}"),
+        )
+        # Genre join
+        .orderBy(COL_GENRE)
+        .join(
+            how="left",
+            other=genre_df.alias("g"), 
+            on=spk_func.col(f"c.{COL_GENRE}") == spk_func.col(f"g.{COL_GENRE}"),
+        )
+        # Media join
+        .orderBy(*media_df_order_by)
+        .join(
+            how="left",
+            other=media_df.alias("m"),
+            on=(
+                (spk_func.col(f"c.{COL_TITLE}") == spk_func.col(f"m.{COL_TITLE}")) &
+                (spk_func.col(f"c.{COL_TMDB_ID}") == spk_func.col(f"m.{COL_TMDB_ID}")) &
+                (spk_func.col(f"c.{COL_IMDB_ID}") == spk_func.col(f"m.{COL_IMDB_ID}")) 
+            ),
+        )
+        # Date join
+        .orderBy(COL_RELEASE_DATE)
+        .join(
+            how="left",
+            other=date_df.alias("rld"),
+            on=spk_func.col(f"c.{COL_RELEASE_DATE}") == spk_func.col(f"rld.{COL_COMPLETE_DATE}"),
+        )
+        .orderBy(COL_END_DATE)
+        .join(
+            how="left",
+            other=date_df.alias("edd"),
+            on=spk_func.col(f"c.{COL_RELEASE_DATE}") == spk_func.col(f"edd.{COL_COMPLETE_DATE}"),
+        )
+        .orderBy(COL_INGESTION_DATE)
+        .join(
+            how="left",
+            other=date_df.alias("igd"),
+            on=spk_func.col(f"c.{COL_RELEASE_DATE}") == spk_func.col(f"igd.{COL_COMPLETE_DATE}"),
+        )
+        # People join
+        .orderBy(*people_df_order_by)
+        .join(
+            how="left",
+            other=people_df.alias("p"),
+            on=(
+                (spk_func.col(f"c.{COL_P_TMDB_ID}") == spk_func.col(f"p.{COL_P_TMDB_ID}")) &
+                (spk_func.col(f"c.{COL_P_NAME}") == spk_func.col(f"p.{COL_P_NAME}"))
+            ),
+        )
+    )
+    
+    complete_df.select(COL_TYPE).distinct().show()
+    join_complete_df.show()
     
     # Writing Data ____________________________________________________________
-    print(f"Writing Data on {S3_TARGET_PATH}...")
+    # print(f"Writing Data on {S3_TARGET_PATH}...")
     
-    fact_media_evaluation.write.mode("overwrite").parquet(FACT_MEDIA_EVALUATION_PATH)
-    dim_media.write.mode("overwrite").parquet(DIM_MEDIA_PATH)
-    dim_people.write.mode("overwrite").parquet(DIM_PEOPLE_PATH)
-    dim_date.write.mode("overwrite").parquet(DIM_DATE_PATH)
+    # fact_media_evaluation.write.mode("overwrite").parquet(FACT_MEDIA_EVALUATION_PATH)
+    # dim_media.write.mode("overwrite").parquet(DIM_MEDIA_PATH)
+    # dim_people.write.mode("overwrite").parquet(DIM_PEOPLE_PATH)
+    # dim_date.write.mode("overwrite").parquet(DIM_DATE_PATH)
     
-    print("Data Write Complete!")
+    # print("Data Write Complete!")
     # Custom Code End =========================================================
     job.commit()
 

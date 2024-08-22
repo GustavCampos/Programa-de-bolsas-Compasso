@@ -373,9 +373,7 @@ def main():
     
     print("Import TMDB Series Data...")
     tmdb_series_df = spark.read.parquet(TMDB_SERIES_DATA_PATH)
-    
-    local_series_df.select("title", "release_year").where(spk_func.col("title").like("%Tarzan%")).distinct().orderBy("release_year").show(truncate=False)
-    
+        
     # Cleaning Data ____________________________________________________________
     print("Cleaning Unuseful Columns...")
     dropped_local_movie_df = local_movie_df.drop(*COLUMNS_TO_REMOVE["LOCAL"])
