@@ -42,6 +42,30 @@ def create_dimension(spark_df: DataFrame, order_by: str | tuple[str], *select: s
             .orderBy(*norm_order_by)
     )
 
+def get_condition(col_a: str, col_b: str = None) -> list:
+    col_bb = col_a if col_b is None else col_b
+    
+    return (
+        (spk_func.col(f"a.{col_a}").isNull() & spk_func.col(f"b.{col_bb}").isNull()) | (
+            spk_func.col(f"a.{col_a}").isNotNull() & 
+            spk_func.col(f"b.{col_bb}").isNotNull() &
+            (spk_func.col(f"a.{col_a}") == spk_func.col(f"b.{col_bb}"))
+        )
+    ).alias(f"{col_a} aligned?")
+    
+def check_dimension_data(fact: DataFrame, dim: DataFrame, *join_cols: str | tuple[str]) -> DataFrame: 
+    condition = [get_condition(col) for col in join_cols]
+    
+    return_df = (fact
+        .orderBy(*join_cols)
+        .alias("a")
+        .join(dim.alias("b"), condition, "left")
+    )
+    
+    return_df.select(*condition).distinct().show()
+        
+    return return_df
+
 def main():
     # Loading Job Parameters __________________________________________________
     print("Loading Job Parameters...")
@@ -327,28 +351,30 @@ def main():
                 (spk_func.col(f"i.{COL_OCCUPATION}") == spk_func.col(f"t.{COL_OCCUPATION}"))
             )
         ).select(
-            spk_func.coalesce(spk_func.col(f"t.{COL_RELEASE_DATE}"), spk_func.col(f"i.{COL_RELEASE_DATE}")).alias(COL_RELEASE_DATE),
-            spk_func.coalesce(spk_func.col(f"t.{COL_END_DATE}"), spk_func.col(f"i.{COL_END_DATE}")).alias(COL_END_DATE),
-            spk_func.coalesce(spk_func.col(f"t.{COL_INGESTION_DATE}"), spk_func.col(f"i.{COL_INGESTION_DATE}")).alias(COL_INGESTION_DATE),
-            spk_func.col(f"t.{COL_TMDB_ID}"),
-            spk_func.coalesce(spk_func.col(f"t.{COL_IMDB_ID}"), spk_func.col(f"i.{COL_IMDB_ID}")).alias(COL_IMDB_ID),
-            spk_func.col(f"t.{COL_TYPE}"),
-            spk_func.col(f"t.{COL_TITLE}"),
-            spk_func.col(f"t.{COL_GENRE}"),
-            spk_func.col(f"t.{COL_OG_COUNTRY}"),
-            spk_func.col(f"t.{COL_P_TMDB_ID}"),
-            spk_func.coalesce(spk_func.col(f"t.{COL_P_NAME}"), spk_func.col(f"i.{COL_P_NAME}")).alias(COL_P_NAME),
-            spk_func.coalesce(spk_func.col(f"t.{COL_P_GENDER}"), spk_func.col(f"i.{COL_P_GENDER}")).alias(COL_P_GENDER),
-            spk_func.col(f"i.{COL_BIRTH_YEAR}"),
-            spk_func.col(f"i.{COL_DEATH_YEAR}"),
-            spk_func.col(f"t.{COL_OCCUPATION}"),
-            spk_func.coalesce(spk_func.col(f"t.{COL_MINUTE_DURATION}"), spk_func.col(f"i.{COL_MINUTE_DURATION}")).alias(COL_MINUTE_DURATION),
-            spk_func.coalesce(spk_func.col(f"t.{COL_VOTE_AVERAGE}"), spk_func.col(f"i.{COL_VOTE_AVERAGE}")).alias(COL_VOTE_AVERAGE),
-            spk_func.coalesce(spk_func.col(f"t.{COL_VOTE_COUNT}"), spk_func.col(f"i.{COL_VOTE_COUNT}")).alias(COL_VOTE_COUNT),
-            spk_func.col(f"t.{COL_BUDGET}"),
-            spk_func.col(f"t.{COL_REVENUE}"),
-            spk_func.col(f"t.{COL_POPULARITY}"),
+            spk_func.coalesce(spk_func.col(f"t.{COL_RELEASE_DATE}"), spk_func.col(f"i.{COL_RELEASE_DATE}"))         .alias(COL_RELEASE_DATE),
+            spk_func.coalesce(spk_func.col(f"t.{COL_END_DATE}"), spk_func.col(f"i.{COL_END_DATE}"))                 .alias(COL_END_DATE),
+            spk_func.coalesce(spk_func.col(f"t.{COL_INGESTION_DATE}"), spk_func.col(f"i.{COL_INGESTION_DATE}"))     .alias(COL_INGESTION_DATE),
+            spk_func.col(f"t.{COL_TMDB_ID}")                                                                        .alias(COL_TMDB_ID),
+            spk_func.coalesce(spk_func.col(f"t.{COL_IMDB_ID}"), spk_func.col(f"i.{COL_IMDB_ID}"))                   .alias(COL_IMDB_ID),
+            spk_func.col(f"t.{COL_TYPE}")                                                                           .alias(COL_TYPE),
+            spk_func.col(f"t.{COL_TITLE}")                                                                          .alias(COL_TITLE),
+            spk_func.col(f"t.{COL_GENRE}")                                                                          .alias(COL_GENRE),
+            spk_func.col(f"t.{COL_OG_COUNTRY}")                                                                     .alias(COL_OG_COUNTRY),
+            spk_func.col(f"t.{COL_P_TMDB_ID}")                                                                      .alias(COL_P_TMDB_ID),
+            spk_func.coalesce(spk_func.col(f"t.{COL_P_NAME}"), spk_func.col(f"i.{COL_P_NAME}"))                     .alias(COL_P_NAME),
+            spk_func.coalesce(spk_func.col(f"t.{COL_P_GENDER}"), spk_func.col(f"i.{COL_P_GENDER}"))                 .alias(COL_P_GENDER),
+            spk_func.col(f"i.{COL_BIRTH_YEAR}")                                                                     .alias(COL_BIRTH_YEAR),
+            spk_func.col(f"i.{COL_DEATH_YEAR}")                                                                     .alias(COL_DEATH_YEAR),
+            spk_func.col(f"t.{COL_OCCUPATION}")                                                                     .alias(COL_OCCUPATION),
+            spk_func.coalesce(spk_func.col(f"t.{COL_MINUTE_DURATION}"), spk_func.col(f"i.{COL_MINUTE_DURATION}"))   .alias(COL_MINUTE_DURATION),
+            spk_func.coalesce(spk_func.col(f"t.{COL_VOTE_AVERAGE}"), spk_func.col(f"i.{COL_VOTE_AVERAGE}"))         .alias(COL_VOTE_AVERAGE),
+            spk_func.coalesce(spk_func.col(f"t.{COL_VOTE_COUNT}"), spk_func.col(f"i.{COL_VOTE_COUNT}"))             .alias(COL_VOTE_COUNT),
+            spk_func.col(f"t.{COL_BUDGET}")                                                                         .alias(COL_BUDGET),
+            spk_func.col(f"t.{COL_REVENUE}")                                                                        .alias(COL_REVENUE),
+            spk_func.col(f"t.{COL_POPULARITY}")                                                                     .alias(COL_POPULARITY),
         )
+        .withColumn(COL_ID, spk_func.row_number().over(Window.orderBy(COL_RELEASE_DATE, COL_TITLE, COL_GENRE, COL_P_NAME)))
+        .orderBy(COL_ID)
     )
     
     a = exploded_local_df.count()
@@ -360,27 +386,52 @@ def main():
     
     # Creating dimensions _____________________________________________________
     print("Creating Dimensions...")
+    check_data_msg = "Checking data consistency on dimension:"
     
     # Dim occupation
     print("Creating Occupation Dimension...")
     occupation_df = create_dimension(complete_df, COL_OCCUPATION)
     occupation_df.printSchema()
     
+    print(check_data_msg)
+    join_occupation = (
+        check_dimension_data(complete_df, occupation_df, COL_OCCUPATION)
+        .withColumnRenamed(f"b.{COL_ID}", "occupation_id")
+    )
+    
     # Creating country dimension
-    print("Creating Country Dimension")
+    print("Creating Country Dimension...")
     country_df = create_dimension(complete_df, COL_OG_COUNTRY)    
     country_df.printSchema()
+    
+    print(check_data_msg)
+    join_country_df = (
+        check_dimension_data(complete_df, country_df, COL_OG_COUNTRY)
+        .withColumnRenamed(f"b.{COL_ID}", "country_id")
+    )
     
     # Creating genre dimension
     print("Creating Genre Dimension")
     genre_df = create_dimension(complete_df, COL_GENRE)
     genre_df.printSchema()
     
+    print(check_data_msg)
+    join_genre_df = (
+        check_dimension_data(complete_df, genre_df, COL_GENRE)
+        .withColumnRenamed(f"b.{COL_ID}", "genre_id")
+    ) 
+    
     # Creating media dimension
     print("Creating Media Dimension")
     media_df_order_by = (COL_TITLE, COL_TMDB_ID, COL_IMDB_ID)
     media_df = create_dimension(complete_df, media_df_order_by, COL_TYPE)
     media_df.printSchema()
+    
+    print(check_data_msg)
+    join_media_df = (
+        check_dimension_data(complete_df, media_df, *media_df_order_by)
+        .withColumnRenamed(f"b.{COL_ID}", "media_id")
+    )
     
     # Creating date dimension
     print("Creating Date Dimension")
@@ -403,7 +454,30 @@ def main():
         )
     )
     date_df.printSchema()
-        
+    
+    print(check_data_msg)
+    rld_condition = get_condition(COL_RELEASE_DATE, COL_COMPLETE_DATE)
+    join_rld_df = (
+        complete_df.orderBy(COL_RELEASE_DATE).alias("a")
+        .join(date_df.alias("b"), rld_condition, "left")
+    ).withColumnRenamed(f"b.{COL_ID}", "release_date")
+    
+    edd_condition = get_condition(COL_END_DATE, COL_COMPLETE_DATE)
+    join_edd_df = (
+        complete_df.orderBy(COL_END_DATE).alias("a")
+        .join(date_df.alias("b"), edd_condition, "left")
+    ).withColumnRenamed(f"b.{COL_ID}", "end_date")
+    
+    igd_condition = get_condition(COL_INGESTION_DATE, COL_COMPLETE_DATE)
+    join_igd_df = (
+        complete_df.orderBy(COL_INGESTION_DATE).alias("a")
+        .join(date_df.alias("b"), igd_condition, "left")
+    ).withColumnRenamed(f"b.{COL_ID}", "ingestion_date")
+    
+    join_rld_df.select(rld_condition).distinct().show()
+    join_edd_df.select(edd_condition).distinct().show()
+    join_igd_df.select(igd_condition).distinct().show()
+    
     # Creating people dimension
     print("Creating People Dimension")
     people_df_order_by = (COL_P_TMDB_ID, COL_P_NAME)
@@ -411,78 +485,43 @@ def main():
         complete_df, 
         people_df_order_by,
         COL_P_GENDER, COL_BIRTH_YEAR, COL_DEATH_YEAR
-    )
+    ).withColumnRenamed(f"b.{COL_ID}", "people_id")
     people_df.printSchema()
     
-    # Creating fact and checking data _________________________________________
-    print("Checking data correctness...")
+    print(check_data_msg)
+    join_people_df = check_dimension_data(complete_df, people_df, *people_df_order_by)
+    
+    # Creating fact ___________________________________________________________
+    print("Creating Fact...")
     
     join_complete_df = (
-        complete_df.alias("c")
-        # Occupation join
-        .orderBy(COL_OCCUPATION)
-        .join(
-            how="left",
-            other=occupation_df.alias("o"), 
-            on=spk_func.col(f"c.{COL_OCCUPATION}") == spk_func.col(f"o.{COL_OCCUPATION}"), 
-        )
-        # Country join
-        .orderBy(COL_OG_COUNTRY)
-        .join(
-            how="left",
-            other=country_df.alias("co"), 
-            on=spk_func.col(f"c.{COL_OG_COUNTRY}") == spk_func.col(f"co.{COL_OG_COUNTRY}"),
-        )
-        # Genre join
-        .orderBy(COL_GENRE)
-        .join(
-            how="left",
-            other=genre_df.alias("g"), 
-            on=spk_func.col(f"c.{COL_GENRE}") == spk_func.col(f"g.{COL_GENRE}"),
-        )
-        # Media join
-        .orderBy(*media_df_order_by)
-        .join(
-            how="left",
-            other=media_df.alias("m"),
-            on=(
-                (spk_func.col(f"c.{COL_TITLE}") == spk_func.col(f"m.{COL_TITLE}")) &
-                (spk_func.col(f"c.{COL_TMDB_ID}") == spk_func.col(f"m.{COL_TMDB_ID}")) &
-                (spk_func.col(f"c.{COL_IMDB_ID}") == spk_func.col(f"m.{COL_IMDB_ID}")) 
-            ),
-        )
-        # Date join
-        .orderBy(COL_RELEASE_DATE)
-        .join(
-            how="left",
-            other=date_df.alias("rld"),
-            on=spk_func.col(f"c.{COL_RELEASE_DATE}") == spk_func.col(f"rld.{COL_COMPLETE_DATE}"),
-        )
-        .orderBy(COL_END_DATE)
-        .join(
-            how="left",
-            other=date_df.alias("edd"),
-            on=spk_func.col(f"c.{COL_RELEASE_DATE}") == spk_func.col(f"edd.{COL_COMPLETE_DATE}"),
-        )
-        .orderBy(COL_INGESTION_DATE)
-        .join(
-            how="left",
-            other=date_df.alias("igd"),
-            on=spk_func.col(f"c.{COL_RELEASE_DATE}") == spk_func.col(f"igd.{COL_COMPLETE_DATE}"),
-        )
-        # People join
-        .orderBy(*people_df_order_by)
-        .join(
-            how="left",
-            other=people_df.alias("p"),
-            on=(
-                (spk_func.col(f"c.{COL_P_TMDB_ID}") == spk_func.col(f"p.{COL_P_TMDB_ID}")) &
-                (spk_func.col(f"c.{COL_P_NAME}") == spk_func.col(f"p.{COL_P_NAME}"))
-            ),
+        complete_df.orderBy(COL_ID).alias("f")
+        .join(join_occupation.alias("o"), "id", "left")
+        .join(join_country_df.alias("oc"), "id", "left")
+        .join(join_genre_df.alias("g"), "id", "left")
+        .join(join_media_df.alias("m"), "id", "left")
+        .join(join_rld_df.alias("rld"), "id", "left")
+        .join(join_edd_df.alias("edd"), "id", "left")
+        .join(join_igd_df.alias("igd"), "id", "left")
+        .join(join_people_df.alias("p"), "id", "left")
+        .select(
+            spk_func.col("f.id").alias(COL_ID),
+            spk_func.col(f"rld.{COL_RELEASE_DATE}").alias(COL_RELEASE_DATE),
+            spk_func.col(f"edd.{COL_END_DATE}").alias(COL_END_DATE),
+            spk_func.col(f"edd.{COL_INGESTION_DATE}").alias(COL_INGESTION_DATE),
+            spk_func.col("m.media_id").alias("media_id"),
+            spk_func.col("g.genre_id").alias("genre_id"),
+            spk_func.col("oc.country_id").alias(COL_OG_COUNTRY),
+            spk_func.col("p.id").alias("people_id"),
+            spk_func.col("o.occupation_id").alias("occupation_id"),
+            spk_func.col(f"f.{COL_MINUTE_DURATION}").alias(COL_MINUTE_DURATION),
+            spk_func.col(f"f.{COL_VOTE_AVERAGE}").alias(COL_VOTE_AVERAGE),
+            spk_func.col(f"f.{COL_BUDGET}").alias(COL_BUDGET),
+            spk_func.col(f"f.{COL_REVENUE}").alias(COL_REVENUE),
+            spk_func.col(f"f.{COL_POPULARITY}").alias(COL_POPULARITY),
         )
     )
     
-    complete_df.select(COL_TYPE).distinct().show()
     join_complete_df.show()
     
     # Writing Data ____________________________________________________________
